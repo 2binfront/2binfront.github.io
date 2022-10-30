@@ -1,38 +1,13 @@
 ---
-title: Hello World
+title: 回来咯
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
-## Quick Start
+## 博客主题
 
-### Create a new post
+主要是【常用编程语言基础知识，计算机基础知识，项目设计实践，牛逼的游戏，牛逼的软件，生活经验和感悟】记录。
 
-``` bash
-$ hexo new "My New Post"
-```
+## 杂谈
 
-More info: [Writing](https://hexo.io/docs/writing.html)
+老早之前就建好这个站了，不过嫌弃默认样式太丑又不会自定义，所以就没一直用下去
 
-### Run server
-
-``` bash
-$ hexo server
-```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+这次学了一点前端回来捡起来这个站，当作一个安全的备份记录的地方，希望能早点把真真正正自己写的网站弄出来，暂时把这里当作主要阵地。

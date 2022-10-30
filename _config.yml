@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
+title: hh
+subtitle: 'blog'
+description: 'hh-hexo-bolg, sharing, learning'
+keywords: blog
+author: hh
+language: zh-CN
 timezone: ''
 
 # URL
@@ -40,18 +40,18 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: false
   tab_replace: ''
   wrap: true
   hljs: false
 prismjs:
-  enable: false
+  enable: true
   preprocess: true
   line_number: true
   tab_replace: ''
@@ -97,9 +97,12 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: oasis
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/2binfront/2binfront.github.io.git
+  branch: master
+  token: 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
