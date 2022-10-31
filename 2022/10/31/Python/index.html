@@ -1,0 +1,427 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>Python │ hh-blog</title><link rel="stylesheet" href="/css/oasis.css"><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/2binfront/2binfront.github.io/atom.xml" title="hh-blog" type="application/atom+xml">
+</head><body><div id="content"><h1 id="title">Python</h1><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">Back</a><time datetime="2022-10-31T01:57:20.000Z">2022-10-31</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="变量相关"><a href="#变量相关" class="headerlink" title="变量相关"></a>变量相关</h3><ul>
+<li><p>Numbers（数字）</p>
+<ul>
+<li>int（有符号整型） <em>Python3.X 版本中 long 类型被移除，使用 int 替代。</em></li>
+<li>float（浮点型）<ul>
+<li>float(‘inf’) 表示正无穷 -float(‘inf’) 或 float(‘-inf’) 表示负无穷 其中，inf 均可以写成 Inf</li>
+</ul>
+</li>
+<li>complex（复数）复数由实数部分和虚数部分构成，可以用 a + bj,或者 complex(a,b) 表示， 复数的实部 a 和虚部 b 都是浮点型。</li>
+</ul>
+</li>
+<li><p>String（字符串）</p>
+<ul>
+<li><p>u&#x2F;U:表示unicode字符串<br>不是仅仅是针对中文, 可以针对任何的字符串，代表是对字符串进行unicode编码。<br>一般英文字符在使用各种编码下, 基本都可以正常解析, 所以一般不带u；但是中文, 必须表明所需编码, 否则一旦编码转换就会出现乱码。<br>建议所有编码方式采用utf-8，即在py文件开头添加: # coding: utf-8</p>
+</li>
+<li><p>r&#x2F;R:非转义的原始字符串<br>与普通字符相比，其他相对特殊的字符，其中可能包含转义字符，即那些，反斜杠加上对应字母，表示对应的特殊含义的，比如最常见的”\n”表示换行，”\t”表示Tab等。而如果是以r开头，那么说明后面的字符，都是普通的字符了，即如果是“\n”那么表示一个反斜杠字符，一个字母n，而不是表示换行了。<br>以r开头的字符，常用于正则表达式，对应着re模块。</p>
+</li>
+<li><p>F-strings python3.6开始支持，类似js的模板字符串</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">str_p <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f'顺子是</span><span class="token interpolation"><span class="token punctuation">&#123;</span>add_string<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">'</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>List（列表）</p>
+</li>
+<li><p>Tuple（元组）</p>
+</li>
+<li><p>Dictionary（字典），类似js的map和object结合，键值可以为字符串也可以为number</p>
+</li>
+</ul>
+<p>None 是 NoneType 数据类型的唯一值</p>
+<p>python中除号用&#x2F;表示，但是和C语言不同的是&#x2F;得到的值总是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%B5%AE%E7%82%B9&spm=1001.2101.3001.7020">浮点</a>数，&#x2F;&#x2F; 两数相除，向下取整</p>
+<p>未声明为非局部变量的变量是只读的，（写入只读变量会在最内层作用域中创建一个 <strong>新的</strong> 局部变量，而同名的外部变量保持不变。）</p>
+<p>空字符串、空列表、空元组、空字典、空集合均为false</p>
+<h3 id="内置类型"><a href="#内置类型" class="headerlink" title="内置类型"></a>内置类型</h3><p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/stdtypes.html?highlight=maketrans#text-sequence-type-str">https://docs.python.org/zh-cn/3/library/stdtypes.html?highlight=maketrans#text-sequence-type-str</a></p>
+<p>数字类型 — <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/functions.html#int"><code>int</code></a>, <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/functions.html#float"><code>float</code></a>, <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/functions.html#complex"><code>complex</code></a></p>
+<p>序列类型 — <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/stdtypes.html?highlight=maketrans#list"><code>list</code></a>, <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/stdtypes.html?highlight=maketrans#tuple"><code>tuple</code></a>, <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/stdtypes.html?highlight=maketrans#range"><code>range</code></a><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/stdtypes.html?highlight=maketrans#sequence-types-list-tuple-range">¶</a></p>
+<p>文本序列类型 — <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/stdtypes.html?highlight=maketrans#str"><code>str</code></a><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/stdtypes.html?highlight=maketrans#text-sequence-type-str">¶</a></p>
+<p>…</p>
+<h3 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h3><p>list() 可以直接把字符串转为字符数组，split方法则不行</p>
+<p>chr()函数取整数值作为Unicode码转换为字符，ord() 获取单个字符输出 Unicode 码</p>
+<h3 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h3><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>in &#x2F; not in</td>
+<td>成员运算符</td>
+</tr>
+<tr>
+<td>is &#x2F; not is</td>
+<td>身份运算符</td>
+</tr>
+</tbody></table>
+<h3 id="基础语句"><a href="#基础语句" class="headerlink" title="基础语句"></a>基础语句</h3><ul>
+<li><p>yield语句：与 return 的差别在于会保留执行状态，下次调用会从上次执行点继续执行</p>
+</li>
+<li><p><code>if</code> 、<code>elif</code> 、<code>else</code>条件控制语句</p>
+<p>支持a&lt;x&lt;b这种连比</p>
+</li>
+<li><p>循环语句：</p>
+<ul>
+<li><p>while……else</p>
+</li>
+<li><p>for循环，start默认为0，step默认为1，&lt;stop，不会等于stop</p>
+<pre class="line-numbers language-none"><code class="language-none">for i in range(satrt, stop, step):
+    业务逻辑<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+<p><code>pass 语句</code> 是 Python 中的空语句，程序执行到此语句直接跳过，不会做任何的操作，仅作占位语句，但它在保持程序结构的完整性方面，有一定价值。</p>
+<ul>
+<li><p>列表推导式效率远高于for循环语句</p>
+<p>out_list &#x3D; [表达式 for 变量 in 列表 条件判断语句等]</p>
+<pre class="line-numbers language-none"><code class="language-none">&gt;&gt;&gt; out_list &#x3D; [i**2 for i in range(10) if i % 2 &#x3D;&#x3D;0]
+&gt;&gt;&gt; out_list
+[0, 4, 16, 36, 64]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p>match…case</p>
+<ul>
+<li>变量名 <code>_</code> 作为 通配符 并确保目标将总是被匹配，是可选的，如果没有又之前 case 未得到匹配，则会执行一个空操作（no-op）</li>
+</ul>
+</li>
+<li><p>try…except…as… 捕获异常</p>
+<pre class="line-numbers language-none"><code class="language-none">try:
+    a&#x3D;1+&quot;b&quot;
+except Exception as e:
+    print(e)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>lambda函数</p>
+<pre class="line-numbers language-none"><code class="language-none">lambda arg1,arg2,arg3… :&lt;表达式&gt;
+
+lambda x, y: x*y；函数输入是x和y，输出是它们的积x*y
+
+lambda:None；函数没有输入参数，输出是None
+
+lambda *args: sum(args); 输入是任意个数的参数，输出是它们的和(隐性要求是输入参数必须能够进行加法运算)
+
+lambda **kwargs: 1；输入是任意键值对参数，输出是1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h3 id="数据值传递和引用"><a href="#数据值传递和引用" class="headerlink" title="数据值传递和引用"></a>数据值传递和引用</h3><p>字符串，数值，元组均为静态变量，列表，字典为动态变量。一般静态变量值传递为拷贝，动态变量值传递为引用。利用 id() 可以查看变量存储地址。</p>
+<p>注：对静态变量首次传递时也是引用，当需要修改静态变量时，因为静态变量不能改变，所以需要生成一个新的空间存储数据。</p>
+<p>所以更准确地说，python中只有引用传递，只不过静态类型不可改变，要改变对应名称的值只能改变其指向的内存地址。</p>
+<p><strong>is比较的是两个对象的内存地址是否相等，&#x3D;&#x3D;比较的是两个对象的值是否相等</strong>。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">a <span class="token operator">=</span> <span class="token number">1</span>
+b <span class="token operator">=</span> <span class="token number">1</span>
+a <span class="token operator">==</span> b <span class="token comment"># True</span>
+a <span class="token keyword">is</span> b <span class="token comment"># True</span>
+
+a <span class="token operator">=</span> <span class="token number">888</span>
+b <span class="token operator">=</span> <span class="token number">888</span>
+a <span class="token operator">==</span> b <span class="token comment"># True</span>
+a <span class="token keyword">is</span> b <span class="token comment"># False</span>
+
+a <span class="token operator">=</span> <span class="token string">'hello'</span>
+b <span class="token operator">=</span> <span class="token string">'hello'</span>
+a <span class="token keyword">is</span> b <span class="token comment"># True</span>
+a <span class="token operator">==</span> b <span class="token comment"># True</span>
+
+a <span class="token operator">=</span> <span class="token string">'hello world'</span>
+b <span class="token operator">=</span> <span class="token string">'hello world'</span>
+a <span class="token operator">==</span> b <span class="token comment"># True</span>
+a <span class="token keyword">is</span> b <span class="token comment"># False</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>部分代表小整数的对象都会指向小整数池，类似的，Python解释器中使用了 intern（字符串驻留），使值同样的字符串对象仅仅会保存一份，放在一个字符串储蓄池中，是共用的，如果字符串中有空格，默认不启用intern机制。对字符串储蓄池中的字符串使用 is 和 &#x3D;&#x3D; 比较会得到相同的结果。</p>
+<p><strong>在shell中，仅有以下划线、数字、字母组成的字符串会被intern。而pycharm中只要是同一个字符串不超过20个字符都被加入到池中</strong></p>
+<p>需要严格根据解释环境判断，在IDLE中id都一样。</p>
+<p>垃圾回收：引用计数，当某个对象在其作用域内不再被其他对象引用的时候，Python 就自动清除对象；</p>
+<p>注意深浅拷贝：</p>
+<ul>
+<li>a.append(tmp)	a.append(tmp[:])</li>
+</ul>
+<h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>切片使用2个冒号分隔的3个数字来完成：</p>
+<ul>
+<li>第一个数字表示切片的开始位置，默认为0</li>
+<li>第二个数字表是切片的截止（但不包含）位置（默认为列表长度）</li>
+<li>第三个数字表示切片的步长(默认为1)，当步长省略时，顺便可以省略最后一个冒号。</li>
+</ul>
+<p><code>a[:]</code>是深复制，<code>a</code>是浅复制，相当于赋值<code>a</code>的话是赋值了指针，赋值<code>a[:]</code>相当于复制了<code>a</code>对应的那段空间</p>
+<h3 id="解包"><a href="#解包" class="headerlink" title="解包"></a>解包</h3><p>解包赋值，是zip函数的逆操作。</p>
+<h2 id="基础数据结构类型"><a href="#基础数据结构类型" class="headerlink" title="基础数据结构类型"></a>基础数据结构类型</h2><h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>中括号<code>[]</code>创建一个列表，列表内可含有各种不同类型，包括再嵌套列表。</p>
+<p><code>append</code>一次添加1个元素，<code>insert</code>在指定位置添加元素</p>
+<pre class="line-numbers language-none"><code class="language-none">a.insert(2,5) # insert 在索引2处添加元素5<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<p><code>remove</code>直接删除元素，若被删除元素在列表内重复出现多次，则只删除第一次</p>
+<p><code>pop</code>方法若不带参数默认删除列表最后一个元素；若带参数则删除此参数代表的索引处的元素</p>
+<p>列表封装的其他方法还包括如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">clear&#96;,&#96;index&#96;,&#96;count&#96;,&#96;sort&#96;,&#96;reverse&#96;,&#96;copy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+
+
+
+
+<h3 id="tuple"><a href="#tuple" class="headerlink" title="tuple"></a>tuple</h3><p>元组是一类不允许添加删除元素的特殊列表，也就是一旦创建后续决不允许增加、删除、修改。<code>()</code>创建元组。</p>
+<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p><strong>基本用法</strong> set是一种里面不能含有重复元素的数据结构，这种特性天然的使用于列表的去重。</p>
+<h3 id="dict"><a href="#dict" class="headerlink" title="dict"></a>dict</h3><p><code>&#123;&#125;</code>创建，键值可以为数字、字符串甚至是元祖</p>
+<p>元组可以作为 dict 的 key，但列表不能作为元组的 key。这是由于 dict 要求 key 必须是不可变类型，但列表是可变类型，因此列表不能作为元组的 key。</p>
+<p>items()、keys()、values() 分别用于获取字典中的所有 key-value 对、所有 key、所有 value。这三个方法依次返回 dict_items、dict_keys 和 dict_values 对象，Python 不希望用户直接操作这几个方法，但可通过 list() 函数把它们转换成列表。</p>
+<ul>
+<li>dict.has_key(key)<br>如果键在字典dict里返回true，否则返回false</li>
+<li>dict.get(key, default&#x3D;None) 返回指定键的值，如果值不在字典中返回default值</li>
+</ul>
+<h3 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h3><p>collections.deque()</p>
+<p><em>class</em> <code>collections.``deque</code>([<em>iterable</em>[, <em>maxlen</em>]])</p>
+<ul>
+<li><p><code>append</code>(<em>x</em>)</p>
+<p>添加 <em>x</em> 到右端。</p>
+</li>
+<li><p><code>appendleft</code>(<em>x</em>)</p>
+<p>添加 <em>x</em> 到左端。</p>
+</li>
+<li><p><code>pop</code>()</p>
+<p>移去并且返回一个元素，deque 最右侧的那一个。 如果没有元素的话，就引发一个 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/exceptions.html#IndexError"><code>IndexError</code></a>。</p>
+</li>
+<li><p><code>popleft</code>()</p>
+<p>移去并且返回一个元素，deque 最左侧的那一个。 如果没有元素的话，就引发 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/exceptions.html#IndexError"><code>IndexError</code></a>。</p>
+</li>
+<li><p>Deque对象同样提供了一个只读属性:</p>
+<ul>
+<li><p><code>maxlen</code></p>
+<p>Deque的最大尺寸，如果没有限定的话就是 <code>None</code> 。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Counter"><a href="#Counter" class="headerlink" title="Counter"></a>Counter</h3><h3 id="OrderedDict"><a href="#OrderedDict" class="headerlink" title="OrderedDict"></a>OrderedDict</h3><p>collections. 有序字典</p>
+<h3 id="heapq"><a href="#heapq" class="headerlink" title="heapq"></a>heapq</h3><h3 id="defaultdict"><a href="#defaultdict" class="headerlink" title="defaultdict"></a>defaultdict</h3><h3 id="ChainMap"><a href="#ChainMap" class="headerlink" title="ChainMap"></a>ChainMap</h3><h2 id="常用函数、方法"><a href="#常用函数、方法" class="headerlink" title="常用函数、方法"></a>常用函数、方法</h2><pre class="line-numbers language-none"><code class="language-none">a &#x3D; &#39;123456&#39;
+a[2:3]
+&#x2F;&#x2F;&#39;3&#39; 冒号前包后不包
+
+string.isdigit() 	
+&#x2F;&#x2F;如果 string 只包含数字则返回 True 否则返回 False.
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate()"></a><strong>enumerate()</strong></h3><p>遍历列表(数组)，可以同时获取索引和值，下面是例子</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">arr1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"a"</span><span class="token punctuation">,</span><span class="token string">"b"</span><span class="token punctuation">,</span><span class="token string">"c"</span><span class="token punctuation">,</span><span class="token string">"d"</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> index<span class="token punctuation">,</span>value <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>arr1<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span>value<span class="token punctuation">)</span>
+
+<span class="token comment"># 结果</span>
+<span class="token number">0</span> a
+<span class="token number">1</span> b
+<span class="token number">2</span> c
+<span class="token number">3</span> d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="json模块"><a href="#json模块" class="headerlink" title="json模块"></a>json模块</h3><p>把字符串转换成字典对象json.loads()</p>
+<p>把对象转换成字符串json.dumps()</p>
+<p>json.dump(data,file)把字典对象转换成字符串并写入文件</p>
+<p>字符串转换成字典对象时，字符串里只能使用双引号</p>
+<h3 id="‘’-join-拼接字符串"><a href="#‘’-join-拼接字符串" class="headerlink" title="‘’.join() 拼接字符串"></a>‘’.join() 拼接字符串</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">arr <span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"a"</span><span class="token punctuation">,</span><span class="token string">"b"</span><span class="token punctuation">,</span><span class="token string">"c"</span><span class="token punctuation">]</span>
+arr_str <span class="token operator">=</span> <span class="token string">"-"</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>arr<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>arr_str<span class="token punctuation">)</span>
+
+<span class="token comment"># 输出结果 a-b-c</span>
+
+<span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>chain<span class="token punctuation">(</span><span class="token operator">*</span>mat<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">//</span>拼接二维矩阵<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+
+
+<h3 id="math-comb"><a href="#math-comb" class="headerlink" title="math.comb()"></a>math.comb()</h3><p>Python中的method方法用于获取从n个项目中选择k个项目(不重复且无顺序)的方法数量</p>
+<h3 id="os-path-split-‘PATH’"><a href="#os-path-split-‘PATH’" class="headerlink" title="os.path.split(‘PATH’)"></a>os.path.split(‘PATH’)</h3><p>以 “PATH” 中最后一个 ‘&#x2F;‘ 作为分隔符，分隔后，将索引为0的视为目录（路径），将索引为1的视为文件名</p>
+<h3 id="print"><a href="#print" class="headerlink" title="print"></a>print</h3><p> print(i,end&#x3D;’\n’)，可指定末尾字符，默认为换行</p>
+<h3 id="round"><a href="#round" class="headerlink" title="round()"></a>round()</h3><p>四舍五入取整</p>
+<h3 id="str-maketrans-intab-outtab"><a href="#str-maketrans-intab-outtab" class="headerlink" title="str.maketrans(intab.outtab)"></a>str.maketrans(intab.outtab)</h3><ul>
+<li>intab – 字符串中要替代的字符组成的字符串。</li>
+<li>outtab – 相应的映射字符的字符串。</li>
+</ul>
+<p>内建函数: bytearray.maketrans()、bytes.maketrans()、str.maketrans()</p>
+<p>通常和 translate 方法配合使用</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#!/usr/bin/python3</span>
+ 
+intab <span class="token operator">=</span> <span class="token string">"aeiou"</span>
+outtab <span class="token operator">=</span> <span class="token string">"12345"</span>
+deltab <span class="token operator">=</span> <span class="token string">"thw"</span>
+ 
+trantab1 <span class="token operator">=</span> <span class="token builtin">str</span><span class="token punctuation">.</span>maketrans<span class="token punctuation">(</span>intab<span class="token punctuation">,</span>outtab<span class="token punctuation">)</span> <span class="token comment"># 创建字符映射转换表</span>
+trantab2 <span class="token operator">=</span> <span class="token builtin">str</span><span class="token punctuation">.</span>maketrans<span class="token punctuation">(</span>intab<span class="token punctuation">,</span>outtab<span class="token punctuation">,</span>deltab<span class="token punctuation">)</span> <span class="token comment">#创建字符映射转换表，并删除指定字符</span>
+ 
+test <span class="token operator">=</span> <span class="token string">"this is string example....wow!!!"</span>
+ 
+<span class="token keyword">print</span><span class="token punctuation">(</span>test<span class="token punctuation">.</span>translate<span class="token punctuation">(</span>trantab1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>test<span class="token punctuation">.</span>translate<span class="token punctuation">(</span>trantab2<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="str-split"><a href="#str-split" class="headerlink" title="str.split()"></a>str.split()</h3><p>语法：str.split(str&#x3D;” “,num&#x3D;string.count(str))</p>
+<p>参数说明：<br>str： 表示为分隔符，默认为空格，但是不能为空串。若字符串中没有分隔符，则把整个字符串作为列表的一个元素。<br>num：表示分割次数。如果存在参数num，则仅分隔成 num+1 个子字符串。</p>
+<p>默认空格分隔时会忽略分割后的空串，包括\n\t\r （\r\n表示回车换行）</p>
+<pre class="line-numbers language-none"><code class="language-none">s.split(&#39;.&#39;,-1) #尽可能多的分隔，与不加num参数相同<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>注意：str为不可变对象，所以此方法不会修改原对象，若需处理分割后的字符串需要转储返回值</p>
+<pre class="line-numbers language-none"><code class="language-none">sNew &#x3D; str.split()<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h3 id="str-strip-chars"><a href="#str-strip-chars" class="headerlink" title="str.strip([chars])"></a>str.strip([chars])</h3><p>strip() 方法用于移除<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%AD%97%E7%AC%A6%E4%B8%B2&spm=1001.2101.3001.7020">字符串</a>头尾指定的字符（默认为空格或换行符）或字符序列。</p>
+<p>还有lstrip和rstrip，去除头部或尾部</p>
+<h3 id="和"><a href="#和" class="headerlink" title="* 和 **"></a>* 和 **</h3><ul>
+<li><code>*args</code>：argument用于列表、元组、集合</li>
+<li><code>**kwargs</code>：kwargument用于字典</li>
+</ul>
+<p>1.解包可迭代对象</p>
+<pre class="line-numbers language-none"><code class="language-none">nums1&#x3D;[*nums1,*nums2]
+nums1+&#x3D;nums2
+nums1.extend(nums2)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>2.函数可变参数</p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/simple_stmts.html#nonlocal"><code>nonlocal</code></a> 语句会使得所列出的名称指向之前在最近的包含作用域中绑定的除全局变量以外的变量。</p>
+<p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/simple_stmts.html#global"><code>global</code></a> 语句是作用于整个当前代码块的声明。 它意味着所列出的标识符将被解读为全局变量。 要给全局变量赋值不可能不用到 <code>global</code> 关键字，不过自由变量也可以指向全局变量而不必声明为全局变量。</p>
+<p>在 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/simple_stmts.html#global"><code>global</code></a> 语句中列出的名称不得在同一代码块内该 <code>global</code> 语句之前的位置中使用。</p>
+<p>在 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/simple_stmts.html#global"><code>global</code></a> 语句中列出的名称不能被定义为形式参数，也不能被作为 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/compound_stmts.html#with"><code>with</code></a> 语句或 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/compound_stmts.html#except"><code>except</code></a> 子句的目标，以及 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/compound_stmts.html#for"><code>for</code></a> 循环的目标列表、<a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/compound_stmts.html#class"><code>class</code></a> 定义、函数定义、<a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/simple_stmts.html#import"><code>import</code></a> 语句或变量标注等等。</p>
+<pre class="line-numbers language-none"><code class="language-none">def scope_test():
+    def do_local():
+        spam &#x3D; &quot;local spam&quot;
+
+    def do_nonlocal():
+        nonlocal spam
+        spam &#x3D; &quot;nonlocal spam&quot;
+
+    def do_global():
+        global spam
+        spam &#x3D; &quot;global spam&quot;
+
+    spam &#x3D; &quot;test spam&quot;
+    do_local()
+    print(&quot;After local assignment:&quot;, spam)
+    do_nonlocal()
+    print(&quot;After nonlocal assignment:&quot;, spam)
+    do_global()
+    print(&quot;After global assignment:&quot;, spam)
+
+scope_test()
+print(&quot;In global scope:&quot;, spam)
+
+输出：
+After local assignment: test spam
+After nonlocal assignment: nonlocal spam
+After global assignment: nonlocal spam
+In global scope: global spam<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="可迭代对象，迭代器，生成器"><a href="#可迭代对象，迭代器，生成器" class="headerlink" title="可迭代对象，迭代器，生成器"></a>可迭代对象，迭代器，生成器</h2><p>常见可迭代对象</p>
+<ol>
+<li>集合或序列类型（如<code>list</code>、<code>tuple</code>、<code>set</code>、<code>dict</code>、<code>str</code>）</li>
+<li>文件对象</li>
+<li>在类中定义了<code>__iter__()</code>方法的对象，可以被认为是 <code>Iterable</code>对象，但自定义的可迭代对象要能在<code>for</code>循环中正确使用，就需要保证<code>__iter__()</code>实现必须是正确的（即可以通过内置<code>iter()</code>函数转成<code>Iterator</code>对象。<code>iter()</code>函数是能够将一个可迭代对象转成迭代器对象，然后在<code>for</code>中使用）</li>
+<li>在类中实现了如果只实现<code>__getitem__()</code>的对象可以通过<code>iter()</code>函数转化成迭代器但其本身不是可迭代对象。所以当一个对象能够在<code>for</code>循环中运行，但不一定是<code>Iterable</code>对象。</li>
+</ol>
+<p><code>可迭代对象（Iteratable Object）</code> 是能够一次返回其中一个成员的对象，<strong>都构建了 <code>__iter__</code> 方法</strong></p>
+<p><code>迭代器（Iterator）</code> 是同时实现<code>__iter__() 与 __next__()</code> 方法的对象。</p>
+<pre class="line-numbers language-none"><code class="language-none">class IterObj:
+
+    def __init__(self):
+        self.a &#x3D; [3, 5, 7, 11, 13, 17, 19]
+
+        self.n &#x3D; len(self.a)
+        self.i &#x3D; 0
+
+    def __iter__(self):
+        return iter(self.a)
+
+    def __next__(self):
+        while self.i &lt; self.n:
+            v &#x3D; self.a[self.i]
+            self.i +&#x3D; 1
+            return v
+        else:
+            self.i &#x3D; 0
+            raise StopIteration()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>定义生成器两种方法：</p>
+<ol>
+<li>列表生成器——生成器表达式</li>
+<li>使用<code>yield</code>定义生成器函数——生成器函数</li>
+</ol>
+<p>Python 中，包含 yield 关键词的普通函数就是生成器。</p>
+<p>定义二维数组</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">list_three <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>对象方法、静态方法、类方法等，归属权分别为obj、cls、cls</p>
+<h3 id="基础-1"><a href="#基础-1" class="headerlink" title="基础"></a>基础</h3><p>当（从结尾处）正常离开类定义时，将创建一个 <em>类对象</em>。 这基本上是一个包围在类定义所创建命名空间内容周围的包装器，原始的（在进入类定义之前起作用的）局部作用域将重新生效，类对象将在这里被绑定到类定义头所给出的类名称</p>
+<p>任何形式为 <code>__spam</code> 的标识符（至少带有两个前缀下划线，至多一个后缀下划线）的文本将被替换为 <code>_classname__spam</code>，其中 <code>classname</code> 为去除了前缀下划线的当前类名称。 这种改写不考虑标识符的句法位置，只要它出现在类定义内部就会进行。__init__类似构造函数</p>
+<pre class="line-numbers language-none"><code class="language-none">class Student(object):
+    ...
+
+    def set_score(self, score):
+        self.__score &#x3D; score<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的，不是private变量，所以，不能用<code>__name__</code>、<code>__score__</code>这样的变量名</p>
+<p>t.ppr()等同于Test.ppr(t)</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Test</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">ppr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span>
+
+t <span class="token operator">=</span> Test<span class="token punctuation">(</span><span class="token punctuation">)</span>
+t<span class="token punctuation">.</span>ppr<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#Test.ppr(t)</span>
+
+<span class="token comment">#没有传参数，error:</span>
+Traceback <span class="token punctuation">(</span>most recent call last<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  File <span class="token string">"cl.py"</span><span class="token punctuation">,</span> line <span class="token number">6</span><span class="token punctuation">,</span> <span class="token keyword">in</span> <span class="token operator">&lt;</span>module<span class="token operator">></span>
+    t<span class="token punctuation">.</span>ppr<span class="token punctuation">(</span><span class="token punctuation">)</span>
+TypeError<span class="token punctuation">:</span> ppr<span class="token punctuation">(</span><span class="token punctuation">)</span> takes <span class="token number">0</span> positional arguments but <span class="token number">1</span> was given<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>ins，用来表示调用它的类实例</p>
+<p>cls，类</p>
+<p>类本身的方法是函数对象，实例的方法是方法对象，实现原理如下：</p>
+<p>​	当一个实例的非数据属性被引用时，将搜索实例所属的类。 如果被引用的属性名称表示一个有效的类属性中的函数对象，会通过打包（指向）查找到的实例对象和函数对象到一个抽象对象的方式来创建方法对象：这个抽象对象就是方法对象。 当附带参数列表调用方法对象时，将基于实例对象和参数列表构建一个新的参数列表，并使用这个新参数列表调用相应的函数对象。</p>
+<h3 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Parent</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">pprt</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Child</span><span class="token punctuation">(</span>Parent<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">cprt</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span>
+c <span class="token operator">=</span> Child<span class="token punctuation">(</span><span class="token punctuation">)</span>
+c<span class="token punctuation">.</span>cprt<span class="token punctuation">(</span><span class="token punctuation">)</span>
+c<span class="token punctuation">.</span>pprt<span class="token punctuation">(</span><span class="token punctuation">)</span>
+p <span class="token operator">=</span> Parent<span class="token punctuation">(</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>pprt<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#output:</span>
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Child <span class="token builtin">object</span> at <span class="token number">0x0000000002A47080</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Child <span class="token builtin">object</span> at <span class="token number">0x0000000002A47080</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>__main__<span class="token punctuation">.</span>Parent <span class="token builtin">object</span> at <span class="token number">0x0000000002A47240</span><span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+<h3 id="类中的方法："><a href="#类中的方法：" class="headerlink" title="类中的方法："></a>类中的方法：</h3><ul>
+<li><code>__init__</code>方法的第一参数永远是<code>self</code>，表示创建的类<strong>实例本身</strong>，因此，在<code>__init__</code>方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身。（2）、有了<code>__init__</code>方法，在创建实例的时候，就不能传入空的参数了，必须传入与<code>__init__</code>方法匹配的参数，但self不需要传，Python解释器会自己把实例变量传进去：</li>
+</ul>
+<p>也分实例属性和类属性，后者所有实例共享</p>
+<p><strong>实例属性访问优先级比类属性高</strong></p>
+<p>千万不要在实例上修改类属性，它实际上并没有修改类属性，而是给实例绑定了一个实例属性。</p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><h3 id="解释器信息"><a href="#解释器信息" class="headerlink" title="解释器信息"></a>解释器信息</h3><p>#!&#x2F;usr&#x2F;bin&#x2F;python</p>
+<p>分成两种情况：</p>
+<p>（1）如果调用 python 脚本时，使用:</p>
+<pre class="line-numbers language-none"><code class="language-none">python script.py <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>#!&#x2F;usr&#x2F;bin&#x2F;python 被忽略，等同于注释</p>
+<p>（2）如果调用python脚本时，使用:</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;script.py <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>#!&#x2F;usr&#x2F;bin&#x2F;python 指定解释器的路径</p>
+<p>PS：shell 脚本中在第一行也有类似的声明。</p>
+<h3 id="复杂类型注解"><a href="#复杂类型注解" class="headerlink" title="复杂类型注解"></a>复杂类型注解</h3><p>List[int]即由int组成的列表，但是，实际中，只要这个列表中存在nt（其他的可以为任何类型），就不会出现警告</p>
+<h3 id="模块信息"><a href="#模块信息" class="headerlink" title="模块信息"></a>模块信息</h3><p>__name__</p>
+<p>直接执行一段脚本的时候，这段脚本的 **<strong>name</strong>**变量等于 <strong>‘<strong>main</strong>‘<strong>，当这段脚本被导入其他程序的时候，</strong><strong>name</strong></strong> 变量等于脚本本身的名字。</p>
+<div class="post-tags"><a class="post-tag-link" href="/2binfront/2binfront.github.io/tags/Python/" rel="tag">#Python</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
