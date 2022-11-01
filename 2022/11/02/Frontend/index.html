@@ -61,9 +61,7 @@
 <li><p>四次挥手，资源传输完毕，断开连接</p>
 </li>
 </ul>
-
-
-<p><img src="/Frontend%5C%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B.png" alt="渲染进程"></p>
+<p><img src="/2022/11/02/Frontend/%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B.png" alt="渲染进程"></p>
 <h3 id="MIME类型"><a href="#MIME类型" class="headerlink" title="MIME类型"></a>MIME类型</h3><table>
 <thead>
 <tr>
@@ -124,20 +122,19 @@
 <p>CSRF 攻击的根本原因在于对于同样域名的每个请求来说，它的 cookie 都会被自动带上，这个是浏览器的机制决定的，所以很多人据此认定 cookie 不安全。<em>CSRF</em>（<em>Cross-site request forgery</em>）跨站请求伪造</p>
 <p>cookie和token都保存在local storage，会被js读取，前者是存储方式，后者是验证方式</p>
 <h3 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h3><p>在浏览器中，浏览器会在js和图片等文件解析执行后直接存入内存缓存中，那么当刷新页面时只需直接从内存缓存中读取；而css文件则会存入硬盘文件中，所以每次渲染页面都需要从硬盘读取缓存。</p>
-
-
+<p><img src="/2022/11/02/Frontend/web%E7%BC%93%E5%AD%98%E7%B1%BB%E5%9E%8B.png" alt="web缓存类型"></p>
 <p>所谓浏览器缓存其实就是指在本地使用的计算机中开辟一个内存区，同时也开辟一个硬盘区作为数据传输的缓冲区，然后用这个缓冲区来暂时保存用户以前访问过的信息。</p>
 <h4 id="Web-Storage"><a href="#Web-Storage" class="headerlink" title="Web Storage"></a>Web Storage</h4><ul>
 <li><code>sessionStorage</code> 为每一个给定的源（given origin）维持一个独立的存储区域，该存储区域在页面会话期间可用（即只要浏览器处于打开状态，包括页面重新加载和恢复）。</li>
 <li><code>localStorage</code> 同样的功能，但是在浏览器关闭，然后重新打开后数据仍然存在。</li>
 </ul>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//以下均可设置localStorage</span>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//以下均可设置localStorage</span>
 localStorage<span class="token punctuation">.</span>colorSetting <span class="token operator">=</span> <span class="token string">'#a4509b'</span><span class="token punctuation">;</span>
 localStorage<span class="token punctuation">[</span><span class="token string">'colorSetting'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'#a4509b'</span><span class="token punctuation">;</span>
-localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'colorSetting'</span><span class="token punctuation">,</span> <span class="token string">'#a4509b'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'colorSetting'</span><span class="token punctuation">,</span> <span class="token string">'#a4509b'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
 <p>storage常用方法</p>
-<pre class="line-numbers language-none"><code class="language-none">Storage.key()
+<pre class="language-none"><code class="language-none">Storage.key()
 该方法接受一个数值 n 作为参数，并返回存储中的第 n 个键名。
 
 Storage.getItem()
@@ -150,7 +147,7 @@ Storage.removeItem()
 该方法接受一个键名作为参数，并把该键名从存储中删除。
 
 Storage.clear()
-调用该方法会清空存储中的所有键名。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+调用该方法会清空存储中的所有键名。</code></pre>
 
 <p>浏览器缓存细节：</p>
 <ul>
@@ -213,17 +210,17 @@ Storage.clear()
 <p>一个策略由一系列策略指令所组成，每个策略指令都描述了一个针对某个特定类型资源以及生效范围的策略。你的策略应当包含一个<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy/default-src"><code>default-src</code></a>策略指令，在其他资源类型没有符合自己的策略时应用该策略 (有关完整列表查看<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy/default-src"><code>default-src</code></a> )。一个策略可以包含 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy/default-src"><code>default-src</code></a> 或者 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src">script-src (en-US)</a> 指令来防止内联脚本运行，并杜绝<code>eval()</code>的使用。 一个策略也可包含一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy/default-src"><code>default-src</code></a> 或 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src">style-src </a> 指令去限制来自一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/style"><code>style</code></a> 元素或者 style 属性的內联样式。</p>
 <p>例如：</p>
 <p>一个网站管理者想要所有内容均来自站点的同一个源 (不包括其子域名)</p>
-<pre class="line-numbers language-none"><code class="language-none">Content-Security-Policy: default-src &#39;self&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="language-none"><code class="language-none">Content-Security-Policy: default-src &#39;self&#39;</code></pre>
 
 
 
 <p>一个网站管理者允许内容来自信任的域名及其子域名 (域名不必须与 CSP 设置所在的域名相同)</p>
-<pre class="line-numbers language-none"><code class="language-none">Content-Security-Policy: default-src &#39;self&#39; *.trusted.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="language-none"><code class="language-none">Content-Security-Policy: default-src &#39;self&#39; *.trusted.com</code></pre>
 
 
 
 <p>一个网站管理者允许网页应用的用户在他们自己的内容中包含来自任何源的图片，但是限制音频或视频需从信任的资源提供者 (获得)，所有脚本必须从特定主机服务器获取可信的代码。</p>
-<pre class="line-numbers language-none"><code class="language-none">Content-Security-Policy: default-src &#39;self&#39;; img-src *; media-src media1.com media2.com; script-src userscripts.example.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="language-none"><code class="language-none">Content-Security-Policy: default-src &#39;self&#39;; img-src *; media-src media1.com media2.com; script-src userscripts.example.com</code></pre>
 
 <p>在这里，各种内容默认仅允许从文档所在的源获取，但存在如下例外：</p>
 <ul>
@@ -232,7 +229,7 @@ Storage.clear()
 <li>可运行脚本仅允许来自于 userscripts.example.com。</li>
 </ul>
 <p>一个线上银行网站的管理者想要确保网站的所有内容都要通过 SSL 方式获取，以避免攻击者窃听用户发出的请求。</p>
-<pre class="line-numbers language-none"><code class="language-none">Content-Security-Policy: default-src https:&#x2F;&#x2F;onlinebanking.jumbobank.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="language-none"><code class="language-none">Content-Security-Policy: default-src https:&#x2F;&#x2F;onlinebanking.jumbobank.com</code></pre>
 
 <p>该服务器仅允许通过 HTTPS 方式并仅从<code>onlinebanking.jumbobank.com</code>域名来访问文档。</p>
 <p>类似的有Content-Security-Policy-Report-Only头部信息，做测试用途，不会阻止访问但会发送违规信息到 report-uri 指令内容的地址。这意味着两种头部启用报告功能需要在指令中加上 report-uri ，但不加 Report-Only 不仅会发送报告也能同时阻止访问。</p>
@@ -253,36 +250,35 @@ Storage.clear()
 </ul>
 <p><a target="_blank" rel="noopener" href="https://sucuri.net/guides/owasp-top-10-security-vulnerabilities-2020/">https://sucuri.net/guides/owasp-top-10-security-vulnerabilities-2020/</a></p>
 <h2 id="http相关"><a href="#http相关" class="headerlink" title="http相关"></a>http相关</h2><h3 id="cookie操作"><a href="#cookie操作" class="headerlink" title="cookie操作"></a>cookie操作</h3><p>服务器使用 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Set-Cookie"><code>Set-Cookie</code></a> 响应头部向用户代理（一般是浏览器）发送 Cookie 信息。一个简单的 Cookie 可能像这样：</p>
-<pre class="line-numbers language-none"><code class="language-none">Set-Cookie: &lt;cookie 名&gt;&#x3D;&lt;cookie 值&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="language-none"><code class="language-none">Set-Cookie: &lt;cookie 名&gt;&#x3D;&lt;cookie 值&gt;</code></pre>
 
 <p>服务器响应信息，该头部告知客户端保存 Cookie 信息。</p>
-<pre class="line-numbers language-none"><code class="language-none">HTTP&#x2F;1.0 200 OK
+<pre class="language-none"><code class="language-none">HTTP&#x2F;1.0 200 OK
 Content-type: text&#x2F;html
 Set-Cookie: yummy_cookie&#x3D;choco
 Set-Cookie: tasty_cookie&#x3D;strawberry
 
-[页面内容]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+[页面内容]</code></pre>
 
 <p>现在，对该服务器发起的每一次新请求，浏览器都会将之前保存的 Cookie 信息通过 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cookie"><code>Cookie</code></a> 请求头部再发送给服务器。</p>
-<pre class="line-numbers language-none"><code class="language-none">GET &#x2F;sample_page.html HTTP&#x2F;1.1
+<pre class="language-none"><code class="language-none">GET &#x2F;sample_page.html HTTP&#x2F;1.1
 Host: www.example.org
-Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 
 <h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p>Cookie 的生命周期可以通过两种方式定义：</p>
 <ul>
 <li>会话期 Cookie 是最简单的 Cookie：浏览器关闭之后它会被自动删除，也就是说它仅在会话期内有效。会话期 Cookie 不需要指定过期时间（<code>Expires</code>）或者有效期（<code>Max-Age</code>）。需要注意的是，有些浏览器提供了会话恢复功能，这种情况下即使关闭了浏览器，会话期 Cookie 也会被保留下来，就好像浏览器从来没有关闭一样，这会导致 Cookie 的生命周期无限期延长。</li>
 <li>持久性 Cookie 的生命周期取决于过期时间（<code>Expires</code>）或有效期（<code>Max-Age</code>）指定的一段时间。</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">Set-Cookie: id&#x3D;a3fWa; Expires&#x3D;Wed, 21 Oct 2015 07:28:00 GMT;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="language-none"><code class="language-none">Set-Cookie: id&#x3D;a3fWa; Expires&#x3D;Wed, 21 Oct 2015 07:28:00 GMT;</code></pre>
 
 <p>还有限制访问、作用域等，详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies</a></p>
 <h2 id="html"><a href="#html" class="headerlink" title="html"></a><code>html</code></h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p><code>&amp;lt &lt;  &amp;gt &gt;    &amp;nbsp/&amp;emsp 空格  &amp;copy 版权   &amp;trade-&amp;reg 商标</code></p>
 <p>清浮动 <code>clear:left/right/both</code> <code>overflow</code>:产生块级作用域</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;catphotourl&quot; placeholder&#x3D;&quot;cat photo URL&quot; required&gt;
-长下面这样；type限制输入类型，name作为变量名称方便本地调用，placeholder给用户输入暗示，required规定必须有输入元素才能提交表单<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="language-none"><code class="language-none">&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;catphotourl&quot; placeholder&#x3D;&quot;cat photo URL&quot; required&gt;
+长下面这样；type限制输入类型，name作为变量名称方便本地调用，placeholder给用户输入暗示，required规定必须有输入元素才能提交表单</code></pre>
 
-
-
+<p><img src="/2022/11/02/Frontend/input%E6%A0%87%E7%AD%BE.png" alt="input标签"></p>
 <p>input标签种类繁多，功能强大，详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input</a></p>
 <p>type属性对应值及其作用：<a target="_blank" rel="noopener" href="https://blog.csdn.net/VickyTsai/article/details/94839889">https://blog.csdn.net/VickyTsai/article/details/94839889</a></p>
 <table>
@@ -341,10 +337,10 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
 <li>type&#x3D;”text”, “password”, “hidden” - 定义输入字段的初始值</li>
 <li>type&#x3D;”checkbox”, “radio”, “image” - 定义与输入相关联的值</li>
 </ul>
-<p><strong>注释：</strong><input type="checkbox"> 和 <input type="radio"> 中必须设置 value 属性。</p>
-<p><strong>注释：</strong>value 属性无法与 <input type="file"> 一同使用。</p>
+<p><strong>注释：</strong><code>&lt;input type=&quot;checkbox&quot;&gt;</code> 和<code> &lt;input type=&quot;radio&quot;&gt;</code> 中必须设置 value 属性。</p>
+<p><strong>注释：</strong>value 属性无法与<code> &lt;input type=&quot;file&quot;&gt;</code> 一同使用。</p>
 <p>select和option搭配使用</p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pet-select<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Choose a pet:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pet-select<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Choose a pet:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
 //注意 multiple 和 disable 的用法
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pets<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pet-select<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">disabled</span><span class="token punctuation">></span></span>--Please choose an option--<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
@@ -354,7 +350,7 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>parrot<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Parrot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>spider<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Spider<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>goldfish<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Goldfish<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
 
 
 
@@ -365,8 +361,8 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
 <ul>
 <li>属性for可以将label绑定到for对应value为ID的标签，但是仅表示关联且需和绑定标签相邻，没有什么特殊效果。</li>
 </ul>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">For the styling of the page to look similar on mobile as it does on a desktop or laptop, you need to add a meta element with a special content attribute.
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="language-markup" data-language="markup"><code class="language-markup">For the styling of the page to look similar on mobile as it does on a desktop or laptop, you need to add a meta element with a special content attribute.
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
 
 <p>link标签的<code>rel</code>属性：此属性命名链接文档与当前文档的关系。type属性：这个属性被用于定义链接的内容的类型。这个属性的值应该是像 text&#x2F;html，text&#x2F;css 等 MIME 类型。这个属性常用的用法是定义链接的样式表，最常用的值是表明了 CSS 的 text&#x2F;css。</p>
 <p>块级元素block：可以设定宽高，换行排列	行内元素inline：只能由内容撑开，同一行排列	行内块级元素inline-block：可以摆在同一行且能设定宽高</p>
@@ -429,7 +425,7 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
 <li>可选，<code>&lt;color&gt;</code>值。</li>
 <li>若要对同一个元素添加多个阴影效果，请使用逗号将每个阴影规则分隔开。</li>
 </ul>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token comment">/* x 偏移量 | y 偏移量 | 阴影颜色 */</span>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token comment">/* x 偏移量 | y 偏移量 | 阴影颜色 */</span>
 <span class="token property">box-shadow</span><span class="token punctuation">:</span> 60px -16px teal<span class="token punctuation">;</span>
 
 <span class="token comment">/* x 偏移量 | y 偏移量 | 阴影模糊半径 | 阴影颜色 */</span>
@@ -447,14 +443,14 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
 <span class="token comment">/* 全局关键字 */</span>
 <span class="token property">box-shadow</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
 <span class="token property">box-shadow</span><span class="token punctuation">:</span> initial<span class="token punctuation">;</span>
-<span class="token property">box-shadow</span><span class="token punctuation">:</span> unset<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token property">box-shadow</span><span class="token punctuation">:</span> unset<span class="token punctuation">;</span></code></pre>
 
 <p>元素设置了border-radius时，转变为圆角阴影</p>
 <h3 id="盒模型、正常流"><a href="#盒模型、正常流" class="headerlink" title="盒模型、正常流"></a>盒模型、正常流</h3><p>盒子模型：外边距（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=margin&spm=1001.2101.3001.7020">margin</a>）+ border（边框） + 内边距（padding）+ content（内容）</p>
-<pre class="line-numbers language-none"><code class="language-none">标准盒子模型，一般浏览器也都默认为标准盒子模型。即：
+<pre class="language-none"><code class="language-none">标准盒子模型，一般浏览器也都默认为标准盒子模型。即：
 	box-sizing:content-box
 怪异盒子模型，一般根据实际项目需要自行设置。即：
-	box-sizing:border-box	padding和border的值就不会影响元素的宽高，相当于把padding和border的值都算在content里<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+	box-sizing:border-box	padding和border的值就不会影响元素的宽高，相当于把padding和border的值都算在content里</code></pre>
 
 
 
@@ -524,14 +520,14 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
 <li>sticky粘性定位，未滚动到预定位置就是relative，到预定位置就是fixed，实现比如固定在页面顶部的导航栏</li>
 </ul>
 <p>页面的普通流，static 和 relative 都不会更改元素的正常文档流，block 元素还是width 为100%，inline 元素还是宽高无效</p>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token comment">/*relative示例*/</span>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token comment">/*relative示例*/</span>
 <span class="token selector">span</span> <span class="token punctuation">&#123;</span> 
     <span class="token property">background</span><span class="token punctuation">:</span> #b6ff00<span class="token punctuation">;</span> 
     <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span> 
     <span class="token property">top</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span> 
     <span class="token property">left</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span> 
     <span class="token property">width</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span> 
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span></code></pre>
 
 
 
@@ -562,7 +558,7 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
 <p>css的超集</p>
 <p>变量开头是$</p>
 <h4 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h4><p>类似函数，变量参数以 $ 开头，定义用@mixin前缀，调用用@include 前缀</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;style type&#x3D;&#39;text&#x2F;scss&#39;&gt;
+<pre class="language-none"><code class="language-none">&lt;style type&#x3D;&#39;text&#x2F;scss&#39;&gt;
 @mixin border-radius($radius)&#123;
   -webkit-border-radius:$radius;
   -moz-border-radius:$radius;
@@ -579,10 +575,10 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
   &#125;
 &lt;&#x2F;style&gt;
 
-&lt;div id&#x3D;&quot;awesome&quot;&gt;&lt;&#x2F;div&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+&lt;div id&#x3D;&quot;awesome&quot;&gt;&lt;&#x2F;div&gt;</code></pre>
 
 <h3 id="Less"><a href="#Less" class="headerlink" title="Less"></a>Less</h3><h4 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h4><p>变量，@开头，在最外层定义</p>
-<pre class="line-numbers language-less" data-language="less"><code class="language-less"><span class="token variable">@width<span class="token punctuation">:</span></span> 10px<span class="token punctuation">;</span>
+<pre class="language-less" data-language="less"><code class="language-less"><span class="token variable">@width<span class="token punctuation">:</span></span> 10px<span class="token punctuation">;</span>
 <span class="token variable">@height<span class="token punctuation">:</span></span> <span class="token variable">@width</span> <span class="token operator">+</span> 10px<span class="token punctuation">;</span>
 
 <span class="token selector">#header</span> <span class="token punctuation">&#123;</span>
@@ -594,14 +590,14 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
 <span class="token selector">#header</span><span class="token punctuation">&#123;</span>
     <span class="token property">width</span><span class="token punctuation">:</span>10px<span class="token punctuation">;</span>
     <span class="token property">height</span><span class="token punctuation">:</span>20px<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span></code></pre>
 
 
 
 <h4 id="Mixins"><a href="#Mixins" class="headerlink" title="Mixins"></a>Mixins</h4><p>混合</p>
 <h4 id="Nesting"><a href="#Nesting" class="headerlink" title="Nesting"></a>Nesting</h4><p>嵌套</p>
 <p><code>&amp;</code> 表示当前选择器的父级</p>
-<pre class="line-numbers language-less" data-language="less"><code class="language-less"><span class="token selector">.clearfix</span> <span class="token punctuation">&#123;</span>
+<pre class="language-less" data-language="less"><code class="language-less"><span class="token selector">.clearfix</span> <span class="token punctuation">&#123;</span>
   <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
   <span class="token property">zoom</span><span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
 
@@ -613,7 +609,7 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
     <span class="token property">clear</span><span class="token punctuation">:</span> both<span class="token punctuation">;</span>
     <span class="token property">visibility</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
   <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span></code></pre>
 
 
 
@@ -652,12 +648,12 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry<span aria-hidden="
 <ul>
 <li><code>event.target</code>指向<strong>引起触发事件的元素</strong>，而<code>event.currentTarget</code>则是<strong>事件绑定的元素</strong>。</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">target.addEventListener(type, listener[, useCapture]);
+<pre class="language-none"><code class="language-none">target.addEventListener(type, listener[, useCapture]);
 target.removeEventListener(type, listener[, useCapture]);
 &#x2F;*
 	方法中包含3个参数，分别是绑定的事件处理属性名称（不包含on）、事件处理函数、是否在捕获时执行事件处理函数
 *&#x2F;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</code></pre>
 
 <p>event方法</p>
 <ul>
@@ -670,7 +666,7 @@ target.removeEventListener(type, listener[, useCapture]);
 </ul>
 <h3 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h3><p>Virtual dom, 即虚拟DOM节点。它通过JS的Object对象模拟DOM中的节点，然后再通过特定的render方法将其渲染成真实的DOM节点。</p>
 <p>包含了<code>tag</code>、<code>props</code>、<code>children</code>三个属性。分别代表当前元素的标签名称字符串，当前标签的属性对象，子元素对象数组，也就是说可以无限嵌套。</p>
-<pre class="line-numbers language-none"><code class="language-none">render方法
+<pre class="language-none"><code class="language-none">render方法
 转换属性时要考虑多种情况。像value、style等属性需要做特殊处理
 
 function createElement(type, props, children) &#123;
@@ -721,7 +717,7 @@ function setAttr(node, key, value) &#123;
 &#x2F;&#x2F;renderDom接受 el 真实DOM和target 渲染目标两个参数，负责将真实DOM添加到浏览器上
 function renderDom(el, target) &#123;
     target.appendChild(el);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+&#125;</code></pre>
 
 
 
@@ -731,7 +727,7 @@ function renderDom(el, target) &#123;
 <p>window是浏览器对象模型</p>
 <h3 id="window-location"><a href="#window-location" class="headerlink" title="window.location"></a>window.location</h3><h4 id="hash属性"><a href="#hash属性" class="headerlink" title="hash属性"></a>hash属性</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Location"><code>Location</code></a> 接口的 <strong><code>hash</code></strong> 属性返回一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String"><code>USVString</code></a>，其中会包含 URL 标识中的 <code>&#39;#&#39;</code> 和 后面 URL 片段标识符。这里 fragment 不会经过<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding">百分比编码</a>（URL 编码）。如果 URL 中没有 fragment，该属性会包含一个空字符串，<code>&quot;&quot;</code></p>
 <p>通过监听 window 对象的 hashChange 事件实现简单的路由</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function-variable function">onhashchange</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function-variable function">onhashchange</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">var</span> hash <span class="token operator">=</span> window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>hash
   <span class="token keyword">var</span> path <span class="token operator">=</span> hash<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
 
@@ -745,4 +741,4 @@ function renderDom(el, target) &#123;
     <span class="token keyword">default</span><span class="token operator">:</span>
       <span class="token function">show404NotFound</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><div class="post-tags"><a class="post-tag-link" href="/tags/Web/" rel="tag">#Web</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
+<span class="token punctuation">&#125;</span></code></pre><div class="post-tags"><a class="post-tag-link" href="/tags/Web/" rel="tag">#Web</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
