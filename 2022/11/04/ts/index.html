@@ -1,0 +1,396 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>TypeScript │ hh-blog</title><link rel="stylesheet" href="/css/oasis.css"><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="hh-blog" type="application/atom+xml">
+</head><body><div id="content"><h1 id="title">TypeScript</h1><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">Back</a><time datetime="2022-11-03T16:21:24.000Z">2022-11-04</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><p><strong>我们需要在类型的严格性和开发的便利性之间掌握平衡</strong></p>
+<p>“reaching the right balance and making the right exceptions is the essence of how successful programming languages are designed.”</p>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>非严格模式下 undefined 和 null 可以赋值给其他类型的值，也就是可以作为其它类型的子类型</p>
+<p>如果定义的时候没有赋值，不管之后有没有赋值，都会被推断成 <code>any</code> 类型而完全不被类型检查</p>
+<p>typeof 能直接获取元素深层类型</p>
+<pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">const</span> Message <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    name<span class="token operator">:</span> <span class="token string">"jimmy"</span><span class="token punctuation">,</span>
+    age<span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+    address<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      province<span class="token operator">:</span> <span class="token string">'四川'</span><span class="token punctuation">,</span>
+      city<span class="token operator">:</span> <span class="token string">'成都'</span>   
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">type</span> <span class="token class-name">message</span> <span class="token operator">=</span> <span class="token keyword">typeof</span> Message<span class="token punctuation">;</span>
+<span class="token comment">/*
+ type message = &#123;
+    name: string;
+    age: number;
+    address: &#123;
+        province: string;
+        city: string;
+    &#125;;
+&#125;
+*/</span></code></pre>
+
+<h4 id="never类型"><a href="#never类型" class="headerlink" title="never类型"></a>never类型</h4><p>never 和 void 之间的区别是void 意味着至少要返回一个 undefined 或者 null ，而 never 意味着不会正常执行到 函数的终点。</p>
+<p>! 特殊用法</p>
+<ul>
+<li>强制链式调用</li>
+</ul>
+<pre class="language-none"><code class="language-none">&#x2F;&#x2F; 这里 Error对象定义的stack是可选参数，如果这样写的话编译器会提示
+&#x2F;&#x2F; 出错 TS2532: Object is possibly &#39;undefined&#39;.
+new Error().stack.split(&#39;\n&#39;);
+
+&#x2F;&#x2F; 我们确信这个字段100%出现，那么就可以添加！，强调这个字段一定存在
+new Error().stack!.split(&#39;\n&#39;);</code></pre>
+
+<ul>
+<li>用在赋值的内容后时，使null和undefined类型可以赋值给其他类型并通过编译</li>
+</ul>
+<pre class="language-none"><code class="language-none">&#x2F;&#x2F; 由于x是可选的，因此parma.x的类型为number | undefined，无法传递给number类型的y，因此需要用x!
+interface IDemo &#123;
+    x?: number
+&#125;
+
+let y:number
+
+const demo &#x3D; (parma: IDemo) &#x3D;&gt; &#123;
+    y &#x3D; parma.x!
+    return y
+&#125;</code></pre>
+
+
+
+<p>? 特殊用法</p>
+<ul>
+<li>当使用A对象属性A.B时，如果无法确定A是否为空，则需要用A?.B，表示当A有值的时候才去访问B属性，没有值的时候就不去访问，如果不使用?则会报错</li>
+</ul>
+<pre class="language-none"><code class="language-none">&#x2F;&#x2F; 由于函数参数可选，因此parma无法确定是否拥有，所以无法正常使用parma.x，使用parma?.x向编译器假设此时parma不为空且为IDemo类型，同时parma?.x无法保证非空，因此使用parma?.x!来保证了整体通过编译
+interface IDemo &#123;
+    x: number
+&#125;
+
+let y:number
+
+const demo &#x3D; (parma?: IDemo) &#x3D;&gt; &#123;
+    y &#x3D; parma?.x!
+    console.log(parma?.x)   &#x2F;&#x2F; 只是单纯调用属性时就无需!    
+    return y
+&#125;
+    
+&#x2F;&#x2F; 如果使用y &#x3D; parma!.x!是会报错的，因为当parma为空时，是不拥有x属性的，会报找不到x的错误</code></pre>
+
+
+
+
+
+<h3 id="支持接口："><a href="#支持接口：" class="headerlink" title="支持接口："></a>支持接口：</h3><p>一个简单的接口，<code>SquareConfig</code>可以有任意数量的属性，并且只要它们不是<code>color</code>和<code>width</code>，那么就无所谓它们的类型是什么。</p>
+<pre class="language-none"><code class="language-none">interface SquareConfig &#123;
+    color?: string;
+    width?: number;
+    [propName: string]: any;
+&#125;</code></pre>
+
+
+
+<h3 id="定义数组"><a href="#定义数组" class="headerlink" title="定义数组"></a>定义数组</h3><pre class="language-none"><code class="language-none">let arr1: number[] &#x3D; [1,2,3];
+let arr2: Array&lt;number&gt; &#x3D; [1,2,3];
+元组，元素数量和各位置元素类型确定，均不可违背
+let arr3: [string,number,boolean] &#x3D; [1,&#39;1&#39;,true];</code></pre>
+
+
+
+<h3 id="联合类型（Union-Types）"><a href="#联合类型（Union-Types）" class="headerlink" title="联合类型（Union Types）"></a>联合类型（Union Types）</h3><p>表示取值可以为多种类型中的一种。</p>
+<p>当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们<strong>只能访问此联合类型的所有类型里共有的属性或方法</strong></p>
+<pre class="language-none"><code class="language-none">function getLength(something: string | number): number &#123;
+    return something.length;
+&#125;
+
+&#x2F;&#x2F; index.ts(2,22): error TS2339: Property &#39;length&#39; does not exist on type &#39;string | number&#39;.
+&#x2F;&#x2F;   Property &#39;length&#39; does not exist on type &#39;number&#39;.</code></pre>
+
+<p>联合类型的变量在被赋值的时候，会根据类型推论的规则推断出一个类型，确定类型后也就可以使用其特有的属性和方法了。</p>
+<h3 id="函数类型"><a href="#函数类型" class="headerlink" title="函数类型"></a>函数类型</h3><p>支持可选参数</p>
+<pre class="language-none"><code class="language-none">function e(arg1:number,arg2?:number)&#123;&#125;</code></pre>
+
+<p><strong>可选参数后面不允许再出现必需参数</strong></p>
+<p>允许给函数的参数添加默认值，<strong>TypeScript 会将添加了默认值的参数识别为可选参数</strong>，此时上一条限制不再存在</p>
+<pre class="language-none"><code class="language-none">function buildName(firstName: string &#x3D; &#39;Tom&#39;, lastName: string) &#123;
+    return firstName + &#39; &#39; + lastName;
+&#125;
+let tomcat &#x3D; buildName(&#39;Tom&#39;, &#39;Cat&#39;);
+let cat &#x3D; buildName(undefined, &#39;Cat&#39;);</code></pre>
+
+<p>关于剩余参数，其实也就相当于多一个数组参数在末尾</p>
+<pre class="language-none"><code class="language-none">function push(array: any[], ...items: any[]) &#123;
+    items.forEach(function(item) &#123;
+        array.push(item);
+    &#125;);
+&#125;
+
+let a &#x3D; [];
+push(a, 1, 2, 3);</code></pre>
+
+<p>函数定义还支持重载，当输入参数类型不同时按照程序逻辑进行不同的操作</p>
+<pre class="language-none"><code class="language-none">function reverse(x: number): number;
+function reverse(x: string): string;
+function reverse(x: number | string): number | string | void &#123;
+    if (typeof x &#x3D;&#x3D;&#x3D; &#39;number&#39;) &#123;
+        return Number(x.toString().split(&#39;&#39;).reverse().join(&#39;&#39;));
+    &#125; else if (typeof x &#x3D;&#x3D;&#x3D; &#39;string&#39;) &#123;
+        return x.split(&#39;&#39;).reverse().join(&#39;&#39;);
+    &#125;
+&#125;</code></pre>
+
+
+
+<h3 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h3><pre class="language-none"><code class="language-none">两种写法
+
+值 as 类型
+or
+&lt;类型&gt;值</code></pre>
+
+<p>当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们<strong>只能访问此联合类型的所有类型中共有的属性或方法</strong>。但是通过类型断言我们能在还不确定类型的时候就访问其中一个类型特有的属性或方法</p>
+<pre class="language-none"><code class="language-none">interface Cat &#123;
+    name: string;
+    run(): void;
+&#125;
+interface Fish &#123;
+    name: string;
+    swim(): void;
+&#125;
+
+function isFish(animal: Cat | Fish) &#123;
+    if (typeof (animal as Fish).swim &#x3D;&#x3D;&#x3D; &#39;function&#39;) &#123;
+        return true;
+    &#125;
+    return false;
+&#125;</code></pre>
+
+<p>即作用为将一个联合类型断言为其中一个类型，同样还有其它作用：将一个父类断言为更加具体的派生类(此种情况下使用 instanceof 可能会更贴切)，将任何一个类型断言为 any，将 any 断言为一个具体的类型</p>
+<pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">class</span> <span class="token class-name">ApiError</span> <span class="token keyword">extends</span> <span class="token class-name">Error</span> <span class="token punctuation">&#123;</span>
+    code<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">class</span> <span class="token class-name">HttpError</span> <span class="token keyword">extends</span> <span class="token class-name">Error</span> <span class="token punctuation">&#123;</span>
+    statusCode<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token number">200</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">function</span> <span class="token function">isApiError</span><span class="token punctuation">(</span>error<span class="token operator">:</span> Error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>error <span class="token keyword">instanceof</span> <span class="token class-name">ApiError</span><span class="token punctuation">)</span> <span class="token comment">//error as ApiError</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>将一个变量断言为 <code>any</code> 可以说是解决 TypeScript 中类型问题的最后一个手段。</p>
+<p><strong>它极有可能掩盖了真正的类型错误，所以如果不是非常确定，就不要使用 <code>as any</code>。</strong></p>
+<pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">function</span> <span class="token function">getCacheData</span><span class="token punctuation">(</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">any</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>window <span class="token keyword">as</span> <span class="token builtin">any</span><span class="token punctuation">)</span><span class="token punctuation">.</span>cache<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Cat</span> <span class="token punctuation">&#123;</span>
+    name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">const</span> tom <span class="token operator">=</span> <span class="token function">getCacheData</span><span class="token punctuation">(</span><span class="token string">'tom'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> Cat<span class="token punctuation">;</span>
+tom<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p><code>any as	</code>		上例中调用完 getCacheData 后把返回值限定为 Cat ，明确后续代码中的 tom 类型。</p>
+<p>类型声明比类型断言更加严格，当声明的类型兼容值的类型才使赋值语句成立。而类型断言中等号左边和右边的类型任一兼容对方即可。</p>
+<pre class="language-none"><code class="language-none">interface Animal &#123;
+    name: string;
+&#125;
+interface Cat &#123;
+    name: string;
+    run(): void;
+&#125;
+
+const animal: Animal &#x3D; &#123;
+    name: &#39;tom&#39;
+&#125;;
+let tom: Cat &#x3D; animal;&#x2F;&#x2F;改为 let tom &#x3D; animal as Cat; 不会报错
+
+&#x2F;&#x2F; index.ts:12:5 - error TS2741: Property &#39;run&#39; is missing in type &#39;Animal&#39; but required in type &#39;Cat&#39;.</code></pre>
+
+
+
+
+
+<h3 id="类与接口"><a href="#类与接口" class="headerlink" title="类与接口"></a>类与接口</h3><p><strong>implements</strong><br>实现，一个新的类，从父类或者接口实现所有的属性和方法，同时可以重写属性和方法，包含一些新的功能</p>
+<p><strong>extends</strong><br>继承，一个新的接口或者类，从父类或者接口继承所有的属性和方法，不可以重写属性，但可以重写方法。</p>
+<p>存在 constructor 时需要在其中调用 super 方法(相当于调用父类的constructor)</p>
+<pre class="language-none"><code class="language-none">interface Alarm &#123;
+    alert(): void;
+&#125;
+
+class Door &#123;
+&#125;
+
+class SecurityDoor extends Door implements Alarm &#123;
+    alert() &#123;
+        console.log(&#39;SecurityDoor alert&#39;);
+    &#125;
+&#125;
+
+class Car implements Alarm &#123;
+    alert() &#123;
+        console.log(&#39;Car alert&#39;);
+    &#125;
+&#125;</code></pre>
+
+
+
+<p>抽象类：专用于子类实例化和实现其中的抽象方法，本身不可实例化。抽象类还包括抽象属性(不常用)和抽象方法，不会实现内容，留给子类实现。</p>
+<pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">&#123;</span>
+	<span class="token keyword">abstract</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Dog</span> <span class="token keyword">extends</span> <span class="token class-name">Animal</span><span class="token punctuation">&#123;</span>
+    <span class="token function">add</span><span class="token punctuation">(</span>a<span class="token operator">:</span><span class="token builtin">number</span><span class="token punctuation">,</span>b<span class="token operator">:</span><span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span><span class="token builtin">number</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> a<span class="token operator">+</span>b<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+
+
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><p>指代任意输入的类型，保持在其它地方使用该类型的一致性</p>
+<pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">function</span> <span class="token generic-function"><span class="token function">swap</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token constant">T</span><span class="token punctuation">,</span> <span class="token constant">U</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>tuple<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token constant">T</span><span class="token punctuation">,</span> <span class="token constant">U</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token constant">U</span><span class="token punctuation">,</span> <span class="token constant">T</span><span class="token punctuation">]</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>tuple<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tuple<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">swap</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token string">'seven'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['seven', 7]</span></code></pre>
+
+<p>泛型约束可以</p>
+<h2 id="reflection"><a href="#reflection" class="headerlink" title="reflection"></a>reflection</h2><p>proxy 接口</p>
+<pre class="language-text" data-language="text"><code class="language-text">
+interface ProxyHandler&lt;T extends object> &#123;
+    getPrototypeOf? (target: T): object | null;
+    setPrototypeOf? (target: T, v: any): boolean;
+    isExtensible? (target: T): boolean;
+    preventExtensions? (target: T): boolean;
+    getOwnPropertyDescriptor? (target: T, p: PropertyKey): PropertyDescriptor | undefined;
+    has? (target: T, p: PropertyKey): boolean;
+    get? (target: T, p: PropertyKey, receiver: any): any;
+    set? (target: T, p: PropertyKey, value: any, receiver: any): boolean;
+    deleteProperty? (target: T, p: PropertyKey): boolean;
+    defineProperty? (target: T, p: PropertyKey, attributes: PropertyDescriptor): boolean;
+    ownKeys? (target: T): PropertyKey[];
+    apply? (target: T, thisArg: any, argArray?: any): any;
+    construct? (target: T, argArray: any, newTarget?: any): object;
+&#125;
+
+interface ProxyConstructor &#123;
+    revocable&lt;T extends object>(target: T, handler: ProxyHandler&lt;T>): &#123; proxy: T; revoke: () => void; &#125;;
+    new &lt;T extends object>(target: T, handler: ProxyHandler&lt;T>): T;
+&#125;
+declare var Proxy: ProxyConstructor;</code></pre>
+
+
+
+<h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><p><strong>只属于类自己的，不需要实例化即可引用</strong>，<strong>不能通过new出来的实例访问类的静态变量或方法</strong>，<strong>类中访问自己的静态属性，不能用this，只能用类名。</strong></p>
+<pre class="language-none"><code class="language-none">class Test &#123;
+ 	static myName: string &#x3D; &quot;lle&quot;;
+  	static changeName(): void &#123;
+    	console.log(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&gt;&gt;&gt;&quot;, &quot;hello&quot;);
+  	&#125;
+  	
+  	this.myName &#x3D; &quot;change name&quot;;  -----------&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; ❌❌❌ 不可以
+  	Test.myName &#x3D; &quot;change name&quot;; -----------&gt;&gt;&gt;&gt;&gt; ✔️✔️✔️这样就是OK的
+&#125;
+
+Test.changeName();  -------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; ✔️✔️✔️这样就是OK的
+
+
+let instance &#x3D; new Test();
+instance.changName();  -----------&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; ❌❌❌ 不可以</code></pre>
+
+
+
+
+
+<h2 id="Utility-Types"><a href="#Utility-Types" class="headerlink" title="Utility Types"></a>Utility Types</h2><pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token comment">/**
+ * Make all properties in T optional
+ */</span>
+<span class="token keyword">type</span> <span class="token class-name">Partial<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token constant">P</span> <span class="token keyword">in</span> <span class="token keyword">keyof</span> <span class="token constant">T</span><span class="token punctuation">]</span><span class="token operator">?</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">P</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * Make all properties in T readonly
+ */</span>
+<span class="token keyword">type</span> <span class="token class-name">Readonly<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">readonly</span> <span class="token punctuation">[</span><span class="token constant">P</span> <span class="token keyword">in</span> <span class="token keyword">keyof</span> <span class="token constant">T</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">P</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * From T, pick a set of properties whose keys are in the union K
+ */</span>
+<span class="token keyword">type</span> <span class="token class-name">Pick<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token punctuation">,</span> <span class="token constant">K</span> <span class="token keyword">extends</span> <span class="token keyword">keyof</span> <span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token constant">P</span> <span class="token keyword">in</span> <span class="token constant">K</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">P</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * Construct a type with a set of properties K of type T
+ */</span>
+<span class="token keyword">type</span> <span class="token class-name">Record<span class="token operator">&lt;</span><span class="token constant">K</span> <span class="token keyword">extends</span> <span class="token keyword">keyof</span> <span class="token builtin">any</span><span class="token punctuation">,</span> <span class="token constant">T</span><span class="token operator">></span></span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token constant">P</span> <span class="token keyword">in</span> <span class="token constant">K</span><span class="token punctuation">]</span><span class="token operator">:</span> <span class="token constant">T</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+
+
+
+<h3 id="Partial"><a href="#Partial" class="headerlink" title="Partial"></a>Partial<Type></h3><p>构造一个类型，其中 Type 的所有属性都设置为可选。此实用工具将返回一个表示给定 type 的所有子集的类型。</p>
+<pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> Partial<span class="token operator">&lt;</span>Record<span class="token operator">&lt;</span><span class="token string">'x'</span> <span class="token operator">|</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token builtin">number</span><span class="token operator">>></span><span class="token punctuation">;</span>
+
+<span class="token comment">// 等同于</span>
+<span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+	x<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+	y<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+
+
+<h3 id="Pick"><a href="#Pick" class="headerlink" title="Pick"></a>Pick</h3><pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token string">'x'</span> <span class="token operator">|</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token builtin">number</span><span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token keyword">type</span> <span class="token class-name">CoordX</span> <span class="token operator">=</span> Pick<span class="token operator">&lt;</span>Coord<span class="token punctuation">,</span> <span class="token string">'x'</span><span class="token operator">></span><span class="token punctuation">;</span>
+
+<span class="token comment">// 等用于</span>
+<span class="token keyword">type</span> <span class="token class-name">CoordX</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+	x<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+
+
+<h3 id="Required"><a href="#Required" class="headerlink" title="Required"></a>Required<Type></h3><p>partial的反义，返回给定 type 的超集</p>
+<h3 id="Readonly"><a href="#Readonly" class="headerlink" title="Readonly"></a>Readonly<Type></h3><p>仅读不可更改类型。<strong>只读的约束存在于第一次给对象赋值的时候，而不是第一次给只读属性赋值的时候</strong></p>
+<pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> Readonly<span class="token operator">&lt;</span>Record<span class="token operator">&lt;</span><span class="token string">'x'</span> <span class="token operator">|</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token builtin">number</span><span class="token operator">>></span><span class="token punctuation">;</span>
+
+<span class="token comment">// 等同于</span>
+<span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">readonly</span> x<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+    <span class="token keyword">readonly</span> y<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 如果进行了修改，则会报错：</span>
+<span class="token keyword">const</span> c<span class="token operator">:</span> Coord <span class="token operator">=</span> <span class="token punctuation">&#123;</span> x<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> y<span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+c<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">// Error: Cannot assign to 'x' because it is a read-only property.</span></code></pre>
+
+
+
+<h3 id="Record-lt-Keys-Type-gt"><a href="#Record-lt-Keys-Type-gt" class="headerlink" title="Record&lt;Keys, Type&gt;"></a>Record&lt;Keys, Type&gt;</h3><p>构造一个对象类型，其属性键为 Keys，其属性值为 Type。此实用工具可用于将一种类型的属性映射到另一种类型。</p>
+<pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token string">'x'</span> <span class="token operator">|</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token builtin">number</span><span class="token operator">></span><span class="token punctuation">;</span>
+
+<span class="token comment">// 等同于</span>
+<span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+	x<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+	y<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+
+
+
+
+
+
+<h2 id="编译配置"><a href="#编译配置" class="headerlink" title="编译配置"></a>编译配置</h2><p>直接使用以下命令对指定文件进行编译会生成在当前目录下，忽略tsconfig 的配置文件</p>
+<pre class="language-none"><code class="language-none">tsc 指定文件</code></pre>
+
+
+
+<h3 id="tsconfig配置信息"><a href="#tsconfig配置信息" class="headerlink" title="tsconfig配置信息"></a>tsconfig配置信息</h3><p><strong>target –</strong></p>
+<p>就是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=TypeScript&spm=1001.2101.3001.7020">TypeScript</a>文件编译后生成的javascript文件里的语法应该遵循哪个JavaScript的版本。可选项为：<code>&quot;ES5&quot;</code>， <code>&quot;ES6&quot;</code>&#x2F; <code>&quot;ES2015&quot;</code>， <code>&quot;ES2016&quot;</code>， <code>&quot;ES2017&quot;</code>或 <code>&quot;ESNext&quot;</code></p>
+<p><strong>module –</strong></p>
+<p>就是你的TypeScript文件中的module，采用何种方式实现，可选项为：<code>&quot;None&quot;</code>， <code>&quot;CommonJS&quot;</code>， <code>&quot;AMD&quot;</code>， <code>&quot;System&quot;</code>， <code>&quot;UMD&quot;</code>， <code>&quot;ES6&quot;</code>或 <code>&quot;ES2015&quot;。</code></p>
+<div class="post-tags"><a class="post-tag-link" href="/tags/TypeScript/" rel="tag">#TypeScript</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
