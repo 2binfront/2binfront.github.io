@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>数据结构和算法 │ hh-blog</title><link rel="stylesheet" href="/css/oasis.css"><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="hh-blog" type="application/atom+xml">
+</head><body><div id="content"><h1 id="title">数据结构和算法</h1><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">Back</a><time datetime="2022-11-05T18:09:06.000Z">2022-11-06</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><blockquote>
+<p>持续更新</p>
+</blockquote>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="三个渐近复杂度符号："><a href="#三个渐近复杂度符号：" class="headerlink" title="三个渐近复杂度符号："></a>三个渐近复杂度符号：</h3><p>$\Theta：紧确界\quad 	 O：上界\quad 	\Omega：下界$</p>
+<h3 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h3><p>在首或尾增加哨兵等于目标，循环中寻找目标时不管索引是否超过界限，找到目标再查看索引是哨兵的索引还是真正目标的索引。</p>
+<h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><p>求模式串的失配链接值是关键。向下取整floor(小于但是最大)和向上取整(大于但是最小)celling</p>
+<h3 id="三元组表的快速转置"><a href="#三元组表的快速转置" class="headerlink" title="三元组表的快速转置"></a>三元组表的快速转置</h3><p>找出原表中每行&#x2F;每列第一个元素转置后在新表中的位置，记录在<code>cpot[]</code>数组中，<code>num[]</code>数组记录源矩阵中每列非零元素的个数。关键是保持三元组的次序-即按行&#x2F;按列排序。</p>
+<h3 id="三元组和十字链表"><a href="#三元组和十字链表" class="headerlink" title="三元组和十字链表"></a>三元组和十字链表</h3><p>选用十字链表是为了在稀疏矩阵间需要运算，而两稀疏矩阵非零元素位置差异较大，每次运算都需要移动大量元素的位置，耗时耗力，所以利用链表特性存储稀疏矩阵。</p>
+<h3 id="重连通图"><a href="#重连通图" class="headerlink" title="重连通图"></a>重连通图</h3><p>关节点是指图中某点，当删除此点及其关联边时，图的一个连通分量会被分割为两个或以上连通分量。无关节点的图为重连通图，重连通图中，任一顶点到其它顶点有两条及以上路径。若在连通图上至少需要删除k个顶点才能破坏图的连通性则称图的连通度为k。系统的连通度越高越安全。(电路设施、通信网络、物资运输线路)</p>
+<h3 id="图的最小路径算法"><a href="#图的最小路径算法" class="headerlink" title="图的最小路径算法"></a>图的最小路径算法</h3><h4 id="Dijkstra算法："><a href="#Dijkstra算法：" class="headerlink" title="Dijkstra算法："></a>Dijkstra算法：</h4><p>建立最短路径数组，元素值表示当前顶点到数组下标对应顶点的最短距离。同时建立bool数组记录某顶点是否已经被提取过。初始化bool数组为全false，初始化最短路径数组为源点到各顶点直接距离，不存在直接边则距离为无穷大。然后从当前最小距离数组中寻找最小距离，确定这个这个最小的最小距离对应的顶点，将其在bool数组中置为已提取(true)在邻接矩阵中依次比较<u>此顶点到其它<strong>未提取顶点</strong>距离与当前最小的最小距离之和</u>与<u>最小距离数组中对应到各顶点的最小距离</u>，若前者更小则替换之，更新最小距离数组(比较次数每个循环会减一)，然后继续寻找最小的最小距离(去除已提取的顶点)。	但是这里面没有记录到每个顶点最小距离的相对应路径。可以置路径数组用来记录到达对应数组元素下标的顶点的上一个结点。 path[j] &#x3D; <code>min_num</code>;<code>path[j]</code>记录<code>d[j]</code>暂时最短路径的最后一个中途节点<code>min_num</code>，表明<code>d[j]</code>最后一段从节点<code>min_num</code>到节点<code>j</code>，而到结点<code>j</code>的路径自然会由其它最短路径记录，由此可以达到记录路径的目的。</p>
+<h3 id="最小生成树算法"><a href="#最小生成树算法" class="headerlink" title="最小生成树算法"></a>最小生成树算法</h3><h4 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h4><p>从任一顶点开始建立顶点集和空边集，利用辅助数组记录当前顶点集到图顶点集各点的最小距离，初始化也即为初始顶点到其余各顶点的距离(数组元素是结构体，包括邻接顶点和最小距离，不存在边时距离记为无穷大，到自己的距离记为0)，然后循环n-1次，<em>每次增加一条边和一个顶点，该边是辅助数组中最小的最小距离(增加顶点的形式是把辅助数组对应位置的最小距离置零，增加边是打印该点在数组中的邻接顶点值和该点的值)，然后更新辅助数组，用新顶点和图中其它顶点的距离比较当前对应位置最小距离，若更小则更新邻接顶点为当前顶点并更新最小距离，然后重复下一次循环</em>。如此可以保证辅助数组中的最小距离始终是当前顶点集到图中其余顶点的最小距离，并能记录是当前顶点集的哪一个顶点到图中顶点距离最小，如此循环n-1次就能添加完所有的必要边。复杂度为$O(n^2)$，与边数无关，适合稠密图。</p>
+<h4 id="Kruskal算法-避圈法"><a href="#Kruskal算法-避圈法" class="headerlink" title="Kruskal算法(避圈法)"></a>Kruskal算法(避圈法)</h4><p>初始状态最小生成树为n个顶点无边的非连通图，连通分量为n，每次选择代价最小并能减少一个连通分量的边，直至所有顶点共属一个连通分量。需要利用堆对图中所有边按长进行排序，从小到大依次处理，并利用辅助数据结构并查集(数组即可，不同的连通分量记为不同序号值)检查新边的两顶点是否属于同一连通分量。</p>
+<ul>
+<li>破圈法</li>
+<li>索林(<code>Sollin</code>)算法：类似聚类的凝聚法，合并平凡树</li>
+</ul>
+<h3 id="寻找有向图的强连通分量"><a href="#寻找有向图的强连通分量" class="headerlink" title="寻找有向图的强连通分量"></a>寻找有向图的强连通分量</h3><p><code>Tarjan</code>算法</p>
+<h3 id="寻找图的最大匹配"><a href="#寻找图的最大匹配" class="headerlink" title="寻找图的最大匹配"></a>寻找图的最大匹配</h3><p>匈牙利算法</p>
+<h3 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h3><h3 id="AVL树-二叉平衡树"><a href="#AVL树-二叉平衡树" class="headerlink" title="AVL树(二叉平衡树)"></a>AVL树(二叉平衡树)</h3><p>任意结点左右子树平衡因子满足$-1\leq 平衡因子 \leq 1$</p>
+<h3 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h3><p>2-3树</p>
+<h3 id="B-树："><a href="#B-树：" class="headerlink" title="B+树："></a>B+树：</h3><h3 id="求欧拉图中欧拉回路的算法："><a href="#求欧拉图中欧拉回路的算法：" class="headerlink" title="求欧拉图中欧拉回路的算法："></a>求欧拉图中欧拉回路的算法：</h3><ul>
+<li>Fleury算法：能不走桥就不走桥</li>
+<li>逐步插入回路法</li>
+</ul>
+<h3 id="货郎担问题："><a href="#货郎担问题：" class="headerlink" title="货郎担问题："></a>货郎担问题：</h3><h3 id="利用哈希表的滑动窗口字符串匹配——Robin-Karp算法"><a href="#利用哈希表的滑动窗口字符串匹配——Robin-Karp算法" class="headerlink" title="利用哈希表的滑动窗口字符串匹配——Robin-Karp算法"></a>利用哈希表的滑动窗口字符串匹配——Robin-Karp算法</h3><p>把pattern作整体计算哈希值，类比处理母串，滑动处理。</p>
+<h3 id="Huffman算法"><a href="#Huffman算法" class="headerlink" title="Huffman算法"></a>Huffman算法</h3><p>求带权最优二叉树</p>
+<h3 id="递归思想及原则："><a href="#递归思想及原则：" class="headerlink" title="递归思想及原则："></a>递归思想及原则：</h3><ul>
+<li>函数调用其自身（直接的或间接的都算）</li>
+<li>有<strong>明确的终止条件</strong></li>
+</ul>
+<p>  尾递归(函数所做的最后一件事情是一个函数调用（递归的或者非递归的)可以大大减少栈空间的占用</p>
+<h3 id="线段树"><a href="#线段树" class="headerlink" title="线段树"></a>线段树</h3><h3 id="回溯和深度优先搜索dfs"><a href="#回溯和深度优先搜索dfs" class="headerlink" title="回溯和深度优先搜索dfs"></a>回溯和深度优先搜索dfs</h3><p>  遍历所有当前选择（做出选择，记录选择，下一次选择（递归），回退选择）</p>
+<p>1、路径：也就是已经做出的选择。</p>
+<p>2、选择列表：也就是你当前可以做的选择。</p>
+<p>3、结束条件：也就是到达决策树底层，无法再做选择的条件。</p>
+<h3 id="关联分析"><a href="#关联分析" class="headerlink" title="关联分析"></a>关联分析</h3><p>还没看</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/LittleHann/p/9398219.html">https://www.cnblogs.com/LittleHann/p/9398219.html</a></p>
+<div class="post-tags"><a class="post-tag-link" href="/tags/Algorithm/" rel="tag">#Algorithm</a>, <a class="post-tag-link" href="/tags/Data-Structure/" rel="tag">#Data Structure</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
