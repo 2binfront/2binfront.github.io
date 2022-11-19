@@ -64,7 +64,7 @@
 <li><p>四次挥手，资源传输完毕，断开连接</p>
 </li>
 </ul>
-<p><img src="/2022/11/02/Frontend/%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B.png" alt="渲染进程"></p>
+<p><img src="/Frontend/%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B-1668873382169.png" alt="渲染进程"></p>
 <h3 id="MIME类型"><a href="#MIME类型" class="headerlink" title="MIME类型"></a>MIME类型</h3><table>
 <thead>
 <tr>
@@ -125,7 +125,7 @@
 <p>CSRF 攻击的根本原因在于对于同样域名的每个请求来说，它的 cookie 都会被自动带上，这个是浏览器的机制决定的，所以很多人据此认定 cookie 不安全。<em>CSRF</em>（<em>Cross-site request forgery</em>）跨站请求伪造</p>
 <p>cookie和token都保存在local storage，会被js读取，前者是存储方式，后者是验证方式</p>
 <h3 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h3><p>在浏览器中，浏览器会在js和图片等文件解析执行后直接存入内存缓存中，那么当刷新页面时只需直接从内存缓存中读取；而css文件则会存入硬盘文件中，所以每次渲染页面都需要从硬盘读取缓存。</p>
-<p><img src="/2022/11/02/Frontend/web%E7%BC%93%E5%AD%98%E7%B1%BB%E5%9E%8B.png" alt="web缓存类型"></p>
+<p><img src="/Frontend/web%E7%BC%93%E5%AD%98%E7%B1%BB%E5%9E%8B-1668873382170.png" alt="web缓存类型"></p>
 <p>所谓浏览器缓存其实就是指在本地使用的计算机中开辟一个内存区，同时也开辟一个硬盘区作为数据传输的缓冲区，然后用这个缓冲区来暂时保存用户以前访问过的信息。</p>
 <h4 id="Web-Storage"><a href="#Web-Storage" class="headerlink" title="Web Storage"></a>Web Storage</h4><ul>
 <li><code>sessionStorage</code> 为每一个给定的源（given origin）维持一个独立的存储区域，该存储区域在页面会话期间可用（即只要浏览器处于打开状态，包括页面重新加载和恢复）。</li>
@@ -276,12 +276,46 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <pre class="language-none"><code class="language-none">Set-Cookie: id&#x3D;a3fWa; Expires&#x3D;Wed, 21 Oct 2015 07:28:00 GMT;</code></pre>
 
 <p>还有限制访问、作用域等，详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies</a></p>
+<h2 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h2><p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2017/05/websocket.html%E5%85%A5%E9%97%A8">https://www.ruanyifeng.com/blog/2017/05/websocket.html入门</a></p>
+<p>用于服务端向客户端推送信息，改变传统客户端为了获取服务端频繁更新而需轮询的资源浪费</p>
+<p>它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Push_technology">服务器推送技术</a>的一种。</p>
+<p>其他特点包括：</p>
+<p>（1）建立在 TCP 协议之上，服务器端的实现比较容易。</p>
+<p>（2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。</p>
+<p>（3）数据格式比较轻量，性能开销小，通信高效。</p>
+<p>（4）可以发送文本，也可以发送二进制数据。</p>
+<p>（5）没有同源限制，客户端可以与任意服务器通信。</p>
+<p>（6）协议标识符是<code>ws</code>（如果加密，则为<code>wss</code>），服务器网址就是 URL。</p>
+<p>WebSocket 服务器的实现，可以查看维基百科的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Comparison_of_WebSocket_implementations">列表</a>。</p>
+<p>常用的 Node 实现有以下三种。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/uWebSockets/uWebSockets">µWebSockets</a></li>
+<li><a target="_blank" rel="noopener" href="http://socket.io/">Socket.IO</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/theturtle32/WebSocket-Node">WebSocket-Node</a></li>
+</ul>
 <h2 id="html"><a href="#html" class="headerlink" title="html"></a><code>html</code></h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p><code>&amp;lt &lt;  &amp;gt &gt;    &amp;nbsp/&amp;emsp 空格  &amp;copy 版权   &amp;trade-&amp;reg 商标</code></p>
 <p>清浮动 <code>clear:left/right/both</code> <code>overflow</code>:产生块级作用域</p>
-<pre class="language-none"><code class="language-none">&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;catphotourl&quot; placeholder&#x3D;&quot;cat photo URL&quot; required&gt;
+<p>块级元素block：可以设定宽高，换行排列	行内元素inline：只能由内容撑开，同一行排列	行内块级元素inline-block：可以摆在同一行且能设定宽高</p>
+<p>calc计算中不同表达式元素必须间隔空格，以区分变量名称和运算符。并且支持混合单位运算。vh单位是视窗大小的百分比。</p>
+<p>布局视口和视觉视口。视口基本上是当前文档的可见部分，</p>
+<p>box-sizing属性可分配值：content box(default)，border box；当指定宽度或高度时分别指内容高宽和内容+内边距+边界高宽</p>
+<h3 id="常用标签"><a href="#常用标签" class="headerlink" title="常用标签"></a>常用标签</h3><h4 id="a标签"><a href="#a标签" class="headerlink" title="a标签"></a>a标签</h4><p>&lt;a&gt; 标签的 target 属性规定在何处打开链接文档。</p>
+<p>如果在一个 &lt;a&gt; 标签内包含一个 target 属性，浏览器将会载入和显示用这个标签的 href 属性命名的、名称与这个目标吻合的框架或者窗口中的文档。如果这个指定名称或 id 的框架或者窗口不存在，浏览器将打开一个新的窗口，给这个窗口一个指定的标记，然后将新的文档载入那个窗口。从此以后，超链接文档就可以指向这个新的窗口。</p>
+<h5 id="特殊的目标"><a href="#特殊的目标" class="headerlink" title="特殊的目标"></a>特殊的目标</h5><p>有 4 个保留的目标名称用作特殊的文档重定向操作：</p>
+<p>_blank</p>
+<p>浏览器总在一个新打开、未命名的窗口中载入目标文档。</p>
+<p>_self</p>
+<p>这个目标的值对所有没有指定目标的 <a> 标签是默认目标，它使得目标文档载入并显示在相同的框架或者窗口中作为源文档。这个目标是多余且不必要的，除非和文档标题 <base> 标签中的 target 属性一起使用。</p>
+<p>_parent</p>
+<p>这个目标使得文档载入父窗口或者包含来超链接引用的框架的框架集。如果这个引用是在窗口或者在顶级框架中，那么它与目标 _self 等效。</p>
+<p>_top</p>
+<p>这个目标使得文档载入包含这个超链接的窗口，用 _top 目标将会清除所有被包含的框架并将文档载入整个浏览器窗口。</p>
+<p><strong>提示：</strong>这些 target 的所有 4 个值都以下划线开始。任何其他用一个下划线作为开头的窗口或者目标都会被浏览器忽略，因此，不要将下划线作为文档中定义的任何框架 name 或 id 的第一个字符。</p>
+<h4 id="form标签"><a href="#form标签" class="headerlink" title="form标签"></a>form标签</h4><p>form标签的action属性是一个表单当中必须的属性，action属性规定当提交表单时，向何处发送表单数据。</p>
+<h4 id="input标签"><a href="#input标签" class="headerlink" title="input标签"></a>input标签</h4><pre class="language-none"><code class="language-none">&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;catphotourl&quot; placeholder&#x3D;&quot;cat photo URL&quot; required&gt;
 长下面这样；type限制输入类型，name作为变量名称方便本地调用，placeholder给用户输入暗示，required规定必须有输入元素才能提交表单</code></pre>
 
-<p><img src="/2022/11/02/Frontend/input%E6%A0%87%E7%AD%BE.png" alt="input标签"></p>
+<p><img src="/Frontend/input%E6%A0%87%E7%AD%BE-1668873382170.png" alt="input标签"></p>
 <p>input标签种类繁多，功能强大，详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input</a></p>
 <p>type属性对应值及其作用：<a target="_blank" rel="noopener" href="https://blog.csdn.net/VickyTsai/article/details/94839889">https://blog.csdn.net/VickyTsai/article/details/94839889</a></p>
 <table>
@@ -340,9 +374,33 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <li>type&#x3D;”text”, “password”, “hidden” - 定义输入字段的初始值</li>
 <li>type&#x3D;”checkbox”, “radio”, “image” - 定义与输入相关联的值</li>
 </ul>
-<p><strong>注释：</strong><code>&lt;input type=&quot;checkbox&quot;&gt;</code> 和<code> &lt;input type=&quot;radio&quot;&gt;</code> 中必须设置 value 属性。</p>
-<p><strong>注释：</strong>value 属性无法与<code> &lt;input type=&quot;file&quot;&gt;</code> 一同使用。</p>
-<p>select和option搭配使用</p>
+<p><strong>注释：</strong>&lt;input type&#x3D;”checkbox”&gt; 和 &lt;input type&#x3D;”radio”&gt; 中必须设置 value 属性。</p>
+<p><strong>注释：</strong>value 属性无法与 <input type="file"> 一同使用。</p>
+<h4 id="label标签"><a href="#label标签" class="headerlink" title="label标签"></a>label标签</h4><p>label标签可以把input包裹起来，让点击文本和点击按钮都让按钮被点击生效。</p>
+<ul>
+<li>属性for可以将label绑定到for对应value为ID的标签，但是仅表示关联且需和绑定标签相邻，没有什么特殊效果。</li>
+</ul>
+<pre class="language-markup" data-language="markup"><code class="language-markup">For the styling of the page to look similar on mobile as it does on a desktop or laptop, you need to add a meta element with a special content attribute.
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+
+<h4 id="link标签"><a href="#link标签" class="headerlink" title="link标签"></a>link标签</h4><p><code>rel</code>属性：此属性命名链接文档与当前文档的关系。type属性：这个属性被用于定义链接的内容的类型。这个属性的值应该是像 text&#x2F;html，text&#x2F;css 等 MIME 类型。这个属性常用的用法是定义链接的样式表，最常用的值是表明了 CSS 的 text&#x2F;css。</p>
+<h3 id="meta"><a href="#meta" class="headerlink" title="meta"></a>meta</h3><p>详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta</a></p>
+<ul>
+<li>如果设置了 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-name"><code>name</code></a> 属性，<code>meta</code> 元素提供的是文档级别（<em>document-level</em>）的元数据，应用于整个页面。</li>
+<li>如果设置了 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-http-equiv"><code>http-equiv</code></a> 属性，<code>meta</code> 元素则是编译指令，提供的信息与类似命名的 HTTP 头部相同。</li>
+<li>如果设置了 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-charset"><code>charset</code></a> 属性，<code>meta</code> 元素是一个字符集声明，告诉文档使用哪种字符编码。</li>
+<li>如果设置了 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes#itemprop"><code>itemprop</code></a> 属性，<code>meta</code> 元素提供用户定义的元数据。</li>
+</ul>
+<p>meta 元素可用于提供 名称 - 值 对形式的文档元数据，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-name"><code>name</code></a> 属性为元数据条目提供名称，而 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-content"><code>content</code></a> 属性提供值。</p>
+<ul>
+<li><code>author</code>：文档作者的名字。</li>
+<li><code>description</code>：一段简短而精确的、对页面内容的描述。一些浏览器，比如 Firefox 和 Opera，将其用作书签的默认描述。</li>
+<li><code>generator</code>：生成此页面的软件的标识符（identifier）。</li>
+<li><code>keywords</code>：与页面内容相关的关键词，使用逗号分隔。</li>
+<li><code>referrer</code>：控制由当前文档发出的请求的 HTTP <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Referer"><code>Referer</code></a> 请求头。也就是请求页面的主机地址信息</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta/name/theme-color"><code>theme-color</code></a>：表示当前页面的建议颜色，在自定义当前页面从或页面周围的用户界面的显示时，用户代理应当使用此颜色。<code>content</code> 属性应当包含一个有效的 CSS <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value">&#96;&#96;</a> 值。</li>
+</ul>
+<h4 id="select和option"><a href="#select和option" class="headerlink" title="select和option"></a>select和option</h4><p>select和option搭配使用</p>
 <pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pet-select<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Choose a pet:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
 //注意 multiple 和 disable 的用法
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pets<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pet-select<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span><span class="token punctuation">></span></span>
@@ -359,19 +417,10 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 
 
 
-<p>form标签的action属性是一个表单当中必须的属性，action属性规定当提交表单时，向何处发送表单数据。</p>
-<p>label标签可以把input包裹起来，让点击文本和点击按钮都让按钮被点击生效。</p>
-<ul>
-<li>属性for可以将label绑定到for对应value为ID的标签，但是仅表示关联且需和绑定标签相邻，没有什么特殊效果。</li>
-</ul>
-<pre class="language-markup" data-language="markup"><code class="language-markup">For the styling of the page to look similar on mobile as it does on a desktop or laptop, you need to add a meta element with a special content attribute.
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
 
-<p>link标签的<code>rel</code>属性：此属性命名链接文档与当前文档的关系。type属性：这个属性被用于定义链接的内容的类型。这个属性的值应该是像 text&#x2F;html，text&#x2F;css 等 MIME 类型。这个属性常用的用法是定义链接的样式表，最常用的值是表明了 CSS 的 text&#x2F;css。</p>
-<p>块级元素block：可以设定宽高，换行排列	行内元素inline：只能由内容撑开，同一行排列	行内块级元素inline-block：可以摆在同一行且能设定宽高</p>
-<p>calc计算中不同表达式元素必须间隔空格，以区分变量名称和运算符。并且支持混合单位运算。vh单位是视窗大小的百分比。</p>
-<p>布局视口和视觉视口。视口基本上是当前文档的可见部分，</p>
-<p>box-sizing属性可分配值：content box(default)，border box；当指定宽度或高度时分别指内容高宽和内容+内边距+边界高宽</p>
+
+
+
 <h2 id="css"><a href="#css" class="headerlink" title="css"></a>css</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>块级元素之间的外边距会发生折叠。这意味着，如果一个具有上边距的元素排在在一个具有下边距的元素之下时，他们之间的间距不会是这两个外边距的和，即外边距会发生折叠，简单来说就是，间距与两个外边距中的较大者一样大。</p>
 <p>外边距叠加：相邻元素间距会按照两者各自外边距大的算</p>
 <p>内联盒子的宽度和高度被忽略了。外边距、内边距和边框是生效的，但它们不会改变其他内容与内联盒子的关系，因此内边距和边框会与段落中的其他单词重叠。</p>
@@ -492,8 +541,27 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 </li>
 </ul>
 <p>flex-flow：前两个属性的结合</p>
-<p>justify-content：主轴对齐方式</p>
-<p>align-items：交叉轴对齐方式</p>
+<p>justify-content：主轴对齐方式。它可能取5个值，具体对齐方式与轴的方向有关。下面假设主轴为从左到右。</p>
+<blockquote>
+<ul>
+<li><code>flex-start</code>（默认值）：左对齐</li>
+<li><code>flex-end</code>：右对齐</li>
+<li><code>center</code>： 居中</li>
+<li><code>space-between</code>：两端对齐，项目之间的间隔都相等。</li>
+<li><code>space-around</code>：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。</li>
+</ul>
+</blockquote>
+<p>align-items：交叉轴对齐方式，它可能取5个值。具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下。</p>
+<blockquote>
+<ul>
+<li><code>flex-start</code>：与交叉轴的起点对齐。</li>
+<li><code>flex-end</code>：与交叉轴的终点对齐。</li>
+<li><code>center</code>：与交叉轴的中点对齐。</li>
+<li><code>space-between</code>：与交叉轴两端对齐，轴线之间的间隔平均分布。</li>
+<li><code>space-around</code>：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。</li>
+<li><code>stretch</code>（默认值）：轴线占满整个交叉轴。</li>
+</ul>
+</blockquote>
 <p>align-content：定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。</p>
 <p>​	五种对齐方式：这里的左右是相对于轴方向而言</p>
 <ul>
@@ -641,6 +709,63 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 </li>
 </ul>
 <p>增(例如定位element对象，为其增加子节点)、删(element.remove())、改(Element对象的方法)</p>
+<h3 id="document属性"><a href="#document属性" class="headerlink" title="document属性"></a>document属性</h3><h4 id="documentelement和body"><a href="#documentelement和body" class="headerlink" title="documentelement和body"></a>documentelement和body</h4><h5 id="DTD"><a href="#DTD" class="headerlink" title="DTD"></a>DTD</h5><p>DTD告诉浏览器当前文档用的是什么标记语言，然后浏览器才能正确的根据W3C标准解析文档代码。</p>
+<p>目前htmlDTD有三种类型：</p>
+<ul>
+<li><p>Strict DTD：严格的文档类型定义</p>
+<p>不能包含已过时的元素（或属性）和框架元素。</p>
+</li>
+<li><p>Transitional DTD：过渡的文档类型定义</p>
+<p>能包含已过时的元素和属性但不能包含框架元素。</p>
+</li>
+<li><p>Frameset DTD: 框架集文档类型定义</p>
+<p>能包含已过时的元素和框架元素。</p>
+</li>
+</ul>
+<p>在html文档中定义DTD就是通过！doctype定义，如下，是一个html4.0的过渡DTDhtml文档：</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span> <span class="token name">PUBLIC</span> <span class="token string">"-//W3C//DTD XHTML1.0 Transitional//EN"</span> <span class="token string">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+</code></pre>
+
+<p>或在html5中：</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">doctype</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
+
+<h5 id="document-documentElement与document-body"><a href="#document-documentElement与document-body" class="headerlink" title="document.documentElement与document.body"></a>document.documentElement与document.body</h5><ul>
+<li>document代表的是整个文档(对于一个网页来说包括整个网页结构)，document.documentElement是整个文档节点树的根节点，在网页中即html标签；</li>
+<li>document.body是整个文档DOM节点树里的body节点，网页中即为body标签元素。</li>
+</ul>
+<p>我们常看见如下这种写法获取页面滚动条滚过的长度：</p>
+<pre class="language-dart" data-language="dart"><code class="language-dart"><span class="token keyword">var</span> top <span class="token operator">=</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>scrollTop <span class="token operator">||</span> document<span class="token punctuation">.</span>body<span class="token punctuation">.</span>scrollTop<span class="token punctuation">;</span>
+或
+<span class="token keyword">var</span> top <span class="token operator">=</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>scrollTop <span class="token operator">?</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>scrollTop <span class="token punctuation">:</span> document<span class="token punctuation">.</span>body<span class="token punctuation">.</span>scrollTop<span class="token punctuation">;</span></code></pre>
+
+<p>在文档使用了DTD时，document.body.scrollTop的值为0，此时需要使用document.documentElement.scrollTop来获取滚动条滚过的长度；在未使用DTD定义文档时，使用document.body.scrollTop获取值。</p>
+<h4 id="scrollHeight"><a href="#scrollHeight" class="headerlink" title="scrollHeight"></a>scrollHeight</h4><p>scrollHeight 属性是一个只读属性，它返回该元素的像素高度，高度包含内边距（padding），不包含外边距（margin）、边框（border），是一个整数，单位是像素 px。</p>
+<p>获取 div 元素的高度和宽度，包含内边距（padding）:</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> elmnt <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"content"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token keyword">var</span> y <span class="token operator">=</span> elmnt<span class="token punctuation">.</span>scrollHeight<span class="token punctuation">;</span> 
+<span class="token keyword">var</span> x <span class="token operator">=</span> elmnt<span class="token punctuation">.</span>scrollWidth<span class="token punctuation">;</span></code></pre>
+
+
+
+
+
+
+
 <h3 id="DOM事件"><a href="#DOM事件" class="headerlink" title="DOM事件"></a>DOM事件</h3><p>0级(其实并不存在这个标准)，1级(映射文档结构，特定于HTML的对象和方法)，2级(增加模块以支持新的接口：追踪文档不同视图的接口、事件及事件处理接口、处理元素css样式的接口、遍历和操作DOM树的接口)，3级(增加了以统一的方式加载和保存文档的方法（包含在一个叫 DOM  Load and Save 的新模块中），还有验证文档的方法（DOM Validation）)，4级(替代 Mutation Events 的 Mutation Observers)</p>
 <ul>
 <li>事件发生，触发设定好的应对函数(事件监听函数)，是js和HTML的交互基础，常用的有鼠标事件、触摸事件、键盘事件、媒体事件、剪切板事件、资源事件等</li>
@@ -669,58 +794,58 @@ target.removeEventListener(type, listener[, useCapture]);
 </ul>
 <h3 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h3><p>Virtual dom, 即虚拟DOM节点。它通过JS的Object对象模拟DOM中的节点，然后再通过特定的render方法将其渲染成真实的DOM节点。</p>
 <p>包含了<code>tag</code>、<code>props</code>、<code>children</code>三个属性。分别代表当前元素的标签名称字符串，当前标签的属性对象，子元素对象数组，也就是说可以无限嵌套。</p>
-<pre class="language-none"><code class="language-none">render方法
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript">render方法
 转换属性时要考虑多种情况。像value、style等属性需要做特殊处理
 
-function createElement(type, props, children) &#123;
-    return new Element(type, props, children);
-&#125;
+<span class="token keyword">function</span> <span class="token function">createElement</span><span class="token punctuation">(</span><span class="token parameter">type<span class="token punctuation">,</span> props<span class="token punctuation">,</span> children</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Element</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> props<span class="token punctuation">,</span> children<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
-class Element &#123;
-    constructor(type, props, children) &#123;
-        this.type &#x3D; type;
-        this.props &#x3D; props;
-        this.children &#x3D; children;
-    &#125;
-&#125;
+<span class="token keyword">class</span> <span class="token class-name">Element</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">type<span class="token punctuation">,</span> props<span class="token punctuation">,</span> children</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>type <span class="token operator">=</span> type<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props <span class="token operator">=</span> props<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>children <span class="token operator">=</span> children<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-function render(eleObj) &#123;
-    let el &#x3D; document.createElement(eleObj.type); &#x2F;&#x2F; 创建元素
-    for(let key in eleObj.props) &#123;
-        &#x2F;&#x2F; 设置属性的方法
-        setAttr(el, key, eleObj.props[key])
-    &#125;
-    eleObj.children.forEach(child &#x3D;&gt; &#123;
-        &#x2F;&#x2F; 判断子元素是否是Element类型，是则递归，不是则创建文本节点
-        child &#x3D; (child instanceof Element) ? render(child) : document.createTextNode(child);
-        el.appendChild(child);
-    &#125;);
-    return el;
-&#125;
+<span class="token keyword">function</span> <span class="token function">render</span><span class="token punctuation">(</span><span class="token parameter">eleObj</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> el <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>eleObj<span class="token punctuation">.</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 创建元素</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> key <span class="token keyword">in</span> eleObj<span class="token punctuation">.</span>props<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 设置属性的方法</span>
+        <span class="token function">setAttr</span><span class="token punctuation">(</span>el<span class="token punctuation">,</span> key<span class="token punctuation">,</span> eleObj<span class="token punctuation">.</span>props<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    eleObj<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">child</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 判断子元素是否是Element类型，是则递归，不是则创建文本节点</span>
+        child <span class="token operator">=</span> <span class="token punctuation">(</span>child <span class="token keyword">instanceof</span> <span class="token class-name">Element</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token function">render</span><span class="token punctuation">(</span>child<span class="token punctuation">)</span> <span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span>child<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        el<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>child<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> el<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
-function setAttr(node, key, value) &#123;
-    switch(key) &#123;
-        case &#39;value&#39;: &#x2F;&#x2F; node是一个input或者textarea
-            if(node.tagName.toUpperCase() &#x3D;&#x3D;&#x3D; &#39;INPUT&#39; || node.tagName.toUpperCase() &#x3D;&#x3D;&#x3D; &#39;TEXTAREA&#39;) &#123;
-                node.value &#x3D; value;
-            &#125; else &#123; &#x2F;&#x2F; 普通属性
-                node.setAttribute(key, value);
-            &#125;
-        break;
-        case &#39;style&#39;:
-            node.style.cssText &#x3D; value;
-        break;
-        default:
-            node.setAttribute(key, value);
-        break;
-    &#125;
-&#125;
+<span class="token keyword">function</span> <span class="token function">setAttr</span><span class="token punctuation">(</span><span class="token parameter">node<span class="token punctuation">,</span> key<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">switch</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token string">'value'</span><span class="token operator">:</span> <span class="token comment">// node是一个input或者textarea</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>tagName<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token string">'INPUT'</span> <span class="token operator">||</span> node<span class="token punctuation">.</span>tagName<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token string">'TEXTAREA'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                node<span class="token punctuation">.</span>value <span class="token operator">=</span> value<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 普通属性</span>
+                node<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token string">'style'</span><span class="token operator">:</span>
+            node<span class="token punctuation">.</span>style<span class="token punctuation">.</span>cssText <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">default</span><span class="token operator">:</span>
+            node<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
 
-&#x2F;&#x2F;renderDom接受 el 真实DOM和target 渲染目标两个参数，负责将真实DOM添加到浏览器上
-function renderDom(el, target) &#123;
-    target.appendChild(el);
-&#125;</code></pre>
+<span class="token comment">//renderDom接受 el 真实DOM和target 渲染目标两个参数，负责将真实DOM添加到浏览器上</span>
+<span class="token keyword">function</span> <span class="token function">renderDom</span><span class="token punctuation">(</span><span class="token parameter">el<span class="token punctuation">,</span> target</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    target<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
 
 
 
@@ -728,7 +853,62 @@ function renderDom(el, target) &#123;
 <p>1.用JS对象模拟DOM（虚拟DOM）<br>2.把此虚拟DOM转成真实DOM并插入页面中（render）<br>3.如果有事件发生修改了虚拟DOM，比较两棵虚拟DOM树的差异，得到差异对象（diff）<br>4.把差异对象应用到真正的DOM树上（patch）</p>
 <h2 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h2><p>Browser Object Model 浏览器对象模型，控制浏览器的行为的接口</p>
 <p>window是浏览器对象模型</p>
-<h3 id="window-location"><a href="#window-location" class="headerlink" title="window.location"></a>window.location</h3><h4 id="hash属性"><a href="#hash属性" class="headerlink" title="hash属性"></a>hash属性</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Location"><code>Location</code></a> 接口的 <strong><code>hash</code></strong> 属性返回一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String"><code>USVString</code></a>，其中会包含 URL 标识中的 <code>&#39;#&#39;</code> 和 后面 URL 片段标识符。这里 fragment 不会经过<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding">百分比编码</a>（URL 编码）。如果 URL 中没有 fragment，该属性会包含一个空字符串，<code>&quot;&quot;</code></p>
+<h3 id="window-history"><a href="#window-history" class="headerlink" title="window.history"></a>window.history</h3><p>详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/History_API">https://developer.mozilla.org/zh-CN/docs/Web/API/History_API</a></p>
+<p>History 对象主要有两个属性。</p>
+<ul>
+<li><code>History.length</code>：当前窗口访问过的网址数量（包括当前网页）</li>
+<li><code>History.state</code>：History 堆栈最上层的状态值（详见下文）</li>
+</ul>
+<pre class="language-none"><code class="language-none">&#x2F;&#x2F; 当前窗口访问过多少个网页
+window.history.length &#x2F;&#x2F; 1
+
+&#x2F;&#x2F; History 对象的当前状态
+&#x2F;&#x2F; 通常是 undefined，即未设置
+window.history.state &#x2F;&#x2F; undefined</code></pre>
+
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>History.back()、History.forward()、History.go()</p>
+<h3 id="window-location"><a href="#window-location" class="headerlink" title="window.location"></a>window.location</h3><p>window.location 对象所包含的属性</p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">hash</td>
+<td align="left">从井号 (#) 开始的 URL（锚）</td>
+</tr>
+<tr>
+<td align="left">host</td>
+<td align="left">主机名和当前 URL 的端口号</td>
+</tr>
+<tr>
+<td align="left">hostname</td>
+<td align="left">当前 URL 的主机名</td>
+</tr>
+<tr>
+<td align="left">href</td>
+<td align="left">完整的 URL</td>
+</tr>
+<tr>
+<td align="left">pathname</td>
+<td align="left">当前 URL 的路径部分</td>
+</tr>
+<tr>
+<td align="left">port</td>
+<td align="left">当前 URL 的端口号</td>
+</tr>
+<tr>
+<td align="left">protocol</td>
+<td align="left">当前 URL 的协议</td>
+</tr>
+<tr>
+<td align="left">search</td>
+<td align="left">从问号 (?) 开始的 URL（查询部分）</td>
+</tr>
+</tbody></table>
+<h4 id="hash属性"><a href="#hash属性" class="headerlink" title="hash属性"></a>hash属性</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Location"><code>Location</code></a> 接口的 <strong><code>hash</code></strong> 属性返回一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String"><code>USVString</code></a>，其中会包含 URL 标识中的 <code>&#39;#&#39;</code> 和 后面 URL 片段标识符。这里 fragment 不会经过<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding">百分比编码</a>（URL 编码）。如果 URL 中没有 fragment，该属性会包含一个空字符串，<code>&quot;&quot;</code></p>
 <p>通过监听 window 对象的 hashChange 事件实现简单的路由</p>
 <pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function-variable function">onhashchange</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">var</span> hash <span class="token operator">=</span> window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>hash
@@ -746,4 +926,36 @@ function renderDom(el, target) &#123;
   <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre>
 
+
+
+<h3 id="window-onload"><a href="#window-onload" class="headerlink" title="window.onload"></a>window.onload</h3><h4 id="什么是-window-onload"><a href="#什么是-window-onload" class="headerlink" title="什么是 window.onload"></a>什么是 window.onload</h4><p>window.onload()方法用于在页面加载完毕后立刻执行的操作，即当HTML文档加载完毕后，立刻执行的某个方法。</p>
+<p><strong>window.onload()</strong> 通常用于 元素，在页面完全载入后(包括图片、css文件等等)执行window.onload()里面的函数。</p>
+<ol>
+<li><p>只有一个要执行的函数：</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span>onload <span class="token operator">=</span> funcRef<span class="token punctuation">;</span></code></pre>
+
+<ul>
+<li>funcRef：函数类型的对象引用或者匿名函数</li>
+</ul>
+<p>在页面加载完成后，调用funcRef方法</p>
+</li>
+<li><p>有多个要执行的函数：</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token function">Func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Func3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">...</span><span class="token operator">...</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>在页面加载完成后依次执行 Func1、Func2、Func3</p>
+</li>
+</ol>
+<h4 id="使用window-onload-的好处"><a href="#使用window-onload-的好处" class="headerlink" title="使用window.onload()的好处"></a>使用window.onload()的好处</h4><p>JavaScript 中的函数方法需要在 HTML 文档渲染完成后才可以使用，如果没有渲染完成，此时的 DOM 树是不完整的，这样在调用一些 JavaScript 代码时就可能报出”undefined”错误。</p>
+<h3 id="window-onscroll"><a href="#window-onscroll" class="headerlink" title="window.onscroll"></a>window.onscroll</h3><p>滚动当前页面的时候，添加事件处理函数。</p>
+<p>语法：</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span>onscroll <span class="token operator">=</span> funcRef<span class="token punctuation">;</span></code></pre>
+
+<ul>
+<li>funcRef是个函数类型的对象引用或者匿名函数.</li>
+</ul>
 <div class="post-tags"><a class="post-tag-link" href="/tags/Web/" rel="tag">#Web</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>

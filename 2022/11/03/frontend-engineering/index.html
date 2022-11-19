@@ -7,6 +7,8 @@ npm install vue@next
 
 vue create project-name</code></pre>
 
+
+
 <h3 id="vite"><a href="#vite" class="headerlink" title="vite"></a>vite</h3><pre class="language-none"><code class="language-none">npm create vite@latest
 &#x2F;&#x2F;or
 yarn create vite
@@ -245,7 +247,19 @@ afterEach(()&#x3D;&gt;&#123;
 <li><strong>__dirname</strong>: 返回当前模块文件解析过后所在的文件夹(目录)的绝对路径。</li>
 <li><strong>__filename</strong>: 返回当前模块文件被解析过后的绝对路径。</li>
 </ul>
-<h2 id="设计架构，框架"><a href="#设计架构，框架" class="headerlink" title="设计架构，框架"></a>设计架构，框架</h2><p>设计系统：设计价值观&#x3D;&gt;设计原则&#x3D;&gt;设计风格规范、组件化	Design Token，实现样式代理、资源代理、结构化设计</p>
+<h2 id="设计架构，框架"><a href="#设计架构，框架" class="headerlink" title="设计架构，框架"></a>设计架构，框架</h2><h3 id="前端发展和个人发展"><a href="#前端发展和个人发展" class="headerlink" title="前端发展和个人发展"></a>前端发展和个人发展</h3><p>“全栈开发者”是指“同时掌握前端、后端以及其他网站开发相关技能的开发者”。</p>
+<p>一个“全栈开发者”可能会使用以下技能点：</p>
+<p>前端：JavaScript、H5、CSS3、sass、less、React、Vue、Vite（法语意为”快速的”，发音 &#x2F;vit&#x2F; ，发音同”veet”）、webpack、jest。</p>
+<p>后端：Nodejs&#x2F;Deno、Go、Java、Spring、Gin、Kafka、Hadoop。</p>
+<p>数据库：MySQL、mongoDB、redis、clickhouse。</p>
+<p>运维：网络协议、CDN、Nginx、ZooKeeper、Docker、Kubernetes。</p>
+<p>值得注意的是，一个优秀的工程师并不是以“栈”数取胜，而取决于你解决了什么层次的问题。</p>
+<blockquote>
+<p>“全栈”或者“专家”仅仅是实现目标的过程状态。吴军在《硅谷来信》中，将工程师划分成五个等级：<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5426b5c30f5446ee8f10774f39d05266~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.image" alt="工程师5个等级.png">从工程师能力模型来看，第一级需要集“天时地利人和”大成，是工程师的最高荣誉。普通人或许可以将目标聚焦在第二、三级。优秀的工程师并不是以“栈”数取胜，更重要的是拥有产品观、全局思维、沟通能力、学习能力、解决问题能力等。<a target="_blank" rel="noopener" href="https://juejin.cn/post/7062617190981173278">来源：《来自未来，2022 年的前端人都在做什么?》</a></p>
+</blockquote>
+<p>函数化，专注于前端应该做的事情</p>
+<p>低代码编程，前端是不可或缺的一环</p>
+<h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><p>设计系统：设计价值观&#x3D;&gt;设计原则&#x3D;&gt;设计风格规范、组件化	Design Token，实现样式代理、资源代理、结构化设计</p>
 <p>框架的作用是为前端UI开发提供另外一种方式，提供良好的代码风格，易于添加测试，组件化开发，服务端和客户端路由</p>
 <p>无极设计规范：原子设计方法论，拆解和组合</p>
 <p>组件化中遇到的问题：组件化不彻底，无基础组件，复用程度低，单位不统一，语法版本规范弱</p>
@@ -462,6 +476,34 @@ afterEach(()&#x3D;&gt;&#123;
 <li>全局的loading配置，默认开启，可配置关闭（由于后端的问题，经常会让前端加防抖节流或者loading不让用户在界面上疯狂乱点，行吧行吧，你们的问题前端帮你们解决，你的规矩就是规矩是吧🍜）</li>
 <li>统一文件下载处理 （不要再去各写各的下载了，你写一个，他写一个，一个项目就是这样整的跟屎一样）</li>
 </ol>
+<h2 id="项目开发流程"><a href="#项目开发流程" class="headerlink" title="项目开发流程"></a>项目开发流程</h2><h3 id="一、需求分析"><a href="#一、需求分析" class="headerlink" title="一、需求分析"></a>一、需求分析</h3><p>1、需求评审：</p>
+<pre class="language-none"><code class="language-none">时间：在产品设计完成以后，进入正式的开发流程之前，
+组织者：产品设计（PM）；
+目的：统一大家对产品的认识，及时发现产品设计缺陷，尽可能降低后续修改需求的频率；
+参与者：后端开发、前端开发、交互设计、视觉设计；需求来源方（有可能的话）
+形式：会议</code></pre>
+
+<p>2、需求分析</p>
+<pre class="language-none"><code class="language-none">分析关键功能、应用场景等；基本上在需求评审和分析阶段就对项目的整体实现方案有个基础设计；
+对核心功能的实现难度有个清晰的认识、方案不清楚的时候需要提前做好技术调研；
+一方面可以给出一个比较准确的排期；另一方面避免了自己在真正开发的时候遇到难以解决的方案，推倒重来，非常狼狈</code></pre>
+
+<h3 id="二、等视觉与交互设计"><a href="#二、等视觉与交互设计" class="headerlink" title="二、等视觉与交互设计"></a>二、等视觉与交互设计</h3><p>（很重要，拿不到交互不给排期）</p>
+<p>话是这么说，一般排期都等不到视觉交互的交付（前端😭啊）；</p>
+<p>在这个阶段一般都是要给出项目排期了（多给自己排点填坑的时间）</p>
+<h3 id="三、项目开发"><a href="#三、项目开发" class="headerlink" title="三、项目开发"></a>三、项目开发</h3><p>（项目完成度基本与视觉设计和交互设计保持一致）</p>
+<h3 id="四、预留充分的自测时间"><a href="#四、预留充分的自测时间" class="headerlink" title="四、预留充分的自测时间"></a>四、预留充分的自测时间</h3><p>（测试功能和样式）</p>
+<h3 id="五、前后端联调"><a href="#五、前后端联调" class="headerlink" title="五、前后端联调"></a>五、前后端联调</h3><p>（调接口功能与字段限制）；经常需要改接口逻辑、甚至加接口造成前端需要修改对应的校验或功能；时间必须</p>
+<h3 id="六、视觉与交互验收"><a href="#六、视觉与交互验收" class="headerlink" title="六、视觉与交互验收"></a>六、视觉与交互验收</h3><pre class="language-none"><code class="language-none">做好开发和自测；视觉与交互的验收很容易；预留一到两天就ok了</code></pre>
+
+<h3 id="七：产品验收；"><a href="#七：产品验收；" class="headerlink" title="七：产品验收；"></a>七：产品验收；</h3><pre class="language-none"><code class="language-none">产品验收很重要、往往他们预计的东西跟设计出来的东西效果是不一致的；甚至会因为实际应用情况需要修改产品设计逻辑 ；需要预留一定时间进行修改</code></pre>
+
+<h3 id="八、提交测试：完成上述步骤之后产品才能提交测试；"><a href="#八、提交测试：完成上述步骤之后产品才能提交测试；" class="headerlink" title="八、提交测试：完成上述步骤之后产品才能提交测试；"></a>八、提交测试：完成上述步骤之后产品才能提交测试；</h3><pre class="language-markdown" data-language="markdown"><code class="language-markdown">保证提测质量（测试周期也会比较长、并且在测试过程中需要及时修改bug、甚至影响业务逻辑的bug需要在一到两个小时之内进行修复）</code></pre>
+
+<h3 id="九、线上接口回归"><a href="#九、线上接口回归" class="headerlink" title="九、线上接口回归"></a>九、线上接口回归</h3><p>（后端上线以后需要进行线上接口功能回归之后才能进行上线）</p>
+<h3 id="十、新项目的上线前准备"><a href="#十、新项目的上线前准备" class="headerlink" title="十、新项目的上线前准备"></a>十、新项目的上线前准备</h3><p>1、资源申请；</p>
+<p>2、沙盒环境部署测试（需要进行模拟真实的线上部署测试）</p>
+<p>3、线上部署测试（QA进行交付之后、自己需要进行更新迭代测试、保证项目完整可用）</p>
 <h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><p>动态网页的生成是基于动态web server的。一个动态网络服务器首先是一台计算机，这个计算机上包含了产生这个网页所需的HTML模板，样式表，其它托管文件和负责调动这些文件的静态HTTP服务器软件，应用服务器软件和数据库软件(通常情况)。后两者会对HTTP服务器打算传送的托管文件进行更新。</p>
 <p>Nginx优点：负载均衡、反向代理、处理静态文件优势。nginx处理静态请求的速度高于apache；</p>
 <p>Apache优点：相对于Tomcat服务器来说处理静态文件是它的优势，速度快。Apache是静态解析，适合静态HTML、图片等。</p>
