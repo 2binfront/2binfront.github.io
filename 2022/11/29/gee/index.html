@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>gee │ hh-blog</title><link rel="stylesheet" href="/css/oasis.css"><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="hh-blog" type="application/atom+xml">
+</head><body><div id="content"><h1 id="title">gee</h1><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">Back</a><time datetime="2022-11-29T04:18:58.000Z">2022-11-29</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><blockquote>
+<p>持续更新</p>
+</blockquote>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="初始步骤"><a href="#初始步骤" class="headerlink" title="初始步骤"></a>初始步骤</h3><p>Once Earth Engine is authenticated, you can run the following script to initialize Earth Engine for a new Python session. In general, you will need to initialize Earth Engine for each new Python session, i.e., whenever you open a Jupyter notebook or Python script and want to use Earth Engine. Fortunately, geemap can automatically initialize Earth Engine for you when creating an interactive map, which will be covered in the next chapter. In other words, you rarely need to run ee.Initialize() explicitly.</p>
+<p>开始使用的必须步骤，运行以下代码</p>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> ee
+ee<span class="token punctuation">.</span>Authenticate<span class="token punctuation">(</span><span class="token punctuation">)</span>
+ee<span class="token punctuation">.</span>Initialize<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 当运行以下代码时能正常生成地图则环境配置基本成功</span>
+<span class="token keyword">import</span> geemap
+<span class="token comment"># 本地运行配置代理端口</span>
+<span class="token comment"># geemap.set_proxy(port='7890')</span>
+Map<span class="token operator">=</span>geemap<span class="token punctuation">.</span>Map<span class="token punctuation">(</span><span class="token punctuation">)</span>
+Map</code></pre>
+
+<h3 id="band-math-or-map-algebra"><a href="#band-math-or-map-algebra" class="headerlink" title="band math or map algebra"></a>band math or map algebra</h3><p>convert an aspect image to radians, then call <code>sin()</code> on it.</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Load the SRTM image.</span>
+<span class="token keyword">var</span> srtm <span class="token operator">=</span> ee<span class="token punctuation">.</span><span class="token function">Image</span><span class="token punctuation">(</span><span class="token string">'CGIAR/SRTM90_V4'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Get the aspect (in degrees).</span>
+<span class="token keyword">var</span> aspect <span class="token operator">=</span> ee<span class="token punctuation">.</span>Terrain<span class="token punctuation">.</span><span class="token function">aspect</span><span class="token punctuation">(</span>srtm<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Convert to radians, compute the sin of the aspect.将 aspect 除以 180，乘以 π，最后取 sin</span>
+<span class="token keyword">var</span> sinImage <span class="token operator">=</span> aspect<span class="token punctuation">.</span><span class="token function">divide</span><span class="token punctuation">(</span><span class="token number">180</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">multiply</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token constant">PI</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Display the result.</span>
+Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>sinImage<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token literal-property property">min</span><span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">max</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">'sin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>可以手动画 polygon 作为导入变量参与计算。reduceRegion() 方法</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Compute the mean elevation in the polygon.</span>
+<span class="token keyword">var</span> meanDict <span class="token operator">=</span> srtm<span class="token punctuation">.</span><span class="token function">reduceRegion</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">reducer</span><span class="token operator">:</span> ee<span class="token punctuation">.</span>Reducer<span class="token punctuation">.</span><span class="token function">mean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">geometry</span><span class="token operator">:</span> polygon<span class="token punctuation">,</span>
+  <span class="token literal-property property">scale</span><span class="token operator">:</span> <span class="token number">90</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Get the mean from the dictionary and print it.</span>
+<span class="token keyword">var</span> mean <span class="token operator">=</span> meanDict<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'elevation'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'Mean elevation'</span><span class="token punctuation">,</span> mean<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>参数：reduceRegion() 是一种可用于 Image 对象的方法(<a target="_blank" rel="noopener" href="https://developers.google.com/earth-engine/guides/reducers_reduce_region">learn more about reducing regions here</a>)。其次，方法参数在作为单个参数传递的 JavaScript 对象中提供。 （具体来说，对象的键是方法参数的名称。值是方法的参数）。第三，reducer 参数指定要计算的统计类型，geometry 参数指定计算统计的区域。比例参数是要使用的以米为单位的像素大小。为避免歧义，您在进行缩减时应始终指定比例，因为 Earth Engine 可能无法根据输入自动确定适当的比例（scale）。(<a target="_blank" rel="noopener" href="https://developers.google.com/earth-engine/guides/scale">Learn more about scale in Earth Engine</a>)</p>
+<p>返回值：reduceRegion() 的返回值是一个字典，其中键是波段名称，值是波段的像素统计信息。字典上的 get() 方法返回与作为参数提供的键对应的值。在本例中，srtm 图像有一个波段“海拔（elevation）”，因此示例代码从字典中获取该统计数据并打印出来。</p>
+<p>参与计算的区域像元数量超过 maxPixels 时会报错，可以通过在给定参数对象中添加 bestEffort: true 字段或者把 maxPixels 字段值设定为更大的值。</p>
+<h3 id="mosaic"><a href="#mosaic" class="headerlink" title="mosaic"></a>mosaic</h3><p>遥感影像镶嵌，当将一个 image collection 添加到 Map 时会隐式调用 mosaic。</p>
+<p>when you add a collection to the map, Earth Engine implicitly calls <a target="_blank" rel="noopener" href="https://developers.google.com/earth-engine/apidocs/ee-imagecollection-mosaic"><code>mosaic()</code></a> on it</p>
+<h3 id="分辨率（scale）"><a href="#分辨率（scale）" class="headerlink" title="分辨率（scale）"></a>分辨率（scale）</h3><p>未主动设置分辨率时，自动为图像原始分辨率，可通过以下查看</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> scale <span class="token operator">=</span> srtm<span class="token punctuation">.</span><span class="token function">projection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">nominalScale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'SRTM scale in meters'</span><span class="token punctuation">,</span> scale<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>取比原图像分辨率更小的值会自动重采样（happily），更大则尝试从聚合源中获取数据（从图像金字塔数据的更高级别）。Learn more about how Earth Engine handles scale in <a target="_blank" rel="noopener" href="https://developers.google.com/earth-engine/guides/scale">this doc</a>.</p>
+<h3 id="reducer"><a href="#reducer" class="headerlink" title="reducer"></a>reducer</h3><p>将 collection 添加到地图时，会默认采用最近的值（selecting the most recent pixel - the one from the latest image in the stack）。使用中值reducer时，可以去除云（具有高值）和阴影（具有低值）</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Get the median over time, in each band, in each pixel.</span>
+<span class="token keyword">var</span> median <span class="token operator">=</span> l8<span class="token punctuation">.</span><span class="token function">filterDate</span><span class="token punctuation">(</span><span class="token string">'2016-01-01'</span><span class="token punctuation">,</span> <span class="token string">'2016-12-31'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">median</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Make a handy variable of visualization parameters.</span>
+<span class="token keyword">var</span> visParams <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token literal-property property">bands</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'B4'</span><span class="token punctuation">,</span> <span class="token string">'B3'</span><span class="token punctuation">,</span> <span class="token string">'B2'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token literal-property property">max</span><span class="token operator">:</span> <span class="token number">0.3</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Display the median composite.</span>
+Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>median<span class="token punctuation">,</span> visParams<span class="token punctuation">,</span> <span class="token string">'median'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>masking</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Load or import the Hansen et al. forest change dataset.</span>
+<span class="token keyword">var</span> hansenImage <span class="token operator">=</span> ee<span class="token punctuation">.</span><span class="token function">Image</span><span class="token punctuation">(</span><span class="token string">'UMD/hansen/global_forest_change_2015'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Select the land/water mask.</span>
+<span class="token keyword">var</span> datamask <span class="token operator">=</span> hansenImage<span class="token punctuation">.</span><span class="token function">select</span><span class="token punctuation">(</span><span class="token string">'datamask'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Create a binary mask.</span>
+<span class="token keyword">var</span> mask <span class="token operator">=</span> datamask<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Update the composite mask with the water mask.</span>
+<span class="token keyword">var</span> maskedComposite <span class="token operator">=</span> median<span class="token punctuation">.</span><span class="token function">updateMask</span><span class="token punctuation">(</span>mask<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>maskedComposite<span class="token punctuation">,</span> visParams<span class="token punctuation">,</span> <span class="token string">'masked'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>global_forest_change_2015数据中，水体数据值为2，土地为1，no data为0，</p>
+<p>select()选择指定 band</p>
+<p>eq(1)</p>
+<table>
+<thead>
+<tr>
+<th align="left">Usage</th>
+<th align="left">Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>Image.eq(image2)</code></td>
+<td align="left">Image</td>
+</tr>
+</tbody></table>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>print函数不能一次打印超过 5000 件东西</p>
+<h3 id="JavaScript-API-vs-Python-API"><a href="#JavaScript-API-vs-Python-API" class="headerlink" title="JavaScript API vs. Python API"></a>JavaScript API vs. Python API</h3><p>Earth Engine JavaScript Code Editor<br>● Rich documentation and tutorials<br>● Easy to get started<br>● Built-in interactive mapping functionality<br>● Built-in authentication<br>● Earth Engine Apps<br>● Can’t install additional package</p>
+<p>Earth Engine Python API<br>● Limited documentation and tutorials<br>● Easier language syntax<br>● Easy to share code between scripts<br>● Batch processing (e.g., exporting images)<br>● More IDEs with debugging capability<br>● Numerous Python packages<br>● Many plotting and visualization options<br>● Integration with open-source GIS<br>● Accessing data stored locally<br>● Deep learning</p>
+<h2 id="js-API"><a href="#js-API" class="headerlink" title="js API"></a><code>js API</code></h2><p>好像并不支持es6，那么也没有块作用域，只有函数作用域</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Instantiate an image with the Image constructor.</span>
+<span class="token comment">// 实例化一个Image对象</span>
+<span class="token keyword">var</span> image <span class="token operator">=</span> ee<span class="token punctuation">.</span><span class="token function">Image</span><span class="token punctuation">(</span><span class="token string">'CGIAR/SRTM90_V4'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Zoom to a location.</span>
+<span class="token comment">// longitude经度 latitude纬度 放大级别</span>
+Map<span class="token punctuation">.</span><span class="token function">setCenter</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">112.8598</span><span class="token punctuation">,</span> <span class="token number">36.2841</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Center on the Grand Canyon.</span>
+
+<span class="token comment">// Display the image on the map.</span>
+Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h3 id="内置对象"><a href="#内置对象" class="headerlink" title="内置对象"></a>内置对象</h3><h4 id="Feature"><a href="#Feature" class="headerlink" title="Feature"></a>Feature</h4><p>A <code>Feature</code> in Earth Engine is defined as a GeoJSON Feature. Specifically, a <code>Feature</code> is an object with a <code>geometry</code> property storing a <code>Geometry</code> object (or null) and a <code>properties</code> property storing a dictionary of other properties.</p>
+<p>两个属性：<code>geometry</code> 储存一个<code>Geometry</code> 对象，<code>properties</code> 储存一个字典-对应其它属性</p>
+<h4 id="Geometry"><a href="#Geometry" class="headerlink" title="Geometry"></a>Geometry</h4><p>&amp; GeometryCollection对象</p>
+<p>没看到对GeometryCollection对象的操作，只有单个Geometry</p>
+<h4 id="Image对象"><a href="#Image对象" class="headerlink" title="Image对象"></a>Image对象</h4><p>Image对象一般含有多个波段（band），每个波段都有其名称、像素值、空间分辨率和投影信息。例如：SRTM 图像有一个波段“海拔（elevation）”。</p>
+<h4 id="Image-Collections"><a href="#Image-Collections" class="headerlink" title="Image Collections"></a>Image Collections</h4><p>一系列image的集合。An image collection refers to a set of Earth Engine images</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> l8 <span class="token operator">=</span> ee<span class="token punctuation">.</span><span class="token function">ImageCollection</span><span class="token punctuation">(</span><span class="token string">'LANDSAT/LC08/C01/T1_TOA'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h5 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h5><pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 过滤得到与point相交（intersect）的图像</span>
+<span class="token keyword">var</span> spatialFiltered <span class="token operator">=</span> l8<span class="token punctuation">.</span><span class="token function">filterBounds</span><span class="token punctuation">(</span>point<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'spatialFiltered'</span><span class="token punctuation">,</span> spatialFiltered<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 添加第二个过滤器以将集合限制为仅包含（acquired） 2015 年获取的图像</span>
+<span class="token keyword">var</span> temporalFiltered <span class="token operator">=</span> spatialFiltered<span class="token punctuation">.</span><span class="token function">filterDate</span><span class="token punctuation">(</span><span class="token string">'2015-01-01'</span><span class="token punctuation">,</span> <span class="token string">'2015-12-31'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'temporalFiltered'</span><span class="token punctuation">,</span> temporalFiltered<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p> filterBounds() 的参数是数字化的点，filterDate() 的参数是两个日期，表示为字符串。均为 filter() 方法的快捷方法</p>
+<p>获取单个图像进行分析的另一种更具编程性的方法是对集合进行排序，以获得与某些元数据属性相关的最新、最旧或最佳图像。例如，通过检查打印图像集合中的图像对象，您可能已经观察到一个名为 CLOUD_COVER 的元数据属性。您可以使用该属性在您感兴趣的区域获得 2015 年最少云的图像：</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// This will sort from least to most cloudy.</span>
+<span class="token keyword">var</span> sorted <span class="token operator">=</span> temporalFiltered<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token string">'CLOUD_COVER'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Get the first (least cloudy) image.</span>
+<span class="token keyword">var</span> scene <span class="token operator">=</span> sorted<span class="token punctuation">.</span><span class="token function">first</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>通过 band 字段指定rgb对应波段</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> visParams <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token literal-property property">bands</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'B4'</span><span class="token punctuation">,</span> <span class="token string">'B3'</span><span class="token punctuation">,</span> <span class="token string">'B2'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token literal-property property">max</span><span class="token operator">:</span> <span class="token number">0.3</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>scene<span class="token punctuation">,</span> visParams<span class="token punctuation">,</span> <span class="token string">'true-color composite'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>Displaying image collections，和display image对象类似，每一块显示与当前时间最近的 image</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> l8 <span class="token operator">=</span> ee<span class="token punctuation">.</span><span class="token function">ImageCollection</span><span class="token punctuation">(</span><span class="token string">'LANDSAT/LC08/C01/T1_TOA'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> landsat2016 <span class="token operator">=</span> l8<span class="token punctuation">.</span><span class="token function">filterDate</span><span class="token punctuation">(</span><span class="token string">'2016-01-01'</span><span class="token punctuation">,</span> <span class="token string">'2016-12-31'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>landsat2016<span class="token punctuation">,</span> visParams<span class="token punctuation">,</span> <span class="token string">'l8 collection'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h4 id="Map-addLayer"><a href="#Map-addLayer" class="headerlink" title="Map.addLayer()"></a>Map.addLayer()</h4><p>当您使用 Map.addLayer() 将图像添加到地图时，Earth Engine 需要确定如何将图像波段中的值映射到显示器上的颜色。</p>
+<p>如果将单波段图像添加到地图，默认情况下 Earth Engine 会以灰度显示波段，其中最小值分配给黑色，最大值分配给白色。如果您不指定最小值和最大值，Earth Engine 将使用默认值。例如，您刚刚添加到地图的图像显示为拉伸到数据全范围的灰度图像，或者说带符号的 16 位整数 [-32768, 32767]。 （默认情况下，浮点值波段被拉伸到 [0, 1]，8bit值波段被拉伸到 [0, 255]）。</p>
+<p>第二个参数 visParams 允许指定要显示的最小值和最大值，是一个对象。第三个参数： the name of the layer that is displayed in the <a target="_blank" rel="noopener" href="https://developers.google.com/earth-engine/guides/playground#layer-manager">Layer manager</a>，在图层中显示的名称</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript">Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>image<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token literal-property property">min</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token literal-property property">max</span><span class="token operator">:</span> <span class="token number">3000</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">'custom visualization'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>还可以在对象参数中增加调色板参数</p>
+<p>调色板是一个逗号分隔的颜色字符串列表，这些颜色字符串在可视化参数的最大值和最小值之间线性插值（或根据波段类型的默认值，如前所述）。例如，小于或等于最小值的像素将以列表中的第一种颜色显示；大于或等于最大值的像素将以列表中的最后一种颜色显示。中间颜色被线性拉伸到中间像素值。</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript">Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>image<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token literal-property property">min</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token literal-property property">max</span><span class="token operator">:</span> <span class="token number">3000</span><span class="token punctuation">,</span> <span class="token literal-property property">palette</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'blue'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">,</span> <span class="token string">'red'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">'custom palette'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h4 id="ee-Image-reduceRegion"><a href="#ee-Image-reduceRegion" class="headerlink" title="ee.Image.reduceRegion"></a>ee.Image.reduceRegion</h4><table>
+<thead>
+<tr>
+<th align="left">Usage</th>
+<th align="left">Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>Image.reduceRegion(reducer, geometry, scale,crs, crsTransform, bestEffort, maxPixels, tileScale)</code></td>
+<td align="left">Dictionary</td>
+</tr>
+</tbody></table>
+<h4 id="ee-Terrain-aspect"><a href="#ee-Terrain-aspect" class="headerlink" title="ee.Terrain.aspect"></a>ee.Terrain.aspect</h4><p>从地形 DEM 计算坡向（以度为单位）</p>
+<table>
+<thead>
+<tr>
+<th align="left">Usage</th>
+<th align="left">Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>ee.Terrain.aspect(input)</code></td>
+<td align="left">Image</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">Argument</th>
+<th align="left">Type</th>
+<th align="left">Details</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>input</code></td>
+<td align="left">Image</td>
+<td align="left">An elevation image, in meters.</td>
+</tr>
+</tbody></table>
+<h4 id="ee-Terrain-slope"><a href="#ee-Terrain-slope" class="headerlink" title="ee.Terrain.slope"></a>ee.Terrain.slope</h4><p>从地形 DEM 计算坡度（以度为单位）</p>
+<p>计算坡度ee.Terrain.slope(input)</p>
+<table>
+<thead>
+<tr>
+<th align="left">Usage</th>
+<th align="left">Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>ee.Terrain.slope(input)</code></td>
+<td align="left">Image</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">Argument</th>
+<th align="left">Type</th>
+<th align="left">Details</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>input</code></td>
+<td align="left">Image</td>
+<td align="left">An elevation image, in meters.</td>
+</tr>
+</tbody></table>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Load the SRTM image.</span>
+<span class="token keyword">var</span> srtm <span class="token operator">=</span> ee<span class="token punctuation">.</span><span class="token function">Image</span><span class="token punctuation">(</span><span class="token string">'CGIAR/SRTM90_V4'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Apply an algorithm to an image.</span>
+<span class="token keyword">var</span> slope <span class="token operator">=</span> ee<span class="token punctuation">.</span>Terrain<span class="token punctuation">.</span><span class="token function">slope</span><span class="token punctuation">(</span>srtm<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Display the result.</span>
+Map<span class="token punctuation">.</span><span class="token function">setCenter</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">112.8598</span><span class="token punctuation">,</span> <span class="token number">36.2841</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Center on the Grand Canyon.</span>
+Map<span class="token punctuation">.</span><span class="token function">addLayer</span><span class="token punctuation">(</span>slope<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token literal-property property">min</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token literal-property property">max</span> <span class="token operator">:</span><span class="token number">60</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">'slope'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+
+
+<h4 id="print"><a href="#print" class="headerlink" title="print"></a>print</h4><p>在 <strong>Console</strong> tab 打印 image 的元数据信息</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'SRTM image'</span><span class="token punctuation">,</span> image<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h2 id="python-API"><a href="#python-API" class="headerlink" title="python API"></a><code>python API</code></h2><h3 id="colab"><a href="#colab" class="headerlink" title="colab"></a>colab</h3><p>初始操作</p>
+<pre class="language-none"><code class="language-none">pip install geemap</code></pre>
+
+<p>After geemap has been installed successfully, click the <strong>RESTART RUNTIME</strong> button appearing at the end of the installation log or click on the menu <strong>Runtime &gt; Restart runtime</strong>. Then type the following code in a new cell:</p>
+<pre class="language-none"><code class="language-none">import geemap
+
+Map &#x3D; geemap.Map()
+Map</code></pre>
+
+
+
+
+
+<h3 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h3><p>geojson转入gee中，转换为FeatureCollection </p>
+<pre class="language-python" data-language="python"><code class="language-python">in_geojson <span class="token operator">=</span> <span class="token punctuation">(</span>
+    <span class="token string">'https://github.com/giswqs/geemap/blob/master/examples/data/countries.geojson'</span>
+<span class="token punctuation">)</span>
+Map <span class="token operator">=</span> geemap<span class="token punctuation">.</span>Map<span class="token punctuation">(</span><span class="token punctuation">)</span>
+fc <span class="token operator">=</span> geemap<span class="token punctuation">.</span>geojson_to_ee<span class="token punctuation">(</span>in_geojson<span class="token punctuation">)</span>
+Map<span class="token punctuation">.</span>addLayer<span class="token punctuation">(</span>fc<span class="token punctuation">.</span>style<span class="token punctuation">(</span><span class="token operator">**</span><span class="token punctuation">&#123;</span><span class="token string">'color'</span><span class="token punctuation">:</span> <span class="token string">'ff0000'</span><span class="token punctuation">,</span> <span class="token string">'fillColor'</span><span class="token punctuation">:</span> <span class="token string">'00000000'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">'Countries'</span><span class="token punctuation">)</span>
+Map</code></pre>
+
+<p>url</p>
+<pre class="language-python" data-language="python"><code class="language-python">url <span class="token operator">=</span> <span class="token string">"https://github.com/giswqs/geemap/blob/master/examples/data/countries.zip"</span>
+geemap<span class="token punctuation">.</span>download_file<span class="token punctuation">(</span>url<span class="token punctuation">)</span></code></pre>
+
+<p>shp</p>
+<pre class="language-python" data-language="python"><code class="language-python">in_shp <span class="token operator">=</span> <span class="token string">"countries.shp"</span>
+fc <span class="token operator">=</span> geemap<span class="token punctuation">.</span>shp_to_ee<span class="token punctuation">(</span>in_shp<span class="token punctuation">)</span></code></pre>
+
+<p>csv</p>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> geopandas <span class="token keyword">as</span> gpd
+
+gdf <span class="token operator">=</span> gpd<span class="token punctuation">.</span>read_file<span class="token punctuation">(</span>in_shp<span class="token punctuation">)</span>
+fc <span class="token operator">=</span> geemap<span class="token punctuation">.</span>gdf_to_ee<span class="token punctuation">(</span>gdf<span class="token punctuation">)</span></code></pre>
+
+<p>vector</p>
+<pre class="language-python" data-language="python"><code class="language-python">fc <span class="token operator">=</span> geemap<span class="token punctuation">.</span>vector_to_ee<span class="token punctuation">(</span>url<span class="token punctuation">)</span></code></pre><div class="post-tags"><a class="post-tag-link" href="/tags/Engineering/" rel="tag">#Engineering</a>, <a class="post-tag-link" href="/tags/Web/" rel="tag">#Web</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
