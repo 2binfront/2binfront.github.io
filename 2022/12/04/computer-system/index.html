@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>计算机系统基础 │ hh-blog</title><link rel="stylesheet" href="/css/oasis.css"><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="hh-blog" type="application/atom+xml">
+</head><body><div id="content"><h1 id="title">计算机系统基础</h1><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">Back</a><time datetime="2022-12-04T15:43:42.000Z">2022-12-04</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><blockquote>
+<p>持续更新</p>
+</blockquote>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="计算机系统漫游"><a href="#计算机系统漫游" class="headerlink" title="计算机系统漫游"></a>计算机系统漫游</h2><p>信息就是位+上下文，编译系统如何工作：编译系统包括预处理器(<code>cpp</code>，根据库文件修改源代码，文件后缀为.i)、编译器(ccl，翻译为汇编语言文件.s)、汇编器(as将汇编语言翻译成机器语言指令，打包为可重定位目标程序并保存在.o文件中，是二进制文件)和链接器(<code>ld</code>负责处理函数<code>.o</code>文件的合并，得到可执行文件) </p>
+<p>处理器读并解释储存在内存中的指令：总线(传送定长字节块，也叫字&#x2F;word，字长为4字节即为32位，8字节即为64位)，I&#x2F;O设备(通过控制器或适配器与I&#x2F;O总线相连)，主存(一组动态随机存储器DRAM芯片组成)，中央处理单元(处理器-是解释或执行存储在主存中指令的引擎，CPU，核心为一个字大小的寄存器，称为程序计数器PC，PC始终指向主存中的某条机器语言指令，处理器按照指令执行模型执行PC指向的指令，模型由<strong>指令集架</strong>构决定)；直接存储技术(DMA)可以使数据不通过存储器直接从磁盘到主存</p>
+<p>高速缓存至关重要：主存空间大速度慢，处理器空间小速度快，高速缓存存储器(cache memory)；L1高速缓存和寄存器差不多一样快，L2通过特殊总线连接到处理器，慢5倍，甚至还有L3，它们是通过静态随机访问存储器&#x2F;SRAM的硬件技术实现的。系统可以获得很大存储器的同时获得很快的访问速度，利用高速缓存的<u>局部性原理</u>(程序具有访问局部区域里的数据和代码的趋势)</p>
+<p>存储设备形成层次结构：从上至下速度越慢，每字节造价越低，容量越大——寄存器，L1L2L3，主存，本地二级存储，远程二级存储。基本思想是上一层作为下一层的高速缓存</p>
+<p>操作系统管理硬件：操作系统有两个基本功能-防止硬件被失控的应用程序滥用，想应用程序提供简单一致的机制来控制复杂而又通常大不相同的低级硬件设备。通过一些抽象概念来实现这些功能-<em>进程、虚拟内存和文件</em>，文件是对I&#x2F;O设备抽象，虚拟内存是对主存和磁盘I&#x2F;O设备的抽象，进程是对处理器、主存和I&#x2F;O设备的抽象	进程是操作系统对正在运行的程序的抽象，并发运行是指一个进程的指令和另一个进程的指令是交错执行的-上下文切换	可以认为进程是由执行单元-线程组成的	虚拟内存，虚拟地址空间由准确定义的区构成，每个区有专门的功能(程序代码和数据，堆，共享库，栈，内核虚拟内存)	文件</p>
+<p>系统之间利用网络通信</p>
+<p>重要主题：Amdahl定律-想要显著加速整个系统需要加速整个系统中占比大的部分的速度		并发&#x2F;concurrency和并行&#x2F;parallelism：并发指一个同时具有多个活动的系统。并行指用并发让系统运行得更快(线程级并发，超线程&#x2F;同时多线程允许一个CPU执行多个控制流    指令级并行，流水线&#x2F;pipelining，超标量处理器每时钟周期处理命令数大于1	单指令、多数据并行&#x2F;SIMD并行)	抽象</p>
+<h2 id="数据的机器级表示和处理"><a href="#数据的机器级表示和处理" class="headerlink" title="数据的机器级表示和处理"></a>数据的机器级表示和处理</h2><p>信息存储(十六进制表示、字数据大小、寻址和字节顺序)：0x开始表示十六进制；小端法(little endian)和大端法(big endian)指存储数据时将数据从高位到低位指为最高有效位到最低有效位，若位数为8倍数时可以分组为字节存储，于是变成最高有效位字节和最低有效位字节，存储时从最低往最高存储则为小端法，从高往低则为大端法。Android和IOS以及大多数Intel兼容机是小端</p>
+<pre class="language-c" data-language="c"><code class="language-c">cpu<span class="token punctuation">.</span>eflags<span class="token punctuation">.</span>CF<span class="token operator">=</span><span class="token function">sign</span><span class="token punctuation">(</span>dest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+res <span class="token operator">=</span> dest<span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>src<span class="token operator">></span><span class="token number">31</span><span class="token punctuation">)</span> src<span class="token operator">=</span>src<span class="token operator">%</span><span class="token number">32</span><span class="token punctuation">;</span>
+<span class="token keyword">while</span><span class="token punctuation">(</span>src<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    cpu<span class="token punctuation">.</span>eflags<span class="token punctuation">.</span>CF<span class="token operator">=</span><span class="token function">sign</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    res <span class="token operator">=</span> dest <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    src<span class="token operator">--</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+
+
+cpu<span class="token punctuation">.</span>eflags<span class="token punctuation">.</span>CF<span class="token operator">=</span><span class="token function">sign</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span><span class="token punctuation">;</span>
+res <span class="token operator">=</span> src <span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>dest<span class="token operator">></span><span class="token number">31</span><span class="token punctuation">)</span> dest<span class="token operator">=</span>dest<span class="token operator">%</span><span class="token number">32</span><span class="token punctuation">;</span>
+<span class="token keyword">while</span><span class="token punctuation">(</span>dest<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    cpu<span class="token punctuation">.</span>eflags<span class="token punctuation">.</span>CF<span class="token operator">=</span><span class="token function">sign</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    res <span class="token operator">=</span> src <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    dest<span class="token operator">--</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<h2 id="程序的转换和机器级表示…"><a href="#程序的转换和机器级表示…" class="headerlink" title="程序的转换和机器级表示…"></a>程序的转换和机器级表示…</h2><p>pa2		数据对齐方式，不同数据类型存储位置必须是其长度的倍数，Windows中严格按照次标准，Linux中宽松一些，double和指针等都是4的倍数</p>
+<pre class="language-none"><code class="language-none">long&gt;&#x3D;int	16位机long为4字节，int为2字节，32位机long仍为4字节，int也为4字节，64位机int为4字节，long为8字节，而除指针类型外其它类型数据长度不因环境而改变长度</code></pre>
+
+
+
+<h2 id="程序的链接…"><a href="#程序的链接…" class="headerlink" title="程序的链接…"></a>程序的链接…</h2><p>ld</p>
+<h2 id="程序的执行…"><a href="#程序的执行…" class="headerlink" title="程序的执行…"></a>程序的执行…</h2><h2 id="层次结构存储系统"><a href="#层次结构存储系统" class="headerlink" title="层次结构存储系统"></a>层次结构存储系统</h2><ul>
+<li><p>cache</p>
+<p>SRAM静态随机存取存储器(无需刷新)，造价比DRAM高千倍</p>
+</li>
+</ul>
+<h3 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a>RAM</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>RAM，即随机存储器或者易失性存储器，因为断电后就失去保存的数据。</p>
+<p>分为SRAM和DRAM：</p>
+<ul>
+<li>DRAM，即动态随机存储器，一般用于<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&spm=1001.2101.3001.7020">内存</a>，需要不断地刷新电路，否则数据就消失了。</li>
+<li>SRAM，即静态随机存储器，一般用于CPU中的cache（高速缓冲存储器），不需要不停地刷新电路来保存数据。</li>
+</ul>
+<p>特点如下：<br><img src="/computer-system/ba23c5ed2cd645909f4973aea1261c93.png" alt="在这里插入图片描述"></p>
+<p>下面详细阐述一下区别：</p>
+<h4 id="DRAM和SRAM区别"><a href="#DRAM和SRAM区别" class="headerlink" title="DRAM和SRAM区别"></a>DRAM和SRAM区别</h4><h5 id="1-内部结构不同"><a href="#1-内部结构不同" class="headerlink" title="1. 内部结构不同"></a>1. 内部结构不同</h5><ul>
+<li>SRAM是依靠<strong>触发器存储数据</strong>，每个存储元（存储1bit数据）需要花费<strong>6个晶体管才能存储1 bit</strong> 。所以SRAM的集成度低、占用面积大。</li>
+<li>SRAM在读数据时，就是相当于“查看”寄存器的状态，写数据就是改变寄存器的状态。</li>
+</ul>
+<p>SRAM存储元结构，如下图：<br><img src="/computer-system/a9136d0957f94b6f93ad90607be111b1.png" alt="在这里插入图片描述"></p>
+<hr>
+<ul>
+<li>DRAM依靠<strong>电容存储</strong>，每个存储元只需要花<strong>1个电容和1个晶体管</strong>。DRAM的数据实际上是存在电容里。但是电容放久了，内部的电容就会越来越少，对外不能形成电位的变化。</li>
+<li>DRAM是通过检测是否有电流来确定存储的数据是1或0，有电流（有电荷存储）时为1，无电流为0。</li>
+</ul>
+<p>DRAM存储元结构，如下图：<br><img src="/computer-system/dc5753f9362141ecad9b81fea817847a.png" alt="在这里插入图片描述"></p>
+<p>注意：</p>
+<p>1.DRAM为什么要不断刷新电路？</p>
+<p>当对DRAM进行读操作的时候需要将电容与外界形成回路，通过检测电流变化判断存储元存储的是1还是0（是1就有电荷流出产生电流，是0则没有）。在进行读操作时，如果原来的数据是1，读完之后电荷顺着电流探测电路流走了，就变成0 了，下次再读的时候就不是原来的数据了。所以在读操作结束后需要刷新电路，重新将数据写回DRAM中。</p>
+<p>此外，电容上的电荷也只能保存2ms左右，所以即便没有发生读写读写操作，也会对DRAM刷新。</p>
+<p>2.多久刷新一次？</p>
+<p>因为，电容上的电荷也只能保存2ms左右，计算机一般每隔2ms也都会进行DRAM刷新。</p>
+<p>3.每次刷新多少存储单元？</p>
+<p>以行为单位，每次刷新一行存储单元。</p>
+<p>4.如何刷新？</p>
+<p>不需要CPU控制，有硬件支持，读出一行的信息后重新写入，占用1个读&#x2F;写周期。</p>
+<p>5.什么时候刷新？<br><img src="/computer-system/a151d9cd99084111bb038da3334115dd.png" alt="在这里插入图片描述"></p>
+<h5 id="2-寻址方式不同"><a href="#2-寻址方式不同" class="headerlink" title="2. 寻址方式不同"></a>2. 寻址方式不同</h5><p>SRAM的存取速度很快，但是地址线需要更多，这是因为SRAM和DRAM的寻址方式不同：</p>
+<ul>
+<li>SRAM<strong>同时发送行地址和列地址</strong>，把行地址和列地址拼接起来作为一次读写访问的地址，然后放到地址线上；</li>
+<li>SRAM有可能并没有把行地址和列地址拆分成长度相等的两段，并且行地址线和列地址线都是单独存在；</li>
+<li>DRAM是把行地址和列地址分为长度相等的两段，然后<strong>分两次发送</strong>；</li>
+<li>DRAM可以地址线复用，也就使用同一跟地址线分别发送行地址和列地址，减少了地址线的使用</li>
+</ul>
+<h3 id="ROM"><a href="#ROM" class="headerlink" title="ROM"></a>ROM</h3><p>ROM，即只读存储器或者叫非易失性存储器，因为断电后数据依然能够保存。</p>
+<p>分类如下：<br><img src="/computer-system/2a1d80c4a7f84c889b33ecdcbb6170bb.png" alt="在这里插入图片描述"></p>
+<h3 id="电可擦除式可编程只读存储器"><a href="#电可擦除式可编程只读存储器" class="headerlink" title="电可擦除式可编程只读存储器"></a>电可擦除式可编程只读存储器</h3><p>EEPROM 是 Electrically Erasable Programmable Read-Only Memory（电可擦除可编程只读存储器）的缩写。您可能想知道，EEPROM 是如何工作的？</p>
+<p>- EEPROM 使用半导体技术存储位，而不是以磁性方式读取和写入信息。</p>
+<p>- EEPROM 不需要任何移动部件，并且像 HDD 存储一样，可以在电源周期中保持其状态。</p>
+<p>- EEPROM 在出现故障前可承受很多次写入周期 — 有些在 10,000 次范围内，有些则高达 1,000,000 次或以上。</p>
+<p>- EEPROM 甚至可以作为现在数据容量为 TB 或以上的 SSD 驱动器中使用的闪存的基础。</p>
+<h4 id="EPROM-vs-EEPROM"><a href="#EPROM-vs-EEPROM" class="headerlink" title="EPROM vs EEPROM"></a>EPROM vs EEPROM</h4><p>从远程无钥匙门禁系统到微控制器板等设备，您都可以找到 EEPROM。虽然 EEPROM 名称中的“电可擦除”部分看起来像是一个空洞的短语，但不要将这种类型的存储器与 “EPROM”混淆，EPROM 是 Erasable Programmable Read-Only Memory（可擦除可编程只读存储器）的缩写。<a target="_blank" rel="noopener" href="http://https//www.arrow.com/en/categories/memory/memory-chips/eeprom">EPROM 芯片</a>虽然是非易失性和可重编程的，但需要紫外光来擦除芯片的位。它们还需要电压，而且比我们在对数字电路进行编程时通常看到的电压更高。因此，EPROM 不适合存储会经常更改的信息。</p>
+<h4 id="闪存-vs-SSD"><a href="#闪存-vs-SSD" class="headerlink" title="闪存 vs SSD"></a>闪存 vs SSD</h4><p>闪存是一种专为高速和高存储密度而设计的 EEPROM。因此，<a target="_blank" rel="noopener" href="https://www.arrow.com/zh-cn/categories/memory/memory-cards-and-modules/flash-cards">闪存驱动器</a>采用这种技术，就可以在比拇指还小的 U 盘上存储很多千兆字节 (GB) 的数据，这也是它们荣获“拇指驱动器”名称的原因。微型 SD 卡在这种紧凑型设计的基础上更进一步，大概只有缩略图大小，通常可以存储数十甚至数百千兆字节 (GB) 的信息。您可以将更多数据大规模地塞进这种类型的存储器中，也许足以作为计算机的主要存储方式。微型 SD 卡的大小大致相当于一个缩略图，通常可以存储数十甚至数百千兆字节 (GB) 的信息。您可以将更多数据大规模地塞进这种类型的存储器中，也许足以作为计算机的主要存储方式。</p>
+<p>SSD 的使用量已经慢慢赶上了 HDD，尤其是在便携式计算应用中，原因如下：</p>
+<p>1.SSD 驱动器不必旋转到位，这意味着它们可以在几分之一毫秒内随机访问数据。</p>
+<p>2.它们的输入&#x2F;输出性能水平比 HDD 同类产品高几倍。</p>
+<p>3.由于没有移动部件，能耗更低，可靠性更高，这也是这些驱动器的显著优势。</p>
+<h4 id="EEPROM-和闪存"><a href="#EEPROM-和闪存" class="headerlink" title="EEPROM 和闪存"></a>EEPROM 和闪存</h4><p>flash是用来存储代码的，在运行过程中不能改；EEPROM是用来保存用户数据，运行过程中可以改变，比如一个时钟的闹铃时间初始化设定为12：00，后来在运行中改为6：00，这是保存在EEPROM里，不怕掉电，就算重新上电也不需要重新调整到6：00</p>
+<p>两者都是非易失性存储器<br><strong>FLASH的全称是FLASH EEPROM，但跟常规EEPROM的操作方法不同</strong><br><strong>FLASH和EEPROM的最大区别是FLASH按扇区操作，EEPROM则按字节操作，二者寻址方法不同，存储单元的结构也不同，FLASH的电路结构较简单，同样容量占芯片面积较小，成本自然比EEPROM低，因而适合用作程序存储器，EEPROM则更多的用作非易失的数据存储器。</strong>当然用FLASH做数据存储器也行，但操作比EEPROM麻烦的多，所以更“人性化”的MCU设计会集成FLASH和EEPROM两种非易失性存储器，而廉价型设计往往只有FLASH，早期可电擦写型MCU则都是EEPRM结构，现在已基本上停产了。<br>一般来说eeprom中存放开机是用到的参数，不可丢失的变量等，而FLASH中会存放程序，记录文件等。</p>
+<h3 id="FRAM"><a href="#FRAM" class="headerlink" title="FRAM"></a>FRAM</h3><p>维基百科：<strong>铁电随机存取内存</strong>（Ferroelectric RAM，缩写为FeRAM或FRAM），类似于<a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/wiki/SDRAM">SDRAM</a>，是一种<a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/wiki/%E9%9A%8F%E6%9C%BA%E5%AD%98%E5%8F%96%E5%AD%98%E5%82%A8%E5%99%A8">随机存取存储器</a>技术。但因为它使用了一层有<a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/wiki/%E9%93%81%E7%94%B5%E6%80%A7">铁电性</a>的材料，取代原有的<a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/wiki/%E4%BB%8B%E9%9B%BB%E8%B3%AA">介电质</a>，使得它也拥有<a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/wiki/%E9%9D%9E%E6%8F%AE%E7%99%BC%E6%80%A7%E8%A8%98%E6%86%B6%E9%AB%94">非挥发性内存</a>的功能。<a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/wiki/%E9%BA%BB%E7%9C%81%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6">麻省理工大学</a><a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/w/index.php?title=%E9%81%94%E5%BE%B7%E5%88%A9%C2%B7%E8%89%BE%E5%80%AB%C2%B7%E5%B7%B4%E5%85%8B&action=edit&redlink=1">达德利·艾伦·巴克</a>（Dudley Allen Buck）在1952年提出的硕士论文中，首次提出了这个概念。它有比<a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/wiki/%E9%97%AA%E5%AD%98">闪存</a>更低的耗电量，还有更高的写入速度，还有更长的读写寿命(大约10¹⁰到10¹⁵次循环，可视作无限寿命)。它在+85℃时可以保存数据十年以上。但是它的缺点是比闪存存储密度低，存储容量限制，和更高的价格。与<a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/wiki/%E5%8A%A8%E6%80%81%E9%9A%8F%E6%9C%BA%E5%AD%98%E5%8F%96%E5%AD%98%E5%82%A8%E5%99%A8">DRAM</a>相比，铁电随机存取器的读操作是破坏性的，因为它需要遵循先写后读架构。</p>
+<p>百度百科：铁电晶体材料的工作原理是: 当我们把电场加载到铁电晶体材料上，晶阵中的中心原子会沿着电场方向运动，到达稳定状态。晶阵中的每个自由浮动的中心原子只有两个稳定状态，一个我们记作逻辑 0，另一个记作逻辑 1。中心原子能在常温﹑没有电场的情况下停留在此状态达一百年以上。 由于在整个物理过程中没有任何原子碰撞，<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%93%81%E7%94%B5%E5%AD%98%E5%82%A8%E5%99%A8/3781126?fromModule=lemma_inlink">铁电存储器</a>(FRAM)拥有高速读写，超低功耗和无限次写入等特性。</p>
+<h2 id="外部I-x2F-O"><a href="#外部I-x2F-O" class="headerlink" title="外部I&#x2F;O"></a>外部I&#x2F;O</h2><div class="post-tags"><a class="post-tag-link" href="/tags/Computer-System/" rel="tag">#Computer System</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
