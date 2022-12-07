@@ -47,13 +47,13 @@ res <span class="token operator">=</span> src <span class="token punctuation">;<
 <li>DRAM，即动态随机存储器，一般用于<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&spm=1001.2101.3001.7020">内存</a>，需要不断地刷新电路，否则数据就消失了。</li>
 <li>SRAM，即静态随机存储器，一般用于CPU中的cache（高速缓冲存储器），不需要不停地刷新电路来保存数据。</li>
 </ul>
-<p>特点如下：<br><img src="/computer-system/ba23c5ed2cd645909f4973aea1261c93.png" alt="在这里插入图片描述"></p>
+<p>特点如下：<br><img src="/2022/12/04/computer-system/ba23c5ed2cd645909f4973aea1261c93.png" alt="在这里插入图片描述"></p>
 <p>下面详细阐述一下区别：</p>
 <h4 id="DRAM和SRAM区别"><a href="#DRAM和SRAM区别" class="headerlink" title="DRAM和SRAM区别"></a>DRAM和SRAM区别</h4><h5 id="1-内部结构不同"><a href="#1-内部结构不同" class="headerlink" title="1. 内部结构不同"></a>1. 内部结构不同</h5><ul>
 <li>SRAM是依靠<strong>触发器存储数据</strong>，每个存储元（存储1bit数据）需要花费<strong>6个晶体管才能存储1 bit</strong> 。所以SRAM的集成度低、占用面积大。</li>
 <li>SRAM在读数据时，就是相当于“查看”寄存器的状态，写数据就是改变寄存器的状态。</li>
 </ul>
-<p>SRAM存储元结构，如下图：<br><img src="/computer-system/a9136d0957f94b6f93ad90607be111b1.png" alt="在这里插入图片描述"></p>
+<p>SRAM存储元结构，如下图：<br><img src="/2022/12/04/computer-system/a9136d0957f94b6f93ad90607be111b1.png" alt="在这里插入图片描述"></p>
 <hr>
 <ul>
 <li>DRAM依靠<strong>电容存储</strong>，每个存储元只需要花<strong>1个电容和1个晶体管</strong>。DRAM的数据实际上是存在电容里。但是电容放久了，内部的电容就会越来越少，对外不能形成电位的变化。</li>
@@ -70,7 +70,7 @@ res <span class="token operator">=</span> src <span class="token punctuation">;<
 <p>以行为单位，每次刷新一行存储单元。</p>
 <p>4.如何刷新？</p>
 <p>不需要CPU控制，有硬件支持，读出一行的信息后重新写入，占用1个读&#x2F;写周期。</p>
-<p>5.什么时候刷新？<br><img src="/computer-system/a151d9cd99084111bb038da3334115dd.png" alt="在这里插入图片描述"></p>
+<p>5.什么时候刷新？<br><img src="/2022/12/04/computer-system/a151d9cd99084111bb038da3334115dd.png" alt="在这里插入图片描述"></p>
 <h5 id="2-寻址方式不同"><a href="#2-寻址方式不同" class="headerlink" title="2. 寻址方式不同"></a>2. 寻址方式不同</h5><p>SRAM的存取速度很快，但是地址线需要更多，这是因为SRAM和DRAM的寻址方式不同：</p>
 <ul>
 <li>SRAM<strong>同时发送行地址和列地址</strong>，把行地址和列地址拼接起来作为一次读写访问的地址，然后放到地址线上；</li>
@@ -79,7 +79,7 @@ res <span class="token operator">=</span> src <span class="token punctuation">;<
 <li>DRAM可以地址线复用，也就使用同一跟地址线分别发送行地址和列地址，减少了地址线的使用</li>
 </ul>
 <h3 id="ROM"><a href="#ROM" class="headerlink" title="ROM"></a>ROM</h3><p>ROM，即只读存储器或者叫非易失性存储器，因为断电后数据依然能够保存。</p>
-<p>分类如下：<br><img src="/computer-system/2a1d80c4a7f84c889b33ecdcbb6170bb.png" alt="在这里插入图片描述"></p>
+<p>分类如下：<br><img src="/2022/12/04/computer-system/2a1d80c4a7f84c889b33ecdcbb6170bb.png" alt="在这里插入图片描述"></p>
 <h3 id="电可擦除式可编程只读存储器"><a href="#电可擦除式可编程只读存储器" class="headerlink" title="电可擦除式可编程只读存储器"></a>电可擦除式可编程只读存储器</h3><p>EEPROM 是 Electrically Erasable Programmable Read-Only Memory（电可擦除可编程只读存储器）的缩写。您可能想知道，EEPROM 是如何工作的？</p>
 <p>- EEPROM 使用半导体技术存储位，而不是以磁性方式读取和写入信息。</p>
 <p>- EEPROM 不需要任何移动部件，并且像 HDD 存储一样，可以在电源周期中保持其状态。</p>

@@ -13,9 +13,9 @@
 <h2 id="2-vs高版本配置arcengine"><a href="#2-vs高版本配置arcengine" class="headerlink" title="2.vs高版本配置arcengine"></a>2.vs高版本配置arcengine</h2><p>此篇文章所对应的版本分布为： VS 2019 和 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=ArcGIS&spm=1001.2101.3001.7020">ArcGIS</a> 10.4<br>如何安装VS 2019和ArcGIS 10.4此处不做讲解，请自行安装下载</p>
 <p>1.下载ArcEngine，点击Setup.exe进行安装<br>下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1dPNzzSrDkwDYF82cTVLXnQ">https://pan.baidu.com/s/1dPNzzSrDkwDYF82cTVLXnQ</a><br>提取码：2v24</p>
 <p>2.下载ArcSDK，并进行安装（一直下一步就好，也可以更改安装路径）<br>（下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/10JlyJdNLl8AEpO-e8CXJfA">https://pan.baidu.com/s/10JlyJdNLl8AEpO-e8CXJfA</a><br>提取码：nw5i ）</p>
-<p>3.打开注册表（可以在搜索栏直接搜索），“HKEY_LOCAL_MACHINE”→“SOFTWARE”→“WOW6432Node”→“Microsoft”→“VisualStudio”→“12.0”，在此目录下，右击“12.0”，选择“新建”→“字符串值”。添加“InstallDir”和“ShellFolder”两个节点。<br>右击节点，选择“修改”，如下图修改“数值数据”<br><img src="/problems-solved/20200403192709251.png" alt="在这里插入图片描述"></p>
-<p>4.下载下方链接中的工具，并解压。<br>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1d7JiItZaBbA7rBql9jg7rw">https://pan.baidu.com/s/1d7JiItZaBbA7rBql9jg7rw</a><br>提取码：lhp8<br><img src="/problems-solved/20200403193031734.png" alt="在这里插入图片描述"><br>5.打开所安装的Engine所在文件夹，在其bin里，将第4步中所下载的工具，复制粘贴到bin中，将原有的代替<br><img src="/../../../../OP/%25E6%259D%2582%25E8%25AE%25B0/tolearn/%25E9%2597%25AE%25E9%25A2%2598%25E8%25A7%25A3%25E5%2586%25B3/20200403193249695.png" alt="在这里插入图片描述"></p>
-<p>6.打开VS2019，创建窗体，则可在工具箱中看到新添的工具，完成。<br><img src="/problems-solved/20200403193455728.png" alt="在这里插入图片描述"></p>
+<p>3.打开注册表（可以在搜索栏直接搜索），“HKEY_LOCAL_MACHINE”→“SOFTWARE”→“WOW6432Node”→“Microsoft”→“VisualStudio”→“12.0”，在此目录下，右击“12.0”，选择“新建”→“字符串值”。添加“InstallDir”和“ShellFolder”两个节点。<br>右击节点，选择“修改”，如下图修改“数值数据”<br><img src="/2022/12/07/problems-solved/20200403192709251.png" alt="在这里插入图片描述"></p>
+<p>4.下载下方链接中的工具，并解压。<br>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1d7JiItZaBbA7rBql9jg7rw">https://pan.baidu.com/s/1d7JiItZaBbA7rBql9jg7rw</a><br>提取码：lhp8<br><img src="/2022/12/07/problems-solved/20200403193031734.png" alt="在这里插入图片描述"><br>5.打开所安装的Engine所在文件夹，在其bin里，将第4步中所下载的工具，复制粘贴到bin中，将原有的代替<br><img src="/../../../../OP/%25E6%259D%2582%25E8%25AE%25B0/tolearn/%25E9%2597%25AE%25E9%25A2%2598%25E8%25A7%25A3%25E5%2586%25B3/20200403193249695.png" alt="在这里插入图片描述"></p>
+<p>6.打开VS2019，创建窗体，则可在工具箱中看到新添的工具，完成。<br><img src="/2022/12/07/problems-solved/20200403193455728.png" alt="在这里插入图片描述"></p>
 <h2 id="3-VS2015-无法打开某个form窗口，“正在打开文件”-然后整个VS会失去响应，最后自动重启vs或者闪退"><a href="#3-VS2015-无法打开某个form窗口，“正在打开文件”-然后整个VS会失去响应，最后自动重启vs或者闪退" class="headerlink" title="3.VS2015 无法打开某个form窗口，“正在打开文件” 然后整个VS会失去响应，最后自动重启vs或者闪退"></a>3.VS2015 无法打开某个form窗口，“正在打开文件” 然后整个VS会失去响应，最后自动重启vs或者闪退</h2><p>关于VS2013或者VS2017打开工程时反复崩溃重启的问题  <a target="_blank" rel="noopener" href="http://www.skcircle.com/?id=403">http://www.skcircle.com/?id=403</a></p>
 <p>主要原因其实是因为第三方用户自定义控件惹的祸。</p>
 <p>你可以回忆一下，自从加了哪个自定义控件后，出现了UI编辑器打开崩溃的问题。</p>
@@ -28,16 +28,16 @@
 <h2 id="4-解决vscode-Better-Comments插件在vue文件中不显示相对应的颜色的问题"><a href="#4-解决vscode-Better-Comments插件在vue文件中不显示相对应的颜色的问题" class="headerlink" title="4.解决vscode Better Comments插件在vue文件中不显示相对应的颜色的问题"></a>4.解决vscode Better Comments插件在vue文件中不显示相对应的颜色的问题</h2><p> 更新时间：2022年09月16日 15:00:52  作者：bigHead-  </p>
 <p>最近使用了Better Comments这款插件，发现在ts文件中可以显示对应的颜色，但在vue文件中并不显示对应颜色</p>
 <h3 id="解决方法如下："><a href="#解决方法如下：" class="headerlink" title="解决方法如下："></a>解决方法如下：</h3><p>1.打开插件的配置文件夹，即 c盘 -&gt; 用户 -&gt; 用户名 -&gt; .vscode文件夹</p>
-<p><img src="/problems-solved/202209161456001.png" alt="在这里插入图片描述"></p>
+<p><img src="/2022/12/07/problems-solved/202209161456001.png" alt="在这里插入图片描述"></p>
 <p>2.extensions目录 -&gt; bttter-comments配置文件夹</p>
-<p><img src="/problems-solved/202209161456002.png" alt="在这里插入图片描述"></p>
+<p><img src="/2022/12/07/problems-solved/202209161456002.png" alt="在这里插入图片描述"></p>
 <p>3.打开配置文件<br>aaron-bond.better-comments-3.0.2 -&gt; out -&gt; parser.js</p>
 <p>4.修改配置文件，添加如下代码</p>
 <pre class="language-none"><code class="language-none">case &quot;vue&quot;: this.setCommentFormat(&quot;&#x2F;&#x2F;&quot;, &quot;&#x2F;*&quot;, &quot;*&#x2F;&quot;)break;</code></pre>
 
-<p><img src="/problems-solved/202209161456003.png" alt="在这里插入图片描述"></p>
+<p><img src="/2022/12/07/problems-solved/202209161456003.png" alt="在这里插入图片描述"></p>
 <p>\5. 保存代码，重启vscode即可</p>
-<p><img src="/problems-solved/202209161456004.png" alt="在这里插入图片描述"></p>
+<p><img src="/2022/12/07/problems-solved/202209161456004.png" alt="在这里插入图片描述"></p>
 <h3 id="vscode提高效率有效使用插件："><a href="#vscode提高效率有效使用插件：" class="headerlink" title="vscode提高效率有效使用插件："></a>vscode提高效率有效使用插件：</h3><p>vscode-Document This—–jsdoc注释生成。</p>
 <p>vscode-eCSStractor—–抽取页面的class，生成一个css文档。</p>
 <p>vscode-CSS Peek——class名字定义跳转。（终于拥有dw cc的这个css定义跳转功能）</p>
@@ -62,7 +62,7 @@
 <h3 id="Jupyter-Notebook插入图片的3种方法"><a href="#Jupyter-Notebook插入图片的3种方法" class="headerlink" title="Jupyter Notebook插入图片的3种方法"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/keye/p/10483661.html">Jupyter Notebook插入图片的3种方法</a></h3><p><strong>方法1:</strong></p>
 <pre class="language-none"><code class="language-none">![title](img&#x2F;python.png)</code></pre>
 
-<p><img src="/problems-solved/1235684-20190306202339677-1771970027.png" alt="img"></p>
+<p><img src="/2022/12/07/problems-solved/1235684-20190306202339677-1771970027.png" alt="img"></p>
 <ul>
 <li>Markdown格式下</li>
 <li>路径是相对路径，不能是绝对路径。</li>
@@ -72,12 +72,12 @@
 <pre class="language-none"><code class="language-none">from IPython.display import Image
 Image(filename &#x3D; &#39;G:&#x2F;workspace&#x2F;test&#x2F;python.jpg&#39;, width&#x3D;100, height&#x3D;60)</code></pre>
 
-<p><img src="/problems-solved/1235684-20190306201733054-1744296739.png" alt="img"></p>
+<p><img src="/2022/12/07/problems-solved/1235684-20190306201733054-1744296739.png" alt="img"></p>
 <p> <strong>方法3:</strong></p>
 <pre class="language-none"><code class="language-none">%%html
 &lt;img src&#x3D;&#39;python.jpg&#39;, width&#x3D;100, height&#x3D;60&gt;</code></pre>
 
-<p><img src="/problems-solved/1235684-20190306202346747-1429605491.png" alt="img"></p>
+<p><img src="/2022/12/07/problems-solved/1235684-20190306202346747-1429605491.png" alt="img"></p>
 <ul>
 <li>路径是相对路径，不能是绝对路径。</li>
 <li>可改变图形大小。</li>

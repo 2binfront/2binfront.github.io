@@ -335,7 +335,7 @@ instance.changName();  -----------&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; ❌�
 
 
 
-<h3 id="Partial"><a href="#Partial" class="headerlink" title="Partial"></a>Partial<Type></h3><p>构造一个类型，其中 Type 的所有属性都设置为可选。此实用工具将返回一个表示给定 type 的所有子集的类型。</p>
+<h3 id="Partial-lt-Type-gt"><a href="#Partial-lt-Type-gt" class="headerlink" title="Partial&lt;Type&gt;"></a>Partial&lt;Type&gt;</h3><p>构造一个类型，其中 Type 的所有属性都设置为可选。此实用工具将返回一个表示给定 type 的所有子集的类型。</p>
 <pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> Partial<span class="token operator">&lt;</span>Record<span class="token operator">&lt;</span><span class="token string">'x'</span> <span class="token operator">|</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token builtin">number</span><span class="token operator">>></span><span class="token punctuation">;</span>
 
 <span class="token comment">// 等同于</span>
@@ -356,8 +356,8 @@ instance.changName();  -----------&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; ❌�
 
 
 
-<h3 id="Required"><a href="#Required" class="headerlink" title="Required"></a>Required<Type></h3><p>partial的反义，返回给定 type 的超集</p>
-<h3 id="Readonly"><a href="#Readonly" class="headerlink" title="Readonly"></a>Readonly<Type></h3><p>仅读不可更改类型。<strong>只读的约束存在于第一次给对象赋值的时候，而不是第一次给只读属性赋值的时候</strong></p>
+<h3 id="Required-lt-Type-gt"><a href="#Required-lt-Type-gt" class="headerlink" title="Required&lt;Type&gt;"></a>Required&lt;Type&gt;</h3><p>partial的反义，返回给定 type 的超集</p>
+<h3 id="Readonly-lt-Type-gt"><a href="#Readonly-lt-Type-gt" class="headerlink" title="Readonly&lt;Type&gt;"></a>Readonly&lt;Type&gt;</h3><p>仅读不可更改类型。<strong>只读的约束存在于第一次给对象赋值的时候，而不是第一次给只读属性赋值的时候</strong></p>
 <pre class="language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">type</span> <span class="token class-name">Coord</span> <span class="token operator">=</span> Readonly<span class="token operator">&lt;</span>Record<span class="token operator">&lt;</span><span class="token string">'x'</span> <span class="token operator">|</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token builtin">number</span><span class="token operator">>></span><span class="token punctuation">;</span>
 
 <span class="token comment">// 等同于</span>
