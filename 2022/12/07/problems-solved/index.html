@@ -2,6 +2,11 @@
 </head><body><div id="content"><h1 id="title">问题解决</h1><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">Back</a><time datetime="2022-12-07T15:49:03.000Z">2022-12-07</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><blockquote>
 <p>持续更新</p>
 </blockquote>
+<blockquote>
+<p>此文章解决方法大部分来源于网络，之后会尽量附上原文链接，如有侵权可发邮件至 <a href="mailto:&#x74;&#119;&#x6f;&#98;&#x69;&#110;&#x66;&#114;&#111;&#x6e;&#116;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;">&#x74;&#119;&#x6f;&#98;&#x69;&#110;&#x66;&#114;&#111;&#x6e;&#116;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;</a> 联系我删除对应小节。</p>
+<p>2022.12.8</p>
+</blockquote>
+<hr>
 <h2 id="1-Ubuntu-vscode卡顿，滑轮不流畅"><a href="#1-Ubuntu-vscode卡顿，滑轮不流畅" class="headerlink" title="1.Ubuntu vscode卡顿，滑轮不流畅"></a>1.Ubuntu vscode卡顿，滑轮不流畅</h2><blockquote>
 <p>我猜楼主的ubuntu版本应该是20以上，使用vscode或者vim或者chrome的时候会莫名卡顿，你排查一下，需要去掉对gpu的支持，这样应该就不会卡顿了。</p>
 </blockquote>
@@ -14,7 +19,7 @@
 <p>1.下载ArcEngine，点击Setup.exe进行安装<br>下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1dPNzzSrDkwDYF82cTVLXnQ">https://pan.baidu.com/s/1dPNzzSrDkwDYF82cTVLXnQ</a><br>提取码：2v24</p>
 <p>2.下载ArcSDK，并进行安装（一直下一步就好，也可以更改安装路径）<br>（下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/10JlyJdNLl8AEpO-e8CXJfA">https://pan.baidu.com/s/10JlyJdNLl8AEpO-e8CXJfA</a><br>提取码：nw5i ）</p>
 <p>3.打开注册表（可以在搜索栏直接搜索），“HKEY_LOCAL_MACHINE”→“SOFTWARE”→“WOW6432Node”→“Microsoft”→“VisualStudio”→“12.0”，在此目录下，右击“12.0”，选择“新建”→“字符串值”。添加“InstallDir”和“ShellFolder”两个节点。<br>右击节点，选择“修改”，如下图修改“数值数据”<br><img src="/2022/12/07/problems-solved/20200403192709251.png" alt="在这里插入图片描述"></p>
-<p>4.下载下方链接中的工具，并解压。<br>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1d7JiItZaBbA7rBql9jg7rw">https://pan.baidu.com/s/1d7JiItZaBbA7rBql9jg7rw</a><br>提取码：lhp8<br><img src="/2022/12/07/problems-solved/20200403193031734.png" alt="在这里插入图片描述"><br>5.打开所安装的Engine所在文件夹，在其bin里，将第4步中所下载的工具，复制粘贴到bin中，将原有的代替<br><img src="/../../../../OP/%25E6%259D%2582%25E8%25AE%25B0/tolearn/%25E9%2597%25AE%25E9%25A2%2598%25E8%25A7%25A3%25E5%2586%25B3/20200403193249695.png" alt="在这里插入图片描述"></p>
+<p>4.下载下方链接中的工具，并解压。<br>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1d7JiItZaBbA7rBql9jg7rw">https://pan.baidu.com/s/1d7JiItZaBbA7rBql9jg7rw</a><br>提取码：lhp8<br><img src="/2022/12/07/problems-solved/20200403193031734.png" alt="在这里插入图片描述"><br>5.打开所安装的Engine所在文件夹，在其bin里，将第4步中所下载的工具，复制粘贴到bin中，将原有的代替<br><img src="/2022/12/07/problems-solved/20200403193249695.png" alt="在这里插入图片描述"></p>
 <p>6.打开VS2019，创建窗体，则可在工具箱中看到新添的工具，完成。<br><img src="/2022/12/07/problems-solved/20200403193455728.png" alt="在这里插入图片描述"></p>
 <h2 id="3-VS2015-无法打开某个form窗口，“正在打开文件”-然后整个VS会失去响应，最后自动重启vs或者闪退"><a href="#3-VS2015-无法打开某个form窗口，“正在打开文件”-然后整个VS会失去响应，最后自动重启vs或者闪退" class="headerlink" title="3.VS2015 无法打开某个form窗口，“正在打开文件” 然后整个VS会失去响应，最后自动重启vs或者闪退"></a>3.VS2015 无法打开某个form窗口，“正在打开文件” 然后整个VS会失去响应，最后自动重启vs或者闪退</h2><p>关于VS2013或者VS2017打开工程时反复崩溃重启的问题  <a target="_blank" rel="noopener" href="http://www.skcircle.com/?id=403">http://www.skcircle.com/?id=403</a></p>
 <p>主要原因其实是因为第三方用户自定义控件惹的祸。</p>
