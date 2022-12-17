@@ -3,7 +3,7 @@
 <p>持续更新</p>
 </blockquote>
 <blockquote>
-<p>此文章解决方法大部分来源于网络，之后会尽量附上原文链接，如有侵权可发邮件至 <a href="mailto:&#116;&#119;&#111;&#x62;&#x69;&#110;&#102;&#x72;&#x6f;&#110;&#x74;&#64;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;">&#116;&#119;&#111;&#x62;&#x69;&#110;&#102;&#x72;&#x6f;&#110;&#x74;&#64;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a> 联系我删除对应小节。</p>
+<p>此文章解决方法大部分来源于网络，之后会尽量附上原文链接，如有侵权可发邮件至 <a href="mailto:&#116;&#119;&#111;&#98;&#x69;&#110;&#102;&#114;&#111;&#x6e;&#116;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#116;&#119;&#111;&#98;&#x69;&#110;&#102;&#114;&#111;&#x6e;&#116;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a> 联系我删除对应小节。</p>
 <p>​																																													2022.12.8</p>
 </blockquote>
 <hr>
@@ -105,4 +105,17 @@ Image(filename &#x3D; &#39;G:&#x2F;workspace&#x2F;test&#x2F;python.jpg&#39;, wid
 </ol>
 <pre class="language-none"><code class="language-none">&lt;img src&#x3D;&quot;python.jpg&quot; width&#x3D;&quot;40%&quot;&gt;</code></pre>
 
+<h2 id="8-Ubuntu设置代理"><a href="#8-Ubuntu设置代理" class="headerlink" title="8.Ubuntu设置代理"></a>8.Ubuntu设置代理</h2><p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36383272/article/details/116307665">https://blog.csdn.net/qq_36383272/article/details/116307665</a></p>
+<h3 id="1、虚拟机设置代理"><a href="#1、虚拟机设置代理" class="headerlink" title="1、虚拟机设置代理"></a>1、虚拟机设置代理</h3><p>打开<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Ubuntu&spm=1001.2101.3001.7020">Ubuntu</a>的设置，并点击Network-&gt;Network Proxy选择Manual，并填写代理地址。<br><img src="/2022/12/07/problems-solved/20210430175107459.png" alt="在这里插入图片描述"><br><img src="/2022/12/07/problems-solved/20210430175200850.png" alt="在这里插入图片描述"><br>其中ip可以直接在主机上查看。要用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=VMware&spm=1001.2101.3001.7020">VMware</a>那个IP。<br><img src="/2022/12/07/problems-solved/2021043017530624.png" alt="在这里插入图片描述"></p>
+<h3 id="2、VMware设置"><a href="#2、VMware设置" class="headerlink" title="2、VMware设置"></a>2、VMware设置</h3><p>点击虚拟机-&gt;设置-&gt;硬件-&gt;网络适配器-&gt;NAT模式<br><img src="/2022/12/07/problems-solved/20210430175546968.png" alt="在这里插入图片描述"></p>
+<p>然后就可以google了。<br><img src="/2022/12/07/problems-solved/20210430175453148.png" alt="在这里插入图片描述"></p>
+<h3 id="3-git设置代理"><a href="#3-git设置代理" class="headerlink" title="3 git设置代理"></a>3 git设置代理</h3><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config <span class="token parameter variable">--global</span> http.proxy http://192.168.80.1:1080
+<span class="token function">git</span> config <span class="token parameter variable">--global</span> https.proxy https://192.168.80.1:1080
+<span class="token number">12</span></code></pre>
+
+<p>地址就是你主机上的地址和代理端口。</p>
+<h2 id="9-文件夹无法拖动"><a href="#9-文件夹无法拖动" class="headerlink" title="9.文件夹无法拖动"></a>9.文件夹无法拖动</h2><p><a target="_blank" rel="noopener" href="https://answers.microsoft.com/zh-hans/windows/forum/all/%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E4%B8%8D/8c5d4036-eb5d-4a0c-bf21-e2b31d7ca85f">https://answers.microsoft.com/zh-hans/windows/forum/all/%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E4%B8%8D/8c5d4036-eb5d-4a0c-bf21-e2b31d7ca85f</a></p>
+<p>两个方法：</p>
+<p>1.长按键盘左上角 Esc键几秒后松开即可。（适用）</p>
+<p>2.开始-运行-gpedit.msc—— 用户配置——管理摸板——windows组件——任务计划程序——禁止拖和放，可以设置启用或禁——重启电脑（一定要重启才能生效），重启后拖放的问题即可解决。</p>
 <h2 id="end-tag"><a href="#end-tag" class="headerlink" title="end tag"></a>end tag</h2><div class="post-tags"><a class="post-tag-link" href="/tags/problems/" rel="tag">#problems</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2022@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
