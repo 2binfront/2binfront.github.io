@@ -223,6 +223,32 @@ backlog:队列等待长度上限</code></pre>
 <h4 id="轮流协议"><a href="#轮流协议" class="headerlink" title="轮流协议"></a>轮流协议</h4><p>polling protocol 轮询协议</p>
 <p>token-passing protocol 令牌传递协议</p>
 <p>例子：DOCSIS</p>
+<h3 id="交换局域网"><a href="#交换局域网" class="headerlink" title="交换局域网"></a>交换局域网</h3><blockquote>
+<p>此部分摘自网络</p>
+</blockquote>
+<h4 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h4><p>1.ARP（Address Resolution Protocol，地址解析协议）：是将ip 地址解析成以太⽹MAC地的协议</p>
+<p>2.ARP 是⼀个独⽴的三层协议，所以ARP 报⽂在向数据链路层传输时不需要经过IP协议的封装，直接⽣成⾃⼰的报⽂。</p>
+<p><img src="/2022/11/07/computer-net/image-20230109224420053.png" alt="ARP报⽂"></p>
+<p>硬件类型：占2字节，表⽰ARP 报⽂可以在哪种类型的⽹络上传输，值为1时表⽰以太⽹地址</p>
+<p>上层协议类型： 占2个字节，表⽰硬件地址映射的协议地址类型，映射ip地址时的值为0x0800</p>
+<p>MAC地址长度：占1个字节，表⽰MAC地址长度，以字节为单位，此处为6</p>
+<p>IP协议地址长度：占1个字节，表⽰ip地址长度，以字节为单位，此处为4</p>
+<p>操作类型：占2字节，指定本次ARP报⽂类型，1为ARP请求报⽂，2为ARP应答报⽂</p>
+<p>源MAC地址：占6个字节，发送⽅的硬件地址</p>
+<p>源IP地址：占4个字节</p>
+<p>⽬的MAC“地址：占6个字节，表⽰接收⽅的硬件地址，</p>
+<p>⽬的IP地址：占4个字节</p>
+<p>3.ARP帧（以太网帧头结构与本书上并不一致，以本书上为准）</p>
+<p><img src="/2022/11/07/computer-net/image-20230109224439780.png" alt="ARP帧"></p>
+<p>⽬的MAC地址：占6个字节，如果时ARP 请求帧，要填上⼴播MAC地址 ff-ff-ff-ff ，其⽬标时⽹络上的主机。</p>
+<p>源MAC地址：占6个字节</p>
+<p>帧类型：占2个字节，表⽰帧封装的上层协议，因为本帧的数据部分是ARP报⽂，直接⽤0x0806（arp协议号）表⽰</p>
+<p>4.ARP映射表</p>
+<p>（1）动态arp 表项：通过ARP报⽂⾃动⽣成和维护</p>
+<p>（2）静态ARP表项：⼿⼯配置（对应设备的ip地址和mac地址绑定）</p>
+<p>​		静态ARP 表项分为：	</p>
+<p>​			1.长静态ARP表项：同时绑定IP地址、MAC地址、VLAN和端⼝</p>
+<p>​			2.短静态ARP表项：只配置IP地址和mac</p>
 <h2 id="移动网络"><a href="#移动网络" class="headerlink" title="移动网络"></a>移动网络</h2><h2 id="网络安全"><a href="#网络安全" class="headerlink" title="网络安全"></a>网络安全</h2><h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p>对称加密</p>
 <p>非对称加密</p>
 <h3 id="SSL"><a href="#SSL" class="headerlink" title="SSL"></a>SSL</h3><p>建立在传输层之上的安全协议</p>
