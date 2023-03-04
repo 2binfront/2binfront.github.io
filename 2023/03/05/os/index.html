@@ -89,8 +89,8 @@
 <td>前台进程</td>
 </tr>
 </tbody></table>
-<p><img src="/os/image-20230220203818283.png" alt="image-20230220203818283"></p>
-<p><img src="/os/image-20230220203847820.png" alt="image-20230220203847820"></p>
+<p><img src="/2023/03/05/os/image-20230220203818283.png" alt="image-20230220203818283"></p>
+<p><img src="/2023/03/05/os/image-20230220203847820.png" alt="image-20230220203847820"></p>
 <h4 id="fork和exec"><a href="#fork和exec" class="headerlink" title="fork和exec"></a>fork和exec</h4><p><strong>父进程中调用fork之前打开的所有描述符在fork返回之后由子进程分享</strong>。我们将看到网络服务器利用了这个特性：父进程调用accept之后调用fork。所接受的已连接套接字随后就在进程与子进程之间共享。通常情况下，子进程接着读写这个已连接套接字，父进程则关闭这个已连接套接字。</p>
 <p>fork的两个典型用法：</p>
 <p>（1）一个进程创建一个自身的副本，这样每个副本都可以在另一个副本执行其他任务的同时处理各自的某个操作。这是网络服务器的典型用法。</p>
@@ -106,8 +106,8 @@
 <p>  ② 数组argv 和envp 忘记用NULL结束，此时，errno被设置为 EFAUL。</p>
 <p>  ③ 没有对应可执行文件的运行权限，此时 errno 被设置为EACCES。</p>
 <p>这些函数只有在出错时才返回到调用者，否则，控制将被传递给新程序的起始点，通常就是main函数。</p>
-<p><img src="/os/img_482b1b02600a23a91f60ec4b6a5b3d93.png" alt="img"></p>
-<p><img src="/os/img_2c2d6737253b339a8e36de68ecb8f5f7.png" alt="img"></p>
+<p><img src="/2023/03/05/os/img_482b1b02600a23a91f60ec4b6a5b3d93.png" alt="img"></p>
+<p><img src="/2023/03/05/os/img_2c2d6737253b339a8e36de68ecb8f5f7.png" alt="img"></p>
 <p>exec可以更改和继承的包括以下单不限于以下的上下文内容：</p>
 <p>• File descriptors<br>• User&#x2F;group ID<br>• Process group and session IDs<br>• Current directory<br>• Resource limits<br>• Scheduling priority and affinity</p>
 <h4 id="IDLE进程"><a href="#IDLE进程" class="headerlink" title="IDLE进程"></a>IDLE进程</h4><p>没有处于<code>RUNNABLE</code>状态的进程时切换至内核IDLE进程，该进程调⽤ <code>waitForInterrupt()</code> 执⾏ <code>hlt</code> 指令， <code>hlt</code> 会使得CPU进⼊暂停状态，直到外部硬件中断产⽣</p>
@@ -122,7 +122,7 @@
 
 <h4 id="Modeling-Multiprogramming"><a href="#Modeling-Multiprogramming" class="headerlink" title="Modeling Multiprogramming"></a>Modeling Multiprogramming</h4><p>多道程序设计模型</p>
 <h4 id="进程调度"><a href="#进程调度" class="headerlink" title="进程调度"></a>进程调度</h4><p>context switch &amp; CPU switch</p>
-<p><img src="/os/image-20230220215650198.png" alt="image-20230220215650198"></p>
+<p><img src="/2023/03/05/os/image-20230220215650198.png" alt="image-20230220215650198"></p>
 <h4 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h4><p>interprocess communication</p>
 <p>典型进程间通信模式</p>
 <ul>
@@ -132,7 +132,7 @@
 <li>缓冲区有限大：生产者在缓冲区未满时写，消费者只在缓冲区存在内容时读</li>
 </ul>
 <p>两种通信方法：</p>
-<p><img src="/os/image-20230222155244306.png" alt="image-20230222155244306"></p>
+<p><img src="/2023/03/05/os/image-20230222155244306.png" alt="image-20230222155244306"></p>
 <ul>
 <li><p>共享内存</p>
 <p>通信由用户程序控制而非操作系统，难点在于内存一致性（同步）</p>
@@ -184,9 +184,9 @@ item next_consumed<span class="token punctuation">;</span>
 <p>操作系统提供的<strong>并发单位</strong>，抽象来说就是并发（concurrency）机制的体现</p>
 <p>并发不一定并行（parallelism），但是并行一定并发</p>
 <p>semi-process，轻型进程，不同线程共享地址空间，共享所有数据</p>
-<h4 id="model"><a href="#model" class="headerlink" title="model"></a>model</h4><p>一个进程中所有线程共享的item：address space，global variables，open files ，child processes，pending alarms（未决警报），signals and signal handlers，accounting info</p>
-<p>线程单独享有item：program counter（pc），registers，stack，state</p>
-<p><img src="/os/image-20230223140243880.png" alt="image-20230223140243880"></p>
+<h4 id="model"><a href="#model" class="headerlink" title="model"></a>model</h4><p>一个进程中所有线程共享的item: address space，global variables，open files ，child processes，pending alarms（未决警报），signals and signal handlers，accounting info</p>
+<p>线程单独享有item: program counter（pc），registers，stack，state</p>
+<p><img src="/2023/03/05/os/image-20230223140243880.png" alt="image-20230223140243880"></p>
 <pre class="language-c" data-language="c"><code class="language-c"><span class="token comment">/*basic options*/</span>
 
 <span class="token function">thread_create</span><span class="token punctuation">(</span>thread<span class="token punctuation">,</span> func<span class="token punctuation">,</span> arg<span class="token punctuation">)</span> 
@@ -222,18 +222,18 @@ item next_consumed<span class="token punctuation">;</span>
 <p>TCB: Finished List (to pass exit value), then deleted<br>Registers: TCB</p>
 </li>
 </ul>
-<p><img src="/os/image-20230223162027236.png" alt="image-20230223162027236"></p>
-<h4 id="POSIX"><a href="#POSIX" class="headerlink" title="POSIX"></a>POSIX</h4><p><img src="/os/image-20230223182454862.png" alt="image-20230223182454862"></p>
-<h4 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h4><p>user-level：<img src="/os/image-20230224004956083.png" alt="image-20230224004956083">thread call，context switch均在user-level，快、可用户自定义调度线程、kernel复杂度低，kernel 单线程；</p>
+<p><img src="/2023/03/05/os/image-20230223162027236.png" alt="image-20230223162027236"></p>
+<h4 id="POSIX"><a href="#POSIX" class="headerlink" title="POSIX"></a>POSIX</h4><p><img src="/2023/03/05/os/image-20230223182454862.png" alt="image-20230223182454862"></p>
+<h4 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h4><p>user-level：<img src="/2023/03/05/os/image-20230224004956083.png" alt="image-20230224004956083">thread call，context switch均在user-level，快、可用户自定义调度线程、kernel复杂度低，kernel 单线程；</p>
 <p>缺点在于一个线程阻塞，整个进程阻塞，kernel只能做<strong>次</strong>优化决策（ OS modifications to  overcome this. ），没有时间中断，当一个进程运行只能yield&#x2F;exit，其它线程才能切入执行</p>
-<p>kernel-level：<img src="/os/image-20230224005424349.png" alt="image-20230224005424349"></p>
+<p>kernel-level：<img src="/2023/03/05/os/image-20230224005424349.png" alt="image-20230224005424349"></p>
 <p>内核能掌控线程信息，实现更好调度等优化，当线程频繁阻塞时很重要</p>
 <p>缺点在于 High overhead ，OS更复杂</p>
-<p>hybrid：<img src="/os/image-20230224005624816.png" alt="image-20230224005624816"></p>
+<p>hybrid：<img src="/2023/03/05/os/image-20230224005624816.png" alt="image-20230224005624816"></p>
 <p>1对1，多对一</p>
 <p>context switch in kernel threads：</p>
 <p>thread running-&gt;switch to kernel-&gt;save thread state to TCB-&gt;choose new thread(policy decision left to scheduler)-&gt;load thread state from TCB-&gt;thread running</p>
-<p>引起上下文切换的可能：内部系统调用&#x2F;异常，外部中断<img src="/os/image-20230224010419087.png" alt="image-20230224010419087"></p>
+<p>引起上下文切换的可能：内部系统调用&#x2F;异常，外部中断<img src="/2023/03/05/os/image-20230224010419087.png" alt="image-20230224010419087"></p>
 <p>context switch in user threads：</p>
 <p><strong>没有操作系统支持</strong></p>
 <p>•TCBs，就绪列表，完成列表，等待列表-在用户空间</p>
@@ -246,7 +246,7 @@ item next_consumed<span class="token punctuation">;</span>
 <p>​		•在信号处理程序中恢复P的执行(load state with PC &#x3D; &amp;signal_handler;SP -&gt; state on stack)</p>
 <p>​		•信号处理器将状态从堆栈移动到TCB</p>
 <p>​		•在就绪列表中恢复其他一些TCB的状态</p>
-<h4 id="Pop-Up"><a href="#Pop-Up" class="headerlink" title="Pop-Up"></a>Pop-Up</h4><p>使用这种弹出式线程的优点是每个新请求都将被快速处理，几乎是即时的(这取决于服务器的当前负载)。<img src="/os/image-20230224011409711.png" alt="image-20230224011409711"></p>
+<h4 id="Pop-Up"><a href="#Pop-Up" class="headerlink" title="Pop-Up"></a>Pop-Up</h4><p>使用这种弹出式线程的优点是每个新请求都将被快速处理，几乎是即时的(这取决于服务器的当前负载)。<img src="/2023/03/05/os/image-20230224011409711.png" alt="image-20230224011409711"></p>
 <p>To see thread information<br><code>ps -m</code></p>
 <p><code>ps m –o pid,tid,command</code> </p>
 <h2 id="调度"><a href="#调度" class="headerlink" title="调度"></a>调度</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Simplified view of scheduling:  </p>
@@ -266,7 +266,7 @@ item next_consumed<span class="token punctuation">;</span>
 <li>Interactive. </li>
 <li>Real time</li>
 </ol>
-<h4 id="调度算法目标"><a href="#调度算法目标" class="headerlink" title="调度算法目标"></a>调度算法目标</h4><p>总的来说：公平性，cpu高利用率<img src="/os/image-20230224014748060.png" alt="image-20230224014748060"></p>
+<h4 id="调度算法目标"><a href="#调度算法目标" class="headerlink" title="调度算法目标"></a>调度算法目标</h4><p>总的来说：公平性，cpu高利用率<img src="/2023/03/05/os/image-20230224014748060.png" alt="image-20230224014748060"></p>
 <p>针对不同的系统又有不同的要求</p>
 <h4 id="不同系统下的调度"><a href="#不同系统下的调度" class="headerlink" title="不同系统下的调度"></a>不同系统下的调度</h4><h5 id="批处理系统调度"><a href="#批处理系统调度" class="headerlink" title="批处理系统调度"></a>批处理系统调度</h5><p>• First-Come First-Served<br>• Shortest Job First<br>• Shortest Remaining Time Next</p>
 <h5 id="交互式系统调度"><a href="#交互式系统调度" class="headerlink" title="交互式系统调度"></a>交互式系统调度</h5><p>• Round-Robin Scheduling<br>• Priority Scheduling<br>• Multilevel Queues<br>• Multilevel Feedback Queue<br>• Guaranteed Scheduling<br>• Lottery Scheduling</p>
@@ -289,15 +289,15 @@ item next_consumed<span class="token punctuation">;</span>
 <p>2.对于速度或cpu的数量，不做任何假设（即考虑速度和CPU数量为任何的情况）。</p>
 <p>3.任何运行在其临界区之外的进程都不能阻塞其他进程。（可发展的-progress）</p>
 <p>4.任何进程都不应该永远等待进入临界区域。(活性-liveness)</p>
-<p><img src="/os/image-20230224204802503.png" alt="image-20230224204802503"></p>
+<p><img src="/2023/03/05/os/image-20230224204802503.png" alt="image-20230224204802503"></p>
 <h3 id="忙等待互斥（Mutual-Exclusion-with-Busy-Waiting-）"><a href="#忙等待互斥（Mutual-Exclusion-with-Busy-Waiting-）" class="headerlink" title="*忙等待互斥（Mutual Exclusion with Busy Waiting ）"></a>*忙等待互斥（Mutual Exclusion with Busy Waiting ）</h3><h4 id="实现忙等待互斥的方法"><a href="#实现忙等待互斥的方法" class="headerlink" title="实现忙等待互斥的方法"></a>实现忙等待互斥的方法</h4><ul>
 <li><p>在一个进程进入临界区时禁用中断（弊大于利，长时间禁用中断会产生很多麻烦）</p>
 </li>
 <li><p>设置锁-变量（Lock Variables ），进程进入临界区时把锁变量置为1，把集中在共享变量的问题转移到锁变量上而已</p>
 </li>
-<li><p>Strict Alternation，严格交替<img src="/os/image-20230224210033056.png" alt="image-20230224210033056">但是也存在问题：当一个进程执行特别快，在另一个进程仍在执行非临界区代码时，这个进程已经接过接力棒执行完自身临界区代码和非临界区代码，回到下一轮临界区入口前，它此时需要阻塞自己等待另一个进程执行完当前轮次和下一轮次（仅有两个进程时的讨论），这就违背了避免竞态条件第三原则——任何执行非临界区进程&#x2F;线程不得阻塞其它进程&#x2F;线程。</p>
+<li><p>Strict Alternation，严格交替<img src="/2023/03/05/os/image-20230224210033056.png" alt="image-20230224210033056">但是也存在问题：当一个进程执行特别快，在另一个进程仍在执行非临界区代码时，这个进程已经接过接力棒执行完自身临界区代码和非临界区代码，回到下一轮临界区入口前，它此时需要阻塞自己等待另一个进程执行完当前轮次和下一轮次（仅有两个进程时的讨论），这就违背了避免竞态条件第三原则——任何执行非临界区进程&#x2F;线程不得阻塞其它进程&#x2F;线程。</p>
 </li>
-<li><p>Peterson’s Solution：皮特森方案，连接两个思想：严格交替和锁变量。<img src="/os/image-20230224212834124.png" alt="image-20230224212834124"></p>
+<li><p>Peterson’s Solution：皮特森方案，连接两个思想：严格交替和锁变量。<img src="/2023/03/05/os/image-20230224212834124.png" alt="image-20230224212834124"></p>
 <p>核心在于turn&#x3D;&#x3D;process&amp;&amp;interested[other]==true时等待，前者保证多个进程并发时，最先改写turn值的进程会进入临界区，另一个会阻塞，后者保证进入非临界区时，interest会置为false，不会阻塞其它进程</p>
 <p><strong>扩展到N个线程互斥访问一个资源的filter算法[维基百科]</strong></p>
 <pre class="language-none"><code class="language-none">&#x2F;&#x2F; initialization
@@ -334,7 +334,7 @@ leave_region:
 mov flag, #0 ; store zero in flag 
 ret ;return</code></pre>
 
-<p>x86中采用XCHG作为代替（原子地交换两个变量的值），作用基本一致<img src="/os/image-20230224221753125.png" alt="image-20230224221753125"></p>
+<p>x86中采用XCHG作为代替（原子地交换两个变量的值），作用基本一致<img src="/2023/03/05/os/image-20230224221753125.png" alt="image-20230224221753125"></p>
 <p>以上方法本质都是忙等待：进入临界区前检查，不符合条件循环忙等待。</p>
 <p>会出现priority inversion problem（优先级反转）的问题。</p>
 <p>解决方法：优先级继承协议，允许一个任务继承它正在阻塞的最高优先级任务的优先级</p>
@@ -463,8 +463,8 @@ Condition full<span class="token punctuation">;</span>
         <span class="token keyword">return</span> <span class="token function">sys_futex</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span></code></pre>
 
-<p><img src="/os/image-20230225013245753.png" alt="image-20230225013245753"></p>
-<p><img src="/os/image-20230225013301538.png" alt="image-20230225013301538"></p>
+<p><img src="/2023/03/05/os/image-20230225013245753.png" alt="image-20230225013245753"></p>
+<p><img src="/2023/03/05/os/image-20230225013301538.png" alt="image-20230225013301538"></p>
 <p>锁的规则-Rules for locks：</p>
 <ul>
 <li><p>Lock is initially free </p>
@@ -619,7 +619,7 @@ semaphore full <span class="token operator">=</span> <span class="token number">
 <h3 id="Barriers"><a href="#Barriers" class="headerlink" title="Barriers"></a>Barriers</h3><p>等待所有进程&#x2F;线程都到达计算点（at point in computation）后再继续</p>
 <p>separate phases of a multi-phase algorithm （多阶段算法的分离阶段）</p>
 <p>二元性和互斥：包括其余所有而非排除其余所有</p>
-<p><img src="/os/image-20230225124327953.png" alt="image-20230225124327953"></p>
+<p><img src="/2023/03/05/os/image-20230225124327953.png" alt="image-20230225124327953"></p>
 <p>…</p>
 <h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><h4 id="作家读者问题"><a href="#作家读者问题" class="headerlink" title="作家读者问题"></a>作家读者问题</h4><p>特点</p>
 <ul>
@@ -777,7 +777,7 @@ function <span class="token function">callA</span><span class="token punctuation
 <p>资源轨迹（resource trajectories）</p>
 <h4 id="安全状态（safe）、非安全状态（Unsafe）"><a href="#安全状态（safe）、非安全状态（Unsafe）" class="headerlink" title="安全状态（safe）、非安全状态（Unsafe）"></a>安全状态（safe）、非安全状态（Unsafe）</h4><ul>
 <li><p>现有资源向量E，可用资源向量A，当前分配矩阵C，最大请求矩阵M，请求向量R</p>
-<p><img src="/os/image-20230225213910159.png" alt="image-20230225213910159"></p>
+<p><img src="/2023/03/05/os/image-20230225213910159.png" alt="image-20230225213910159"></p>
 </li>
 </ul>
 <p>…</p>
@@ -818,7 +818,7 @@ function <span class="token function">callA</span><span class="token punctuation
 <p>–有效访问时间</p>
 <p>–多级页表</p>
 <p>–页面大小</p>
-<p><img src="/os/image-20230226131832095.png" alt="image-20230226131832095"></p>
+<p><img src="/2023/03/05/os/image-20230226131832095.png" alt="image-20230226131832095"></p>
 <h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="*虚拟内存"></a>*虚拟内存</h3><h4 id="缺页错误-Page-Fault-及其处理流程"><a href="#缺页错误-Page-Fault-及其处理流程" class="headerlink" title="缺页错误 (Page Fault) 及其处理流程"></a>缺页错误 (Page Fault) 及其处理流程</h4><p>处理页面错误的三个主要活动:•服务中断:仔细编码意味着只需要几百条指令•读取页面:大量时间•重新启动进程:少量时间</p>
 <h4 id="页面置换算法"><a href="#页面置换算法" class="headerlink" title="页面置换算法:"></a>页面置换算法:</h4><p>FIFO：替换最老的</p>
 <p>Optimal：替换长时间不使用的页面</p>
@@ -865,9 +865,9 @@ function <span class="token function">callA</span><span class="token punctuation
 <p>•磁盘管理:公平高效地使用磁盘空间—为文件分配空间并跟踪空闲空间—快速访问文件</p>
 <p>•可靠性:不能丢失文件数据</p>
 <h3 id="文件"><a href="#文件" class="headerlink" title="*文件"></a>*文件</h3><p>可以创建，读取，写入和删除的字节(由用户定义的类型)的线性数组，一种抽象机制，提供了一种将信息存储在磁盘上并稍后读取的方法</p>
-<h4 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h4><p>人类可读命名，扩展名<img src="/os/image-20230226005914514.png" alt="image-20230226005914514"></p>
+<h4 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h4><p>人类可读命名，扩展名<img src="/2023/03/05/os/image-20230226005914514.png" alt="image-20230226005914514"></p>
 <h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><p>类型：常规文件:包含用户信息的文件（ASCII文件:由文本行组成；二进制文件:具有特定程序所知道的一些内部结构）；目录文件:用于维护文件系统结构的系统文件；特殊文件:字符(打印机)，块(磁带)，……•每个操作系统都必须至少识别一种文件类型:它自己的可执行文件</p>
-<p>metadata<img src="/os/image-20230226010149214.png" alt="image-20230226010149214"></p>
+<p>metadata<img src="/2023/03/05/os/image-20230226010149214.png" alt="image-20230226010149214"></p>
 <p>文件系统应该将文件元数据保存在一个结构中:索引节点(inode) (UNIX中给出的历史名称)，驻留在磁盘上，缓存在内存中以加快访问速度</p>
 <h4 id="文件访问"><a href="#文件访问" class="headerlink" title="文件访问"></a>文件访问</h4><p>顺序访问</p>
 <p>read next &#x2F; write next &#x2F; reset，最常见，比如复制文件、编译器读取和写入，可以非常快</p>
@@ -879,7 +879,7 @@ function <span class="token function">callA</span><span class="token punctuation
 <h4 id="文件描述符-File-Descriptor"><a href="#文件描述符-File-Descriptor" class="headerlink" title="文件描述符 (File Descriptor)"></a>文件描述符 (File Descriptor)</h4><p>由操作系统分配的用于引用文件的唯一编号(每个进程私有)</p>
 <p>•避免解析文件名(在目录中搜索文件名)并检查每次访问的权限</p>
 <p>•执行某些操作的能力</p>
-<p><img src="/os/image-20230226010902878.png" alt="image-20230226010902878"></p>
+<p><img src="/2023/03/05/os/image-20230226010902878.png" alt="image-20230226010902878"></p>
 <h4 id="打开文件表-Open-File-Table"><a href="#打开文件表-Open-File-Table" class="headerlink" title="打开文件表 (Open-File Table)"></a>打开文件表 (Open-File Table)</h4><p>进程打开文件时，OS要创建一个存储文件信息的数据结构</p>
 <p>每个进程维护一个打开文件表（由文件描述符索引的数组），表中的每个条目都跟踪文件描述符引用的底层文件、当前偏移量和其他相关详细信息（例如权限）</p>
 <p>per-process open-file table：跟踪所有被进程打开的文件</p>
@@ -892,7 +892,7 @@ function <span class="token function">callA</span><span class="token punctuation
 <h4 id="偏移-Offset"><a href="#偏移-Offset" class="headerlink" title="偏移 (Offset)"></a>偏移 (Offset)</h4><p>对于进程打开的每个文件，操作系统都会跟踪文件偏移量，这决定了下一次读或写将从哪里开始</p>
 <p>•隐式更新(当发生N个字节的读或写时，N被添加到当前偏移量)</p>
 <p>•通过系统调用显式更新:lseek()</p>
-<h3 id="目录"><a href="#目录" class="headerlink" title="*目录"></a>*目录</h3><p>目录操作<img src="/os/image-20230226100526798.png" alt="image-20230226100526798"></p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="*目录"></a>*目录</h3><p>目录操作<img src="/2023/03/05/os/image-20230226100526798.png" alt="image-20230226100526798"></p>
 <ul>
 <li><p>目录的层级结构（在目录中放置目录）</p>
 <p>目录存储人类可读文件名和低级文件索引(inode号)之间的映射</p>
@@ -910,11 +910,11 @@ function <span class="token function">callA</span><span class="token punctuation
 </ul>
 <p>文件系统挂载（Mount）</p>
 <h3 id="文件系统的布局"><a href="#文件系统的布局" class="headerlink" title="*文件系统的布局"></a>*文件系统的布局</h3><p> Superblock, bitmap, inodes, data blocks</p>
-<p><img src="/os/image-20230226102518514.png" alt="image-20230226102518514"></p>
+<p><img src="/2023/03/05/os/image-20230226102518514.png" alt="image-20230226102518514"></p>
 <p>单个物理磁盘可以划分并存储多个卷，也可以将多个物理磁盘组合在一起，使单个卷跨越多个物理磁盘，包含文件系统的分区称为卷</p>
 <p>文件系统维护数据存储的磁盘结构，磁盘分块block：数据区域，inode表区域（文件的metadata），分配结构（存储磁盘已分配信息和空余信息，data region和inode  table各一个），superblock（存储文件系统信息，文件系统类型，inode数量，block数量，inode table起始位置，是挂载文件系统时第一个被读取的block）</p>
-<p><img src="/os/image-20230226103951089.png" alt="image-20230226103951089"></p>
-<p><img src="/os/image-20230226104228068.png" alt="image-20230226104228068"></p>
+<p><img src="/2023/03/05/os/image-20230226103951089.png" alt="image-20230226103951089"></p>
+<p><img src="/2023/03/05/os/image-20230226104228068.png" alt="image-20230226104228068"></p>
 <p>引导块（boot block）:引导OS所需的信息，通常是分区的第一个块(如果没有OS则为空)</p>
 <p>主引导记录(MBR):引导计算机的信息</p>
 <p>分区表（Partition Table）:每个分区的开始和结束地址(其中一个标记为活动)</p>
@@ -942,7 +942,7 @@ function <span class="token function">callA</span><span class="token punctuation
 <p>每个文件都有一个指向块的指针数组(索引block)</p>
 <p>索引块只在相应文件打开时才需要在内存中，大小只跟一次需要打开的最大文件block大小有关（还是可能很大）</p>
 <p>多级索引：可以有间接指针块（不是指向包含用户数据的块，而是指向包含更多指针的块），针对更大文件可以有多重指针块，不平衡树</p>
-<p><img src="/os/image-20230226110411890.png" alt="image-20230226110411890"></p>
+<p><img src="/2023/03/05/os/image-20230226110411890.png" alt="image-20230226110411890"></p>
 </li>
 </ul>
 <p>文件碎片-大多数文件都很小（平均200kB）</p>
@@ -951,7 +951,7 @@ function <span class="token function">callA</span><span class="token punctuation
 <h3 id="目录的组织"><a href="#目录的组织" class="headerlink" title="*目录的组织"></a>*目录的组织</h3><p>–目录项中包含的信息、不同长度文件名的处理</p>
 <p>⟨file name, file index⟩ mapping</p>
 <p>包含的信息可能为：—整个文件的磁盘地址—第一个块号—inode号</p>
-<p>文件属性（metadata）可以直接存储在目录条目中(固定大小的条目大小)，或者每个目录条目只引用一个inode(只有文件名+ inode号)<img src="/os/image-20230226110854879.png" alt="image-20230226110854879"></p>
+<p>文件属性（metadata）可以直接存储在目录条目中(固定大小的条目大小)，或者每个目录条目只引用一个inode(只有文件名+ inode号)<img src="/2023/03/05/os/image-20230226110854879.png" alt="image-20230226110854879"></p>
 <p>两种组织方法：</p>
 <p>entry长度不一致：条目长度(固定)—属性(固定)—文件名(以特殊字符结束)•当一个文件被删除时，会引入一个可变大小的间隙</p>
 <p>一致：保持所有的文件名在一个堆中•当一个条目被删除，下一个输入的文件将始终适合•文件名不需要从单词边界开始•必须管理堆</p>
@@ -987,7 +987,7 @@ function <span class="token function">callA</span><span class="token punctuation
 <p>write-ahead logging，覆写结构之前，记录即将进行的操作</p>
 <p>循环日志，日志大小固定，花费高</p>
 <p>元数据日志</p>
-<p><img src="/os/image-20230226130004974.png" alt="image-20230226130004974"></p>
+<p><img src="/2023/03/05/os/image-20230226130004974.png" alt="image-20230226130004974"></p>
 </li>
 </ul>
 <h3 id="虚拟文件系统"><a href="#虚拟文件系统" class="headerlink" title="*虚拟文件系统"></a>*虚拟文件系统</h3><h2 id="设备管理"><a href="#设备管理" class="headerlink" title="设备管理"></a>设备管理</h2><h3 id="•-Input-x2F-Output-I-x2F-O-devices"><a href="#•-Input-x2F-Output-I-x2F-O-devices" class="headerlink" title="• Input&#x2F;Output (I&#x2F;O) devices"></a>• Input&#x2F;Output (I&#x2F;O) devices</h3><p>– How should I&#x2F;O be integrated into systems?<br>– What are the general mechanisms?</p>
