@@ -2,7 +2,8 @@
 </head><body><div id="content"><h1 id="title">前端基础</h1><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">Back</a><time datetime="2022-11-01T16:40:14.000Z">2022-11-02</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><blockquote>
 <p>持续更新</p>
 </blockquote>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="web基础知识"><a href="#web基础知识" class="headerlink" title="web基础知识"></a>web基础知识</h2><h3 id="url到页面"><a href="#url到页面" class="headerlink" title="url到页面"></a>url到页面</h3><p>浏览器中的进程</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>“网页大事，为我所控，天下页面，听我号令”——张鑫旭</p>
+<h2 id="web基础知识"><a href="#web基础知识" class="headerlink" title="web基础知识"></a>web基础知识</h2><h3 id="url到页面"><a href="#url到页面" class="headerlink" title="url到页面"></a>url到页面</h3><p>浏览器中的进程</p>
 <table>
 <thead>
 <tr>
@@ -64,7 +65,37 @@
 <li><p>四次挥手，资源传输完毕，断开连接</p>
 </li>
 </ul>
-<p><img src="/2022/11/02/Frontend/%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B-1668873382169.png" alt="渲染进程"></p>
+<p><img src="/%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B-1682873589215.png" alt="渲染进程"></p>
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><h4 id="前端-x2F-后端路由"><a href="#前端-x2F-后端路由" class="headerlink" title="前端&#x2F;后端路由"></a>前端&#x2F;后端路由</h4><p>router和route，router 可以理解为一个容器，或者说一种机制，它管理了一组 route。简单来说，route 只是进行了URL和函数的映射，而在当接收到一个URL之后，去路由映射表中查找相应的函数，这个过程由 router 来处理。</p>
+<p>服务器端路由和客户端路由：</p>
+<ul>
+<li>对于服务器来说，当接收到客户端发来的HTTP请求，会根据请求的URL，来找到相应的映射函数，然后执行该函数，并将函数的返回值发送给客户端。在 router 匹配 route 的过程中，不仅会根据URL来匹配，还会根据请求的方法来看是否匹配。如果通过 POST 方法来GET &#x2F;users的内容，就会找不到正确的路由。</li>
+<li>对于客户端（通常为浏览器）来说，路由的映射函数通常是进行一些DOM的显示和隐藏操作。这样，当访问不同的路径的时候，会显示不同的页面组件。有基于Hash和History API两种</li>
+</ul>
+<p>上述路由和渲染概念相近。</p>
+<p>前端路由——顾名思义，页面跳转的URL规则匹配由前端来控制。而前端路由主要是有两种显示方式：</p>
+<ul>
+<li><p>带有hash的前端路由，优点是兼容性高。缺点是URL带有<code>#</code>号不好看</p>
+<p>URL中 # 及其后面的部分为 hash，前端的router库通过捕捉<code>#</code>号后面的参数、地址，来告诉前端库（比如Vue）渲染对应的页面。这样，不管是我们在浏览器的地址栏输入，或者是页面里通过router的api进行的跳转，都是一样的跳转逻辑。所以这个模式是不需要后端配置其他逻辑的，只要给前端返回<code>http://localhost</code>对应的html，剩下具体是哪个页面，就由前端路由去判断便可。</p>
+</li>
+<li><p>不带hash的前端路由，优点是URL不带<code>#</code>号，好看。缺点是既需要浏览器支持也需要后端服务器支持</p>
+</li>
+</ul>
+<h4 id="hash-x2F-history路由模式"><a href="#hash-x2F-history路由模式" class="headerlink" title="hash&#x2F;history路由模式"></a>hash&#x2F;history路由模式</h4><p>基于Hash的路由，兼容性更好；基于History API的路由，更加直观和正式。</p>
+<p>当在url栏中输入新网址，浏览器会直接向服务器请求网址对应的信息。而在已存在网页中点击链接路由时，会进行判断是否需要向服务器请求信息。</p>
+<p><strong>hash</strong>：带 # 的url，浏览器向服务器请求 # 后的地址信息，仅向服务器请求url中 # 之前的地址，再由浏览器获取到的前端脚本处理#后的地址信息</p>
+<p><strong>history</strong>：不带 # ，正常 &#x2F; 分隔，在已加载页面点击链接进行跳转时不会出现问题，当后端服务器不存在某个路由信息而直接在网址栏输入对其访问会404.</p>
+<blockquote>
+<p>注意：</p>
+<p>当直接访问 &#x2F; 的时候，两者的行为是一致的，都是返回了 index.html 文件。</p>
+<p>当从 &#x2F; 跳转到 &#x2F;#&#x2F;foobar 或者 &#x2F;foobar 的时候，也都是正常的，因为此时已经加载了页面以及脚本文件，所以路由跳转正常。</p>
+<p>当直接访问 &#x2F;#&#x2F;foobar 的时候，实际上向服务器发起的请求是 &#x2F;，因此会首先加载页面及脚本文件，接下来脚本执行路由跳转，一切正常。</p>
+<p>当直接访问 &#x2F;foobar 的时候，实际上向服务器发起的请求也是 &#x2F;foobar，然而服务器端只能匹配 &#x2F; 而无法匹配 &#x2F;foobar，因此会出现404错误。</p>
+<p>因此如果使用了基于History API的路由，需要改造服务器端，使得访问 &#x2F;foobar 的时候也能返回 index.html 文件，这样当浏览器加载了页面及脚本之后，就能进行路由跳转了。</p>
+</blockquote>
+<h4 id="严格路由"><a href="#严格路由" class="headerlink" title="严格路由"></a>严格路由</h4><p>在很多情况下，会遇到 &#x2F;foobar 和 &#x2F;foobar&#x2F; 的情况，它们看起来非常类似，然而实际上有所区别，具体的行为也是视服务器设置而定。</p>
+<h4 id="预渲染"><a href="#预渲染" class="headerlink" title="预渲染"></a>预渲染</h4><p>预渲染的概念。也即先在服务端构建出一部分静态的html文件，用于直出浏览器。然后剩下的页面再通过常用的前端渲染来实现。通常我们可以把首页采用预渲染的方式。这个的好处是明显的，兼顾了SEO和服务器的性能要求。不过它无法做到全站SEO，生产构建阶段耗时也会有所提高，这也是遗憾所在。</p>
+<p>关于预渲染，可以考虑使用<a target="_blank" rel="noopener" href="https://github.com/chrisvfritz/prerender-spa-plugin">prerender-spa-plugin</a>这个webapck的插件，它的3.x版本开始使用puppeteer来构建html文件了。</p>
 <h3 id="MIME类型"><a href="#MIME类型" class="headerlink" title="MIME类型"></a>MIME类型</h3><table>
 <thead>
 <tr>
@@ -120,12 +151,12 @@
 <li>payload：可以指定用户 id，过期时间等非敏感数据 </li>
 <li>Signature: 签名，server 根据 header 知道它该用哪种签名算法，再用密钥根据此签名算法对 head + payload 生成签名，这样一个 token 就生成了。</li>
 </ol>
-<p>Token 一般是放在 header 的 Authorization 自定义头里，不是放在 Cookie 里的，这主要是为了解决跨域不能共享 Cookie 的问题 ——单点登录SSO，向其中一个网站发送请求，获得token，可以用该token发送给其它信任组网站，方便快捷。</p>
+<p>Token 一般是放在 header 的 Authorization 自定义头里，不是放在 Cookie 里的，这主要是为了解决跨域不能共享 Cookie 的问题 ——单点登录SSO，向其中一个网站发送请求，获得token，可以用该token发送给其它信任组网站，方便快捷。但是同样可以放在cookie里。</p>
 <p>缺点：太长了，不太安全，<strong>适合一次性的命令认证，设置一个比较短的有效期</strong></p>
 <p>CSRF 攻击的根本原因在于对于同样域名的每个请求来说，它的 cookie 都会被自动带上，这个是浏览器的机制决定的，所以很多人据此认定 cookie 不安全。<em>CSRF</em>（<em>Cross-site request forgery</em>）跨站请求伪造</p>
 <p>cookie和token都保存在local storage，会被js读取，前者是存储方式，后者是验证方式</p>
 <h3 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h3><p>在浏览器中，浏览器会在js和图片等文件解析执行后直接存入内存缓存中，那么当刷新页面时只需直接从内存缓存中读取；而css文件则会存入硬盘文件中，所以每次渲染页面都需要从硬盘读取缓存。</p>
-<p><img src="/2022/11/02/Frontend/web%E7%BC%93%E5%AD%98%E7%B1%BB%E5%9E%8B-1668873382170.png" alt="web缓存类型"></p>
+<p><img src="/web%E7%BC%93%E5%AD%98%E7%B1%BB%E5%9E%8B-1682873589216.png" alt="web缓存类型"></p>
 <p>所谓浏览器缓存其实就是指在本地使用的计算机中开辟一个内存区，同时也开辟一个硬盘区作为数据传输的缓冲区，然后用这个缓冲区来暂时保存用户以前访问过的信息。</p>
 <h4 id="Web-Storage"><a href="#Web-Storage" class="headerlink" title="Web Storage"></a>Web Storage</h4><ul>
 <li><code>sessionStorage</code> 为每一个给定的源（given origin）维持一个独立的存储区域，该存储区域在页面会话期间可用（即只要浏览器处于打开状态，包括页面重新加载和恢复）。</li>
@@ -276,7 +307,7 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <pre class="language-none"><code class="language-none">Set-Cookie: id&#x3D;a3fWa; Expires&#x3D;Wed, 21 Oct 2015 07:28:00 GMT;</code></pre>
 
 <p>还有限制访问、作用域等，详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies</a></p>
-<h2 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h2><p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2017/05/websocket.html%E5%85%A5%E9%97%A8">https://www.ruanyifeng.com/blog/2017/05/websocket.html入门</a></p>
+<h3 id="CA证书和CT校验"><a href="#CA证书和CT校验" class="headerlink" title="CA证书和CT校验"></a>CA证书和CT校验</h3><h2 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h2><p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2017/05/websocket.html%E5%85%A5%E9%97%A8">https://www.ruanyifeng.com/blog/2017/05/websocket.html入门</a></p>
 <p>用于服务端向客户端推送信息，改变传统客户端为了获取服务端频繁更新而需轮询的资源浪费</p>
 <p>它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Push_technology">服务器推送技术</a>的一种。</p>
 <p>其他特点包括：</p>
@@ -299,6 +330,29 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <p>calc计算中不同表达式元素必须间隔空格，以区分变量名称和运算符。并且支持混合单位运算。vh单位是视窗大小的百分比。</p>
 <p>布局视口和视觉视口。视口基本上是当前文档的可见部分，</p>
 <p>box-sizing属性可分配值：content box(default)，border box；当指定宽度或高度时分别指内容高宽和内容+内边距+边界高宽</p>
+<h4 id="语义化标签"><a href="#语义化标签" class="headerlink" title="语义化标签"></a>语义化标签</h4><p><a target="_blank" rel="noopener" href="https://www.w3schools.com/html/html5_semantic_elements.asp">https://www.w3schools.com/html/html5_semantic_elements.asp</a></p>
+<ul>
+<li>&lt;article&gt;</li>
+<li>&lt;aside&gt;</li>
+<li>&lt;details&gt;</li>
+<li>&lt;figcaption&gt;</li>
+<li>&lt;figure&gt;</li>
+<li>&lt;footer&gt;</li>
+<li>&lt;header&gt;</li>
+<li>&lt;main&gt;</li>
+<li>&lt;mark&gt;</li>
+<li>&lt;nav&gt;</li>
+<li>&lt;section&gt;</li>
+<li>&lt;summary&gt;</li>
+<li>&lt;time&gt;</li>
+</ul>
+<p><img src="/2022/11/02/Frontend/img_sem_elements.gif" alt="HTML Semantic Elements"></p>
+<h4 id="常见行内元素"><a href="#常见行内元素" class="headerlink" title="常见行内元素"></a>常见行内元素</h4><p>遇到父级边界换行，不支持宽高，内容撑开，不支持上下外边距，不正常显示上下外边距，换行被解析</p>
+<p>span，a，strong，i，b，sup，sub，</p>
+<h4 id="块级元素"><a href="#块级元素" class="headerlink" title="块级元素"></a>块级元素</h4><p>默认宽度占满父级，高度为0，自己撑开</p>
+<p>div，h1-h6，p，ul，ol，li</p>
+<h4 id="行内块元素"><a href="#行内块元素" class="headerlink" title="行内块元素"></a>行内块元素</h4><p>遇到父级边界换行，换行被解析，无宽高时内容撑开盒子</p>
+<p>img</p>
 <h3 id="常用标签"><a href="#常用标签" class="headerlink" title="常用标签"></a>常用标签</h3><h4 id="a标签"><a href="#a标签" class="headerlink" title="a标签"></a>a标签</h4><p>&lt;a&gt; 标签的 target 属性规定在何处打开链接文档。</p>
 <p>如果在一个 &lt;a&gt; 标签内包含一个 target 属性，浏览器将会载入和显示用这个标签的 href 属性命名的、名称与这个目标吻合的框架或者窗口中的文档。如果这个指定名称或 id 的框架或者窗口不存在，浏览器将打开一个新的窗口，给这个窗口一个指定的标记，然后将新的文档载入那个窗口。从此以后，超链接文档就可以指向这个新的窗口。</p>
 <h5 id="特殊的目标"><a href="#特殊的目标" class="headerlink" title="特殊的目标"></a>特殊的目标</h5><p>有 4 个保留的目标名称用作特殊的文档重定向操作：</p>
@@ -311,11 +365,17 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <p>_top</p>
 <p>这个目标使得文档载入包含这个超链接的窗口，用 _top 目标将会清除所有被包含的框架并将文档载入整个浏览器窗口。</p>
 <p><strong>提示：</strong>这些 target 的所有 4 个值都以下划线开始。任何其他用一个下划线作为开头的窗口或者目标都会被浏览器忽略，因此，不要将下划线作为文档中定义的任何框架 name 或 id 的第一个字符。</p>
+<p>去掉下划线：<strong>text-decoration</strong>：none</p>
+<p>点击不变色：直接设置color属性</p>
+<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>outline: none;    &#x2F;&#x2F;消除默认点击蓝色边框效果</p>
 <h4 id="form标签"><a href="#form标签" class="headerlink" title="form标签"></a>form标签</h4><p>form标签的action属性是一个表单当中必须的属性，action属性规定当提交表单时，向何处发送表单数据。</p>
+<h4 id="hr标签"><a href="#hr标签" class="headerlink" title="hr标签"></a>hr标签</h4><p>&lt;hr&gt; 标签在 HTML 页面中创建一条水平线。</p>
+<p>水平分隔线（horizontal rule）可以在<em>视觉上</em>将文档分隔成各个部分。</p>
+<p>不赞成使用任何属性，建议css样式编辑</p>
 <h4 id="input标签"><a href="#input标签" class="headerlink" title="input标签"></a>input标签</h4><pre class="language-none"><code class="language-none">&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;catphotourl&quot; placeholder&#x3D;&quot;cat photo URL&quot; required&gt;
 长下面这样；type限制输入类型，name作为变量名称方便本地调用，placeholder给用户输入暗示，required规定必须有输入元素才能提交表单</code></pre>
 
-<p><img src="/2022/11/02/Frontend/input%E6%A0%87%E7%AD%BE-1668873382170.png" alt="input标签"></p>
+<p><img src="/input%E6%A0%87%E7%AD%BE-1682873589216.png" alt="input标签"></p>
 <p>input标签种类繁多，功能强大，详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input</a></p>
 <p>type属性对应值及其作用：<a target="_blank" rel="noopener" href="https://blog.csdn.net/VickyTsai/article/details/94839889">https://blog.csdn.net/VickyTsai/article/details/94839889</a></p>
 <table>
@@ -376,6 +436,33 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 </ul>
 <p><strong>注释：</strong>&lt;input type&#x3D;”checkbox”&gt; 和 &lt;input type&#x3D;”radio”&gt; 中必须设置 value 属性。</p>
 <p><strong>注释：</strong>value 属性无法与 &lt;input type&#x3D;”file”&gt; 一同使用。</p>
+<p>更改样式：</p>
+<ul>
+<li><p>input在获得焦点时外边框不变色</p>
+<pre class="language-none"><code class="language-none">input &#123;
+
+outline: none;
+
+&#125;</code></pre>
+</li>
+<li><p>更改placeholder样式</p>
+<p>为了兼容不同的浏览器内核：我们要添加不同的前缀：（平时开发的时候需要都添加上）</p>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token selector">input::input-placeholder</span><span class="token punctuation">&#123;</span>
+	<span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">input::-webkit-input-placeholder</span><span class="token punctuation">&#123;</span>	//兼容WebKit browsers（Chrome的内核）
+	<span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">input::-moz-placeholder</span><span class="token punctuation">&#123;</span>			//Mozilla Firefox 4 to 18
+	<span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">input::-moz-placeholder</span><span class="token punctuation">&#123;</span>			//Mozilla Firefox 19+
+	<span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">input::-ms-input-placeholder</span><span class="token punctuation">&#123;</span>		//Internet Explorer 10+
+	<span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre></li>
+</ul>
 <h4 id="label标签"><a href="#label标签" class="headerlink" title="label标签"></a>label标签</h4><p>label标签可以把input包裹起来，让点击文本和点击按钮都让按钮被点击生效。</p>
 <ul>
 <li>属性for可以将label绑定到for对应value为ID的标签，但是仅表示关联且需和绑定标签相邻，没有什么特殊效果。</li>
@@ -384,6 +471,25 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
 
 <h4 id="link标签"><a href="#link标签" class="headerlink" title="link标签"></a>link标签</h4><p><code>rel</code>属性：此属性命名链接文档与当前文档的关系。type属性：这个属性被用于定义链接的内容的类型。这个属性的值应该是像 text&#x2F;html，text&#x2F;css 等 MIME 类型。这个属性常用的用法是定义链接的样式表，最常用的值是表明了 CSS 的 text&#x2F;css。</p>
+<h4 id="pre"><a href="#pre" class="headerlink" title="pre"></a>pre</h4><p>&lt;pre&gt; 标签可定义预格式化的文本。</p>
+<p>被包围在 &lt;pre&gt; 标签 元素中的文本通常会保留空格和换行符。而文本也会呈现为等宽字体。</p>
+<pre> 此标签的一个常见应用就是用来表示计算机的源代码。</pre>
+
+<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表格</p>
+<p>包含内容</p>
+<pre class="language-none"><code class="language-none">	按照这个顺序：
+一个可选的 &lt;caption&gt; 元素
+零个或多个的 &lt;colgroup&gt; 元素
+一个可选的 &lt;thead&gt; 元素
+下列任意一个：
+零个或多个 &lt;tbody&gt;
+零个或多个 &lt;tr&gt;
+一个可选的 &lt;tfoot&gt; 元素</code></pre>
+
+
+
+<p><strong><code>&lt;caption&gt;</code> 元素</strong> (or <em>HTML 表格标题元素</em>) 展示一个表格的标题，它常常作为 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/table">&#96;&#96;</a> 的第一个子元素出现，同时显示在表格内容的最前面，但是，它同样可以被 CSS 样式化，所以，它同样可以出现在任何一个一个相对于表格的做任意位置。</p>
+<h4 id="上浮和下沉标签"><a href="#上浮和下沉标签" class="headerlink" title="上浮和下沉标签"></a>上浮和下沉标签</h4><p>需要 <a target="_blank" rel="noopener" href="http://www.divcss5.com/html/">html</a> 的上浮上标加html sup标签，需要下浮下标注的内容加html sub标签。<br>1）、需要上浮上标的内容前加&lt;sup&gt;后加&lt;&#x2F;sup&gt;标签<br>2）、需要下浮下标内容前加&lt;sub&gt;后加&lt;&#x2F;sub&gt;标签</p>
 <h3 id="meta"><a href="#meta" class="headerlink" title="meta"></a>meta</h3><p>详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta</a></p>
 <ul>
 <li>如果设置了 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta#attr-name"><code>name</code></a> 属性，<code>meta</code> 元素提供的是文档级别（<em>document-level</em>）的元数据，应用于整个页面。</li>
@@ -413,19 +519,44 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>goldfish<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Goldfish<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
 
-
-
-
-
-
-
-
-
 <h2 id="css"><a href="#css" class="headerlink" title="css"></a>css</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>块级元素之间的外边距会发生折叠。这意味着，如果一个具有上边距的元素排在在一个具有下边距的元素之下时，他们之间的间距不会是这两个外边距的和，即外边距会发生折叠，简单来说就是，间距与两个外边距中的较大者一样大。</p>
 <p>外边距叠加：相邻元素间距会按照两者各自外边距大的算</p>
 <p>内联盒子的宽度和高度被忽略了。外边距、内边距和边框是生效的，但它们不会改变其他内容与内联盒子的关系，因此内边距和边框会与段落中的其他单词重叠。</p>
 <p>inline-block却能在设置宽高、内外边距的同时推开其它内联盒子</p>
 <p>盒子四边缩写是从顶边顺时针</p>
+<h3 id="浏览器前缀"><a href="#浏览器前缀" class="headerlink" title="浏览器前缀"></a>浏览器前缀</h3><p>浏览器厂商们有时会给<strong>实验性的或者非标准的 CSS 属性和 JavaScript API</strong> 添加前缀，这样开发者就可以用这些新的特性进行试验，同时（理论上）防止他们的试验代码被依赖，从而在标准化过程中破坏 web 开发者的代码。开发者应该等到浏览器行为标准化之后再使用未加前缀的属性。</p>
+<ul>
+<li><code>-webkit-</code> （谷歌，Safari，新版 Opera 浏览器，以及几乎所有 iOS 系统中的浏览器（包括 iOS 系统中的火狐浏览器）；基本上所有基于 WebKit 内核的浏览器）</li>
+<li><code>-moz-</code> （火狐浏览器）</li>
+<li><code>-o-</code> （旧版 Opera 浏览器）</li>
+<li><code>-ms-</code> （IE 浏览器 和 Edge 浏览器）</li>
+</ul>
+<h4 id="var"><a href="#var" class="headerlink" title="var()"></a>var()</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/var#%E5%9C%A8_root_%E4%B8%8A%E5%AE%9A%E4%B9%89%EF%BC%8C%E7%84%B6%E5%90%8E%E4%BD%BF%E7%94%A8%E5%AE%83">在 :root 上定义，然后使用它</a></p>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token comment">/*伪元素*/</span>
+<span class="token selector">:root</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">--main-bg-color</span><span class="token punctuation">:</span> pink<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">body</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--main-bg-color<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/var#%E5%BD%93%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%80%BC%E6%9C%AA%E5%AE%9A%E4%B9%89%EF%BC%8C%E5%9B%9E%E9%80%80%E5%80%BC%E7%94%9F%E6%95%88">当第一个值未定义，回退值生效</a></p>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token comment">/* 后备值 */</span>
+
+<span class="token comment">/* 在父元素样式中定义一个值 */</span>
+<span class="token selector">.component</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">--text-color</span><span class="token punctuation">:</span> #080<span class="token punctuation">;</span> <span class="token comment">/* header-color 并没有被设定 */</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* 在 component 的样式中使用它： */</span>
+<span class="token selector">.component .text</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--text-color<span class="token punctuation">,</span> black<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">/* 此处 color 正常取值 --text-color */</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">.component .header</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--header-color<span class="token punctuation">,</span> blue<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">/* 此处 color 被回退到 blue */</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
 <h3 id="常用长度单位"><a href="#常用长度单位" class="headerlink" title="常用长度单位"></a>常用长度单位</h3><p>相对长度单位</p>
 <table>
 <thead>
@@ -471,7 +602,62 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <td align="left">视图大尺寸的 1%</td>
 </tr>
 </tbody></table>
-<h3 id="常用属性"><a href="#常用属性" class="headerlink" title="常用属性"></a>常用属性</h3><h4 id="box-shadow"><a href="#box-shadow" class="headerlink" title="box-shadow"></a>box-shadow</h4><p>用于在元素的框架上添加阴影效果，两个长度值为x、y轴偏移量，三个时第三个为blur-radius，第四个为spread-radius</p>
+<p>dp是设计领域常用的单位，指虚拟像素，160ppi时1dp&#x3D;1px，240ppi时1dp&#x3D;1.5px</p>
+<p>像素密度的英文名称：Pixels Per Inch，简写PPI。像素密度的计算公式为：√(W^2+H^2)&#x2F;S，其中W和H是分辨率的宽高，S是屏幕尺寸。</p>
+<h3 id="常用属性"><a href="#常用属性" class="headerlink" title="常用属性"></a>常用属性</h3><h4 id="background-clip"><a href="#background-clip" class="headerlink" title="background-clip"></a>background-clip</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-clip">https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-clip</a></p>
+<p>设置元素的背景（背景图片或颜色）是否延伸到边框、内边距盒子、内容盒子下面。</p>
+<p>如果没有设置背景图片（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-image"><code>background-image</code></a>）或背景颜色（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-color"><code>background-color</code></a>），那么这个属性只有在边框（ <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border"><code>border</code></a>）被设置为非固实（soild）、透明或半透明时才能看到视觉效果（与 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style"><code>border-style</code></a> 或 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-image"><code>border-image</code></a> 有关），否则，本属性产生的样式变化会被边框覆盖。</p>
+<p>可选值：</p>
+<pre class="language-none"><code class="language-none">border-box</code></pre>
+
+<p>背景延伸至边框外沿（但是在边框下层）。</p>
+<pre class="language-none"><code class="language-none">padding-box</code></pre>
+
+<p>背景延伸至内边距（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding"><code>padding</code></a>）外沿。不会绘制到边框处。</p>
+<pre class="language-none"><code class="language-none">content-box</code></pre>
+
+<p>背景被裁剪至内容区（content box）外沿。</p>
+<p><code>text</code> 实验性</p>
+<p>背景被裁剪成文字的前景色。</p>
+<p>兼容性：在chrome中建议结合-webkit前缀使用</p>
+<p><img src="/2022/11/02/Frontend/image-20230330194001961.png" alt="image-20230330194001961"></p>
+<h4 id="border"><a href="#border" class="headerlink" title="border"></a>border</h4><p>border-width，border-style，border-color缩写</p>
+<p>border-style可选值</p>
+<table>
+<thead>
+<tr>
+<th align="left"><code>none</code></th>
+<th align="left"></th>
+<th align="left">和关键字 <code>hidden</code> 类似，不显示边框。在这种情况下，如果没有设定背景图片，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a> 计算后的值将是 <code>0</code>，即使先前已经指定过它的值。在单元格边框重叠情况下，<code>none</code> 值优先级最低，意味着如果存在其他的重叠边框，则会显示为那个边框。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>hidden</code></td>
+<td align="left"></td>
+<td align="left">和关键字 <code>none</code> 类似，不显示边框。在这种情况下，如果没有设定背景图片，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a> 计算后的值将是 <code>0</code>，即使先前已经指定过它的值。在单元格边框重叠情况下，<code>hidden</code> 值优先级最高，意味着如果存在其他的重叠边框，边框不会显示。</td>
+</tr>
+<tr>
+<td align="left"><code>dotted</code></td>
+<td align="left"></td>
+<td align="left">显示为一系列圆点。标准中没有定义两点之间的间隔大小，视不同实现而定。圆点半径是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a> 计算值的一半。</td>
+</tr>
+<tr>
+<td align="left"><code>dashed</code></td>
+<td align="left"></td>
+<td align="left">显示为一系列短的方形虚线。标准中没有定义线段的长度和大小，视不同实现而定。</td>
+</tr>
+<tr>
+<td align="left"><code>solid</code></td>
+<td align="left"></td>
+<td align="left">显示为一条实线。</td>
+</tr>
+<tr>
+<td align="left"><code>double</code></td>
+<td align="left"></td>
+<td align="left">显示为一条双实线，宽度是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a> 。</td>
+</tr>
+</tbody></table>
+<h4 id="box-shadow"><a href="#box-shadow" class="headerlink" title="box-shadow"></a>box-shadow</h4><p>用于在元素的框架上添加阴影效果，两个长度值为x、y轴偏移量，三个时第三个为blur-radius，第四个为spread-radius</p>
 <ul>
 <li>可选，<code>inset</code>关键字。</li>
 <li>可选，<code>&lt;color&gt;</code>值。</li>
@@ -498,30 +684,252 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <span class="token property">box-shadow</span><span class="token punctuation">:</span> unset<span class="token punctuation">;</span></code></pre>
 
 <p>元素设置了border-radius时，转变为圆角阴影</p>
+<h4 id="line-height"><a href="#line-height" class="headerlink" title="line-height"></a>line-height</h4><p><strong><code>line-height</code></strong> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS">CSS</a> 属性用于设置多行元素的空间量，如多行文本的间距。对于块级元素，它指定元素行盒（line boxes）的最小高度。对于非<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element">替代</a>的 inline 元素，它用于计算行盒（line box）的高度。</p>
+<blockquote>
+<p>可替代元素：它们的内容不受当前文档的样式的影响。CSS 可以影响可替换元素的位置，但不会影响到可替换元素自身的内容。某些可替换元素，例如&lt;iframe&gt;元素，可能具有自己的样式表，但它们不会继承父文档的样式。</p>
+<p>典型可替代元素包括 iframe、img、video、embed等</p>
+</blockquote>
+<h4 id="list-style"><a href="#list-style" class="headerlink" title="list-style"></a>list-style</h4><p>list-style-type，list-style-position，list-style-image 的缩写</p>
+<p>分别可指定列表前符号类型，位置和选用图片时图片的url</p>
+<pre class="language-none"><code class="language-none">&#123;list-style-type:none|disc|circle|square|decimal|lower-roman|upper-roman|lower-alpha|upper-alpha&#125;
+
+</code></pre>
+
+<h4 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter#%E8%AF%AD%E6%B3%95">https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter#%E8%AF%AD%E6%B3%95</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS">CSS</a>属性 <strong><code>filter</code></strong> 将模糊或颜色偏移等图形效果应用于元素。滤镜通常用于调整图像、背景和边框的渲染。</p>
+<p>CSS 标准里包含了一些已实现预定义效果的函数。你也可以参考一个 SVG 滤镜，通过一个 URL 链接到 SVG 滤镜元素（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/filter">SVG filter element</a>）。</p>
+<pre class="language-none"><code class="language-none">&#x2F;* URL to SVG filter *&#x2F;
+filter: url(&quot;filters.svg#filter-id&quot;);
+
+&#x2F;* &lt;filter-function&gt; values *&#x2F;
+filter: blur(5px);
+filter: brightness(0.4);
+filter: contrast(200%);
+filter: drop-shadow(16px 16px 20px blue);
+filter: grayscale(50%);
+filter: hue-rotate(90deg);
+filter: invert(75%);
+filter: opacity(25%);
+filter: saturate(30%);
+filter: sepia(60%);
+
+&#x2F;* Multiple filters *&#x2F;
+filter: contrast(175%) brightness(3%);
+
+&#x2F;* Use no filter *&#x2F;
+filter: none;
+
+&#x2F;* Global values *&#x2F;
+filter: inherit;
+filter: initial;
+filter: revert;
+filter: unset;</code></pre>
+
+
+
+
+
+<h4 id="font-smooth"><a href="#font-smooth" class="headerlink" title="font-smooth"></a>font-smooth</h4><p>实际上，Chrome等webkit浏览器使用的是<code>-webkit-font-smoothing</code>，Firefox浏览器下是<code>-moz-osx-font-smoothing</code>，</p>
+<p>相关语法和含义如下：<br><strong>-webkit-font-smoothing</strong></p>
+<ul>
+<li><p><code>none</code></p>
+<p>关闭抗锯齿，字体边缘犀利。</p>
+</li>
+<li><p><code>antialiased</code></p>
+<p>字体像素级平滑，在深色背景上会让文字看起来更细了。</p>
+</li>
+<li><p><code>subpixel-antialiased</code></p>
+<p>字体亚像素级平滑，主要为了在非视网膜设备下更好的显示。</p>
+</li>
+</ul>
+<p><strong>-moz-osx-font-smoothing</strong></p>
+<ul>
+<li><p><code>auto</code></p>
+<p>览器只能选择字体渲染表现。</p>
+</li>
+<li><p><code>grayscale</code></p>
+</li>
+</ul>
+<p>按照我个人的使用经验来看，文字平滑属性<code>font-smoothing</code>在windows设备下好像都是打酱油的，各个属性值看不出差别，或许与显示器的设备像素比有关，在OS X设备下渲染有着明显的效果。</p>
+<h4 id="页面滚动相关"><a href="#页面滚动相关" class="headerlink" title="页面滚动相关"></a>页面滚动相关</h4><p>clientHeight，元素height+上下padding-水平滚动条高度（如果存在）；类似有clientwidth</p>
+<p><img src="/2022/11/02/Frontend/dimensions-client.png" alt="img"></p>
+<p>scrollHeight，一个元素内容高度的度量，包括由于溢出导致的视图中不可见内容</p>
+<p><img src="/2022/11/02/Frontend/scrollheight.png" alt="img"></p>
+<p>等于该元素在不使用滚动条的情况下为了适应视口中所用内容所需的最小高度，此时也等于clientHeight，也包括::before和::after这样的伪元素</p>
+<p>offsetHeight&#x2F;Width 相比client包含边框</p>
+<p>scrollTop，滑过的元素高度离当前视窗元素顶部的距离</p>
+<ul>
+<li>如果一个元素不能被滚动（例如，它没有溢出，或者这个元素有一个”**non-scrollable”**属性）， <code>scrollTop</code>将被设置为<code>0</code>。</li>
+<li>设置<code>scrollTop</code>的值小于 0，<code>scrollTop</code> 被设为<code>0</code></li>
+<li>如果设置了超出这个容器可滚动的值，<code>scrollTop</code> 会被设为最大值。</li>
+</ul>
+<h4 id="opacity"><a href="#opacity" class="headerlink" title="opacity"></a>opacity</h4><p>元素透明度，0-1取值，0为完全透明，1为完全不透明</p>
+<h4 id="tabindex"><a href="#tabindex" class="headerlink" title="tabindex"></a>tabindex</h4><p><strong>tabindex</strong> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes">全局属性</a> 指示其元素是否可以聚焦，以及它是否&#x2F;在何处参与顺序键盘导航（通常使用Tab键，因此得名）。</p>
+<ul>
+<li>tabindex&#x3D;负值 (通常是 tabindex&#x3D;“-1”)，表示元素是可聚焦的，但是不能通过键盘导航来访问到该元素，用 JS 做页面小组件内部键盘导航的时候非常有用。</li>
+<li><code>tabindex=&quot;0&quot;</code> ，表示元素是可聚焦的，并且可以通过键盘导航来聚焦到该元素，它的相对顺序是当前处于的 DOM 结构来决定的。</li>
+<li>tabindex&#x3D;正值，表示元素是可聚焦的，并且可以通过键盘导航来访问到该元素；它的相对顺序按照<strong>tabindex</strong> 的数值递增而滞后获焦。如果多个元素拥有相同的 <strong>tabindex</strong>，它们的相对顺序按照他们在当前 DOM 中的先后顺序决定。</li>
+</ul>
+<p>键盘事件（发生在聚焦的元素上，可以聚焦的元素tabindex为正值，如果没有为正值的元素建议绑定到document上）。</p>
+<p><strong>tabindex</strong> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes">全局属性</a> 指示其元素是否可以聚焦，以及它是否&#x2F;在何处参与顺序键盘导航（通常使用Tab键，因此得名）。</p>
+<blockquote>
+<p>Tabindex 有可能成为一个有用的属性。开发人员可以设置当用户在表单（或链接或内容）中切换时焦点在页面上移动的顺序。它成为过分依赖绝对定位且不自然流动的表单和页面的权宜之计。</p>
+<p>–Don’t Use Tabindex Greater than 0</p>
+</blockquote>
+<h4 id="text-decoration"><a href="#text-decoration" class="headerlink" title="text-decoration"></a>text-decoration</h4><p>设置文本样式</p>
+<p><code>text-decoration</code> 这个 CSS 属性是用于设置文本的修饰线外观的（下划线、上划线、贯穿线&#x2F;删除线 或 闪烁）它是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration-line"><code>text-decoration-line</code></a>, <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration-color"><code>text-decoration-color</code></a>, <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration-style"><code>text-decoration-style</code></a>, 和新出现的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration-thickness"><code>text-decoration-thickness</code></a> 属性的缩写。</p>
+<p>文本修饰属性会延伸到子元素。这意味着如果祖先元素指定了文本修饰属性，子元素则不能将其删除。</p>
+<h5 id="值"><a href="#值" class="headerlink" title="值"></a>值</h5><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration-line"><code>text-decoration-line</code></a></p>
+<p>文本修饰的位置，如下划线<code>underline</code>，删除线<code>line-through</code></p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration-color"><code>text-decoration-color</code></a></p>
+<p>文本修饰的颜色</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration-style"><code>text-decoration-style</code></a></p>
+<p>文本修饰的样式，如波浪线<code>wavy</code>实线<code>solid</code>虚线<code>dashed</code></p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-decoration-thickness"><code>text-decoration-thickness</code></a></p>
+<p>文本修饰线的粗细</p>
+<h4 id="title"><a href="#title" class="headerlink" title="title"></a>title</h4><p>任何元素设置此属性后，鼠标悬浮时会生成悬浮框浮现title值字符串</p>
+<h4 id="white-space"><a href="#white-space" class="headerlink" title="white-space"></a>white-space</h4><p>white-space 属性设置如何处理<strong>元素内</strong>的空白。注意：只要写在标签元素内部就算</p>
+<p>可能的值</p>
+<table>
+<thead>
+<tr>
+<th align="left">值</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">normal</td>
+<td align="left">默认。空白会被浏览器忽略。</td>
+</tr>
+<tr>
+<td align="left">pre</td>
+<td align="left">空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签。</td>
+</tr>
+<tr>
+<td align="left">nowrap</td>
+<td align="left">文本不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止。</td>
+</tr>
+<tr>
+<td align="left">pre-wrap</td>
+<td align="left">保留空白符序列，但是正常地进行换行。</td>
+</tr>
+<tr>
+<td align="left">pre-line</td>
+<td align="left">合并空白符序列，但是保留换行符。</td>
+</tr>
+<tr>
+<td align="left">inherit</td>
+<td align="left">规定应该从父元素继承 white-space 属性的值。</td>
+</tr>
+</tbody></table>
+<p>例：</p>
+<pre class="language-none"><code class="language-none">&lt;td&gt;
+&#123;&#123;$t(xxx)&#125;&#125;
+&lt;&#x2F;td&gt;</code></pre>
+
+<p>这时候i18n文本前后都会有空白，这个属性都能控制。</p>
+<h4 id="z-index"><a href="#z-index" class="headerlink" title="z-index"></a>z-index</h4><p><code>z-index</code> 属性设定了一个定位元素及其后代元素或 flex 项目的 z-order。当元素之间重叠的时候，z-index 较大的元素会覆盖较小的元素在上层进行显示。</p>
+<p>对于一个已经定位的盒子（即其 <code>position</code> 属性值不是 <code>static</code>，这里要注意的是 CSS 把元素看作盒子），<code>z-index</code> 属性指定：</p>
+<ol>
+<li>盒子在当前堆叠上下文中的堆叠层级。</li>
+<li>盒子是否创建一个本地堆叠上下文。</li>
+</ol>
+<p>默认值为auto，可写为整数（比较大小决定堆叠顺序）</p>
+<h4 id="webkit-line-clamp"><a href="#webkit-line-clamp" class="headerlink" title="-webkit-line-clamp"></a>-webkit-line-clamp</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/-webkit-line-clamp">https://developer.mozilla.org/zh-CN/docs/Web/CSS/-webkit-line-clamp</a></p>
+<p><strong><code>-webkit-line-clamp</code></strong> CSS 属性可以把<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Block">块容器</a>中的内容限制为指定的行数。</p>
+<p>它只有在 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display"><code>display</code></a> 属性设置成 <code>-webkit-box</code> 或者 <code>-webkit-inline-box</code> 并且 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-orient"><code>box-orient</code></a> 属性设置成 <code>vertical</code>时才有效果。</p>
+<p>在大部分情况下，也需要设置 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow"><code>overflow</code></a> 属性为 <code>hidden</code>，否则，里面的内容不会被裁减，并且在内容显示为指定行数后还会显示省略号。</p>
+<p>当应用于锚（anchor）元素时，截断可以发生在文本中间，而不必在末尾。</p>
+<p>可选值</p>
+<pre class="language-none"><code class="language-none">none</code></pre>
+
+<p>这个值表明内容显示不会被限制。</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/integer"><code>integer</code></a></p>
+<p>这个值表明内容显示了多少行之后会被限制。必须大于 0。</p>
+<h3 id="全局属性"><a href="#全局属性" class="headerlink" title="全局属性"></a>全局属性</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes</a></p>
 <h3 id="盒模型、正常流"><a href="#盒模型、正常流" class="headerlink" title="盒模型、正常流"></a>盒模型、正常流</h3><p>盒子模型：外边距（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=margin&spm=1001.2101.3001.7020">margin</a>）+ border（边框） + 内边距（padding）+ content（内容）</p>
 <pre class="language-none"><code class="language-none">标准盒子模型，一般浏览器也都默认为标准盒子模型。即：
 	box-sizing:content-box
 怪异盒子模型，一般根据实际项目需要自行设置。即：
 	box-sizing:border-box	padding和border的值就不会影响元素的宽高，相当于把padding和border的值都算在content里</code></pre>
 
-
-
-
-
-<h3 id="浏览器前缀"><a href="#浏览器前缀" class="headerlink" title="浏览器前缀"></a>浏览器前缀</h3><ul>
-<li><code>-webkit-</code> （谷歌，Safari，新版 Opera 浏览器，以及几乎所有 iOS 系统中的浏览器（包括 iOS 系统中的火狐浏览器）；基本上所有基于 WebKit 内核的浏览器）</li>
-<li><code>-moz-</code> （火狐浏览器）</li>
-<li><code>-o-</code> （旧版 Opera 浏览器）</li>
-<li><code>-ms-</code> （IE 浏览器 和 Edge 浏览器）</li>
+<p>上、下外边框的设置对*不<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element">可替换</a>*内联元素，如 span 和code，无效。</p>
+<h4 id="外边距重叠"><a href="#外边距重叠" class="headerlink" title="外边距重叠"></a>外边距重叠</h4><p>块的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top">上外边距 (margin-top)</a>和<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom">下外边距 (margin-bottom)</a>有时合并 (折叠) 为单个边距，其大小为单个边距的最大值 (或如果它们相等，则仅为其中一个)，这种行为称为<strong>边距折叠</strong>。</p>
+<p><strong>备注：</strong> 有设定<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/float">float</a>和<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/position#absolute">position=absolute</a>的元素不会产生外边距重叠行为。</p>
+<p>三种情况会产生此问题：</p>
+<ul>
+<li><p>同一层相邻元素之间</p>
+<p>外边距重叠，只会挑选最大边界范围留下，除非后一个元素加上<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear">clear-fix 清除浮动</a>。</p>
+</li>
+<li><p>没有内容将父元素和后代元素分开</p>
+<p>如果没有边框<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border"><code>border</code></a>，内边距<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding"><code>padding</code></a>，行内内容，也没有创建<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context">块级格式上下文</a>或<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear">清除浮动</a>来分开一个块级元素的上边界<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top"><code>margin-top</code></a> 与其内一个或多个后代块级元素的上边界<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top"><code>margin-top</code></a>；</p>
+<p>或没有边框，内边距，行内内容，高度，最小高度<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/min-height"><code>min-height</code></a>或 最大高度<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/max-height"><code>max-height</code></a> 来分开一个块级元素的下边界<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom"><code>margin-bottom</code></a>与其内的一个或多个后代后代块元素的下边界<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom"><code>margin-bottom</code></a></p>
+<p>就会出现父块元素和其内后代块元素外边界重叠，重叠部分最终会溢出到父级块元素外面。</p>
+</li>
+<li><p>空的块级元素</p>
+<p>当一个块元素上边界<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-top"><code>margin-top</code></a> 直接贴到元素下边界<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin-bottom"><code>margin-bottom</code></a>时也会发生边界折叠。这种情况会发生在一个块元素完全没有设定边框<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border"><code>border</code></a>、内边距<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding"><code>padding</code></a>、高度<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/height"><code>height</code></a>、最小高度<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/min-height"><code>min-height</code></a> 、最大高度<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/max-height"><code>max-height</code></a> 、内容设定为 inline 或是加上<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear">clear-fix</a>的时候。</p>
+</li>
+</ul>
+<p>一些需要注意的地方：</p>
+<ul>
+<li>上述情况的组合会产生更复杂的外边距折叠。</li>
+<li>即使某一外边距为 0，这些规则仍然适用。因此就算父元素的外边距是 0，第一个或最后一个子元素的外边距仍然会“溢出”到父元素的外面。</li>
+<li>如果参与折叠的外边距中包含负值，折叠后的外边距的值为最大的正边距与最小的负边距（即绝对值最大的负边距）的和；也就是说如果有 -13px 8px 100px 叠在一起，边界范围就是 100px -13px 的 87px。</li>
+<li>如果所有参与折叠的外边距都为负，折叠后的外边距的值为最小的负边距的值。这一规则适用于相邻元素和嵌套元素。</li>
+</ul>
+<p>以上这些内容都是发生在 Block-Level 的元素，设定 floating 和 absolutely positioned 的元素完全不用担心边界重叠的问题。</p>
+<h3 id="块级格式化上下文"><a href="#块级格式化上下文" class="headerlink" title="块级格式化上下文"></a>块级格式化上下文</h3><p>Web 页面的可视 CSS 渲染的一部分，是块级盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域</p>
+<p>格式化上下文影响布局，通常，我们会为定位和清除浮动创建新的 BFC，而不是更改布局，因为它将：</p>
+<ul>
+<li>包含内部浮动</li>
+<li>排除外部浮动</li>
+<li>阻止 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing">外边距重叠</a>！！！</li>
+</ul>
+<p>会创建块级格式化上下文的操作：</p>
+<ul>
+<li>根元素（<code>&lt;html&gt;</code>）</li>
+<li>浮动元素（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/float"><code>float</code></a> 值不为 <code>none</code>）</li>
+<li>绝对定位元素（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/position"><code>position</code></a> 值为 <code>absolute</code> 或 <code>fixed</code>）</li>
+<li>行内块元素（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display"><code>display</code></a> 值为 <code>inline-block</code>）</li>
+<li>表格单元格（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display"><code>display</code></a> 值为 <code>table-cell</code>，HTML 表格单元格默认值）</li>
+<li>表格标题（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display"><code>display</code></a> 值为 <code>table-caption</code>，HTML 表格标题默认值）</li>
+<li>匿名表格单元格元素（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display"><code>display</code></a> 值为 <code>table</code>、<code>table-row</code>、 <code>table-row-group</code>、<code>table-header-group</code>、<code>table-footer-group</code>（分别是 HTML table、tr、tbody、thead、tfoot 的默认值）或 <code>inline-table</code>）</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/overflow"><code>overflow</code></a> 值不为 <code>visible</code>、<code>clip</code> 的块元素</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display"><code>display</code></a> 值为 <code>flow-root</code> 的元素</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/contain"><code>contain</code></a> 值为 <code>layout</code>、<code>content</code> 或 <code>paint</code> 的元素</li>
+<li>弹性元素（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display"><code>display</code></a> 值为 <code>flex</code> 或 <code>inline-flex</code> 元素的直接子元素），如果它们本身既不是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Flex_Container">flex</a>、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Grid_Container">grid</a> 也不是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Table">table</a> 容器</li>
+<li>网格元素（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display"><code>display</code></a> 值为 <code>grid</code> 或 <code>inline-grid</code> 元素的直接子元素），如果它们本身既不是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Flex_Container">flex</a>、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Grid_Container">grid</a> 也不是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Table">table</a> 容器</li>
+<li>多列容器（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/column-count"><code>column-count</code></a> 或 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/column-width"><code>column-width</code> (en-US)</a> 值不为 <code>auto</code>，包括<code>column-count</code> 为 <code>1</code>）</li>
+<li><code>column-span</code> 值为 <code>all</code> 的元素始终会创建一个新的 BFC，即使该元素没有包裹在一个多列容器中 (<a target="_blank" rel="noopener" href="https://github.com/w3c/csswg-drafts/commit/a8634b96900279916bd6c505fda88dda71d8ec51">规范变更</a>, <a target="_blank" rel="noopener" href="https://bugs.chromium.org/p/chromium/issues/detail?id=709362">Chrome bug</a>)</li>
 </ul>
 <h3 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h3><h4 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h4><p>最近的祖先样式比其他祖先样式优先级高。</p>
-<p>“直接样式”比”祖先样式”优先级高。</p>
-<p>内联样式 &gt; ID 选择器# &gt; 类选择器.class &#x3D; 属性选择器 &#x3D; 伪类选择器 &gt; 标签选择器element &#x3D; 伪元素选择器</p>
-<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><strong>伪类</strong> 是添加到选择器的关键字，指定要选择的元素的特殊状态。例如，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:hover"><code>:hover</code></a> 可被用于在用户将鼠标悬停在按钮上时改变按钮的颜色。</p>
-<p><strong>伪元素</strong>以类似方式表现，不过表现得是像你往标记文本中加入全新的 HTML 元素一样，而不是向现有的元素上应用类。例如<code>::first-line</code></p>
-<h4 id="参考节"><a href="#参考节" class="headerlink" title="参考节"></a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements#%E5%8F%82%E8%80%83%E8%8A%82">参考节</a></h4><h3 id="flex布局"><a href="#flex布局" class="headerlink" title="flex布局"></a>flex布局</h3><p>flexbox	弹性布局，一维布局模型	display:flex</p>
-<p>容器属性</p>
-<p>flex-direction：四种摆放方向，垂直和水平的正反</p>
+<p>"直接样式"比"祖先样式"优先级高。</p>
+<p>内联样式 > ID 选择器# > 类选择器.class = 属性选择器 = 伪类选择器 > 标签选择器element = 伪元素选择器</p>
+<h4 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a><strong>伪类</strong></h4><p>添加到选择器的关键字，指定要选择的元素的特殊状态。例如，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:hover"><code>:hover</code></a> 可被用于在用户将鼠标悬停在按钮上时改变按钮的颜色。</p>
+<p>:root 这个 CSS <strong>伪类匹配文档树的根元素</strong>。 对于 HTML 来说， :root 表示 <html> 元素，除了 优先级 更高之外，与 html 选择器相同。</p>
+<h4 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a><strong>伪元素</strong></h4><p>以类似方式表现，不过表现得是像你往标记文本中加入全新的 HTML 元素一样，而不是向现有的元素上应用类。例如<code>::first-line</code></p>
+<h4 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS">CSS</a> <strong>类选择器</strong>根据 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes#class"><code>class</code></a> 属性的内容匹配元素。</p>
+<pre class="language-none"><code class="language-none">&#x2F;* 所有含有 class&#x3D;&quot;spacious&quot; 类的元素 *&#x2F;
+.spacious &#123;
+  margin: 2em;
+&#125;
+
+&#x2F;* 所有含有 class&#x3D;&quot;spacious&quot; 类的 &lt;li&gt; 元素 *&#x2F;
+li.spacious &#123;
+  margin: 2em;
+&#125;
+
+&#x2F;* 所有同时含有“spacious”和“elegant”类的 &lt;li&gt; 元素 *&#x2F;
+&#x2F;* 例如 class&#x3D;&quot;elegant retro spacious&quot; *&#x2F;
+li.spacious.elegant &#123;
+  margin: 2em;
+&#125;</code></pre>
+
+<h4 id="相邻兄弟组合器"><a href="#相邻兄弟组合器" class="headerlink" title="相邻兄弟组合器"></a>相邻兄弟组合器</h4><p>+  作为运算符，介于两个选择器之间，当第二个元素<em>紧跟在</em>第一个元素之后，并且两个元素都是属于同一个父 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element"><code>element</code></a> 的子元素，则第二个元素将被选中。</p>
+<h4 id="子组合器"><a href="#子组合器" class="headerlink" title="子组合器"></a>子组合器</h4><p>&gt; 作为运算符，介于两个选择器之间，当且仅当第二个选择器选择的元素为第一个选择器选择的元素的直接子元素，匹配第二个选择器选择的元素</p>
+<h4 id="后代选择器"><a href="#后代选择器" class="headerlink" title="后代选择器"></a>后代选择器</h4><p><strong>后代组合器</strong>（通常用单个空格（" "）字符表示）组合了两个选择器，如果第二个选择器匹配的元素具有与第一个选择器匹配的祖先（父母，父母的父母，父母的父母的父母等）元素，则它们将被选择。利用后代组合器的选择器称为<em>后代选择器</em>。</p>
+<h4 id="通用兄弟选择器"><a href="#通用兄弟选择器" class="headerlink" title="通用兄弟选择器"></a>通用兄弟选择器</h4><h3 id="flex布局"><a href="#flex布局" class="headerlink" title="flex布局"></a>flex布局</h3><p>flexbox	弹性布局，一维布局模型	display:flex</p>
+<h4 id="容器属性"><a href="#容器属性" class="headerlink" title="容器属性"></a>容器属性</h4><p>flex-direction：四种摆放方向，垂直和水平的正反</p>
 <ul>
 <li><code>row</code></li>
 <li><code>row-reverse</code></li>
@@ -571,13 +979,13 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <li><code>space-between</code>：两端对齐，项目之间的间隔都相等。</li>
 <li><code>space-around</code>：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。</li>
 </ul>
-<p>内部元素属性</p>
-<p>order：<code>order</code>属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。</p>
+<h4 id="内部元素属性"><a href="#内部元素属性" class="headerlink" title="内部元素属性"></a>内部元素属性</h4><p>order：<code>order</code>属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。</p>
 <p>flex-grow：对容器内剩余空间的处理，为容器内的每个元素进行分配，分配的值依此属性值而定。定义项目的放大比例，默认为<code>0</code>，即如果存在剩余空间，也不放大。</p>
 <p>flex-shrink：对溢出空间的处理，对容器内每个元素的压缩的值依此属性的值而定。属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。</p>
 <p>flex-basis：定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为<code>auto</code>，即项目的本来大小。</p>
 <p>flex：flex属性是<code>flex-grow</code>, <code>flex-shrink</code> 和 <code>flex-basis</code>的简写，默认值为<code>0 1 auto</code>。后两个属性可选。</p>
 <p>align-self：<code>align-self</code>属性允许单个项目有与其他项目不一样的对齐方式，可覆盖<code>align-items</code>属性。默认值为<code>auto</code>，表示继承父元素的<code>align-items</code>属性，如果没有父元素，则等同于<code>stretch</code>。</p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>内部或容器position为fixed时会失效</p>
 <h3 id="grid布局"><a href="#grid布局" class="headerlink" title="grid布局"></a>grid布局</h3><p>二维布局。container 和 item</p>
 <h4 id="container属性："><a href="#container属性：" class="headerlink" title="container属性："></a>container属性：</h4><ul>
 <li>display：我们通过在元素上声明 <code>display：grid</code> 或 <code>display：inline-grid</code> 来创建一个网格容器。声明 <code>display：grid</code> 则该容器是一个块级元素，设置成 <code>display: inline-grid</code> 则容器元素为行内元素</li>
@@ -608,7 +1016,125 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <li>left</li>
 <li>right</li>
 </ul>
-<h3 id="规则"><a href="#规则" class="headerlink" title="@规则"></a>@规则</h3><p>一个 <strong>at-rule</strong> 是一个<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/CSS/Syntax#CSS_statements">CSS 语句，</a>以 at 符号开头， ‘<code>@</code>‘ (<code>U+0040 COMMERCIAL AT</code>), 后跟一个标识符，并包括直到下一个分号的所有内容， ‘<code>;</code>‘ (<code>U+003B SEMICOLON</code>), 或下一个 CSS 块，以先到者为准。</p>
+<h3 id="transition"><a href="#transition" class="headerlink" title="transition"></a>transition</h3><p>CSS transitions 可以决定哪些属性发生动画效果 (明确地列出这些属性)，何时开始 (设置 delay），持续多久 (设置 duration) 以及如何动画 (定义<em>timing function</em>，比如匀速地或先快后慢)。</p>
+<p> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transition-property"><code>transition-property</code></a>、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transition-duration"><code>transition-duration</code></a>、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transition-timing-function"><code>transition-timing-function</code></a> 和 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transition-delay"><code>transition-delay</code></a> 的一个<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties">简写属性</a>，</p>
+<p><img src="/2022/11/02/Frontend/image-20230309194850683.png" alt="image-20230309194850683"></p>
+<p><code>transition</code>属性可以被指定为一个或多个 CSS 属性的过渡效果，多个属性之间用逗号进行分隔。</p>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token comment">/* Apply to 1 property */</span>
+<span class="token comment">/* property name | duration */</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> margin-right 4s<span class="token punctuation">;</span>
+
+<span class="token comment">/* property name | duration | delay */</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> margin-right 4s 1s<span class="token punctuation">;</span>
+
+<span class="token comment">/* property name | duration | timing function */</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> margin-right 4s ease-in-out<span class="token punctuation">;</span>
+
+<span class="token comment">/* property name | duration | timing function | delay */</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> margin-right 4s ease-in-out 1s<span class="token punctuation">;</span>
+
+<span class="token comment">/* Apply to 2 properties */</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> margin-right 4s<span class="token punctuation">,</span> color 1s<span class="token punctuation">;</span>
+
+<span class="token comment">/* Apply to all changed properties */</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> all 0.5s ease-out<span class="token punctuation">;</span>
+
+<span class="token comment">/* Global values */</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> initial<span class="token punctuation">;</span></code></pre>
+
+<p>注意，以下情况下transition会失效：</p>
+<p>1.display改变，none时不在文档流中，也就没有过渡效果</p>
+<p>2.设定的元素没有设置初始值（准确的说是初始值为auto），比如left不显示设置为0时初始值为auto，transition值无效</p>
+<p>3.css文件中的transition和js代码中对元素transition的编辑冲突</p>
+<p>...</p>
+<h3 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform">https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform</a></p>
+<p><img src="/2022/11/02/Frontend/e4ce35e5361842c987322cf9d0e60ed3.png" alt="在这里插入图片描述"></p>
+<p>x轴：水平向右（x 右边是正值，左边是负值）<br>y轴：垂直向下（y 下面是正值，上面是负值）<br>z轴：垂直屏幕（往外面是正值，往里面是负值）</p>
+<p>旋转，缩放，倾斜或平移给定元素，是通过修改 CSS 视觉格式化模型的坐标空间来实现的。</p>
+<p><img src="/2022/11/02/Frontend/image-20230306200340324.png" alt="image-20230306200340324"></p>
+<p>translate（移动）</p>
+<pre class="language-none"><code class="language-none">transform: translateX(length);  &#x2F;* 仅仅在x轴移动 *&#x2F;
+transform: translateY(length);  &#x2F;* 仅仅在y轴移动 *&#x2F;
+transform: translateZ(length); &#x2F;*  仅仅在z轴移动  单位一般用像素（px）如果是正值，则向我们眼前移动，负值，则向后移动 *&#x2F;
+transform: translate(x,y); &#x2F;*  沿着x,y轴同时移动(参数中间用逗号隔开) *&#x2F;
+transform: translate3d(x,y,z);  &#x2F;* 其中x,y,z分别指向要移动的轴的方向的距离 xyz三个参数不能省略，没有就写0 *&#x2F;</code></pre>
+
+<p>translate类似定位，不会影响到其他元素的位置<br>对行内标签没有效果<br>translate中的百分比单位是相对于自身元素的width和height的百分比</p>
+<p>rotate（旋转）</p>
+<pre class="language-none"><code class="language-none">transform: rotateX(45deg); &#x2F;* 沿着x轴正方向旋转45度  左手拇指指着x轴的正方向（右），手指弯曲的方向就是沿着x轴正方向旋转 *&#x2F;
+transform: rotateY(45deg);  &#x2F;*沿着y轴正方向旋转45度  左手拇指指着y轴的正方向（下），手指弯曲的方向就是沿着y轴正方向旋转 *&#x2F;
+transform: rotateZ(45deg); &#x2F;* 沿着z轴正方向旋转45度 *&#x2F;
+transform: rotate3d(x,y,z,deg); &#x2F;* 沿着自定义的轴来旋转  沿着x轴缩放n倍 *&#x2F;</code></pre>
+
+<p> scale（缩放）</p>
+<pre class="language-none"><code class="language-none">transform:scaleX(n); &#x2F;* 沿着x轴缩放n倍 *&#x2F;
+transform:scaleY(n); &#x2F;* 沿着y轴缩放n倍 *&#x2F;
+transform:scale(n); &#x2F;* 沿着x,y轴缩放n倍 *&#x2F;</code></pre>
+
+<p>x,y为盒子宽高的倍数，xy之间用逗号隔开<br>1就是1倍也就是没有变化，小于1会缩小</p>
+<p>scale（缩放）和普通缩放的区别？</p>
+<p>scale（缩放）：</p>
+<p>不会影响其他盒子<br>可以设置缩放的中心点</p>
+<p>普通缩放：</p>
+<p>会影响其他盒子<br>盒子高度只能向下延伸</p>
+<p>skew（倾斜）</p>
+<pre class="language-none"><code class="language-none">transform: skewX(45deg); &#x2F;* 沿着x轴倾斜45度 *&#x2F;
+transform: skewY(45deg); &#x2F;* 沿着y轴倾斜45度 *&#x2F;
+transform: skew(45deg,45deg); &#x2F;* 沿着xy轴的对角线倾斜45du *&#x2F;perspecstive（透视）</code></pre>
+
+<p>perspecstive（透视）</p>
+<p><img src="/2022/11/02/Frontend/2fb133b35ac541fabb2a7dd7dc3ac3f3.png" alt="在这里插入图片描述"></p>
+<p>d:透视也叫视距，就是眼睛到屏幕的距离</p>
+<ul>
+<li><p>透视写在被观察元素的父盒子上面</p>
+</li>
+<li><p>单位一般是像素(px)</p>
+</li>
+</ul>
+<p>z:就是z轴，物体距离屏幕的距离，z轴越大(正值)，我们看到的物体就越大</p>
+<p>3D呈现</p>
+<pre class="language-none"><code class="language-none">transform-style: flat; &#x2F;* 子盒子不开启立体空间   *&#x2F;
+transform-style: preserve-3d; &#x2F;* 子盒子开启立体空间   *&#x2F;</code></pre>
+
+
+<p>控制子盒子是否开始三维立体环境</p>
+<p>代码写给父级，但影响的是子盒子</p>
+<p>综合写法</p>
+<pre class="language-none"><code class="language-none">transform: translate() rotate() scale() ...等 </code></pre>
+
+
+<p>其顺序会影转换的效果。（先旋转会改变坐标轴方向，移动放在最前面）</p>
+<h3 id="animation"><a href="#animation" class="headerlink" title="animation"></a>animation</h3><p>动画序列<br>动画是使元素从一种样式逐渐变化为另一种样式的效果。您可以改变任意多的样式任意多的次数。<br>请用百分比来规定变化发生的时间，或用关键词 “from” 和 “to”，等同于 0% 和 100%。<br>0% 是动画的开始，100% 是动画的完成。这样的规则就是动画序列。<br>在 @keyframes 中规定某项 CSS 样式，就能创建由当前样式逐渐改为新样式的动画效果。<br>综合写法<br>animation：动画名称 动画时间 运动曲线  何时开始  播放次数  是否反方向  动画等待或者结束的状态;<br>1<br>注意：综合写法不包括：animation-play-state。如果有多个动画，用逗号隔开</p>
+<p><img src="/2022/11/02/Frontend/image-20230309194723164.png" alt="image-20230309194723164"></p>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token comment">/*用keyframes 定义动画（类似定义类选择器）*/</span>
+<span class="token atrule"><span class="token rule">@keyframes</span> 动画名称</span> <span class="token punctuation">&#123;</span>
+   <span class="token selector">0%</span><span class="token punctuation">&#123;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span>100px<span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>  
+   <span class="token selector">100%</span><span class="token punctuation">&#123;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span>200px<span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/*元素使用动画*/</span>
+<span class="token selector">div</span> <span class="token punctuation">&#123;</span>
+       <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+       <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+       <span class="token property">background-color</span><span class="token punctuation">:</span> aqua<span class="token punctuation">;</span>
+       <span class="token property">margin</span><span class="token punctuation">:</span> 100px auto<span class="token punctuation">;</span>
+       <span class="token comment">/* 调用动画 */</span>
+       <span class="token property">animation-name</span><span class="token punctuation">:</span> 动画名称<span class="token punctuation">;</span>
+       <span class="token comment">/* 持续时间 */</span>
+       <span class="token property">animation-duration</span><span class="token punctuation">:</span> 持续时间<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+<span class="token property">animation</span><span class="token punctuation">:</span> myfirst 5s linear 2s infinite alternate<span class="token punctuation">;</span></code></pre>
+
+
+
+<h3 id="无障碍-aria"><a href="#无障碍-aria" class="headerlink" title="无障碍-aria"></a>无障碍-aria</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Accessibility/ARIA">https://developer.mozilla.org/zh-CN/docs/Web/Accessibility/ARIA</a></p>
+<h3 id="规则"><a href="#规则" class="headerlink" title="@规则"></a>@规则</h3><p>一个 <strong>at-rule</strong> 是一个<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/CSS/Syntax#CSS_statements">CSS 语句，</a>以 at 符号开头， '<code>@</code>' (<code>U+0040 COMMERCIAL AT</code>), 后跟一个标识符，并包括直到下一个分号的所有内容， '<code>;</code>' (<code>U+003B SEMICOLON</code>), 或下一个 CSS 块，以先到者为准。</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/@charset"><code>@charset</code></a>, 定义样式表使用的字符集。</li>
 <li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/@import"><code>@import</code></a>, 告诉 CSS 引擎引入一个外部样式表。</li>
@@ -624,29 +1150,202 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 </li>
 </ul>
 <p><strong>条件规则组</strong>. 这些语句使用相同的语法。它们都嵌套语句，或者是<em>规则</em>或者是*@规则*。它们都表达：它们所指的条件 (类型不同) 总等效于 <strong>true</strong> 或者 <strong>false</strong>，如果为 <strong>true</strong> 那么它们里面的语句生效。</p>
-<h3 id="scss"><a href="#scss" class="headerlink" title="scss"></a>scss</h3><p>sass3.0之后的进步版本，采用花括号分段而非缩进</p>
+<h3 id="Scss"><a href="#Scss" class="headerlink" title="Scss"></a>Scss</h3><p>Sass3.0之后的进步版本，采用花括号分段而非缩进</p>
 <p><a target="_blank" rel="noopener" href="https://sass-lang.com/">Sass: Syntactically Awesome Style Sheets</a></p>
 <p>css的超集</p>
-<p>变量开头是$</p>
-<h4 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h4><p>类似函数，变量参数以 $ 开头，定义用@mixin前缀，调用用@include 前缀</p>
-<pre class="language-none"><code class="language-none">&lt;style type&#x3D;&#39;text&#x2F;scss&#39;&gt;
-@mixin border-radius($radius)&#123;
-  -webkit-border-radius:$radius;
-  -moz-border-radius:$radius;
-  -ms-border-radius:$radius;
-  border-radius:$radius;
-&#125;
+<p>sass安装，常用命令</p>
+<pre class="language-none"><code class="language-none">&#x2F;&#x2F;更新sass
+gem update sass
 
+&#x2F;&#x2F;查看sass版本
+sass -v
 
-  #awesome &#123;
-    width: 150px;
-    height: 150px;
-    background-color: green;
-    @include border-radius(15px);
+&#x2F;&#x2F;查看sass帮助
+sass -h</code></pre>
+
+<h4 id="sass编译"><a href="#sass编译" class="headerlink" title="sass编译"></a>sass编译</h4><ul>
+<li><p>命令行编译</p>
+<p>单文件</p>
+<pre class="language-none"><code class="language-none">sass &lt;要编译的Sass文件路径&gt;&#x2F;style.scss:&lt;要输出CSS文件路径&gt;&#x2F;style.css</code></pre>
+
+<p>多文件</p>
+<p>将项目中“sass”文件夹中所有“.scss”(“.sass”)文件编译成“.css”文件，并且将这些 CSS 文件都放在项目中“css”文件夹中</p>
+<pre class="language-none"><code class="language-none">sass sass&#x2F;:css&#x2F;</code></pre>
+</li>
+<li><p>gui</p>
+</li>
+<li><p>自动化</p>
+<p>watch</p>
+<p>来看一个简单的示例，假设我本地有一个项目，我要把项目中“bootstrap.scss”编译出“bootstrap.css”文件，并且将编译出来的文件放在“css”文件夹中，我就可以在我的命令终端中执行：</p>
+<pre class="language-none"><code class="language-none">sass --watch sass&#x2F;bootstrap.scss:css&#x2F;bootstrap.css</code></pre>
+
+<p>一旦我的 bootstrap.scss 文件有任何修改，只要我重新保存了修改的文件，命令终端就能监测，并重新编译出文件</p>
+</li>
+</ul>
+<h4 id="输出方式"><a href="#输出方式" class="headerlink" title="输出方式"></a>输出方式</h4><ol>
+<li><p><strong>嵌套输出方式 nested</strong></p>
+<pre class="language-none"><code class="language-none">&#x2F;&#x2F;未编译样式
+.box &#123;
+  width: 300px;
+  height: 400px;
+  &amp;-title &#123;
+    height: 30px;
+    line-height: 30px;
   &#125;
-&lt;&#x2F;style&gt;
+&#125;</code></pre>
 
-&lt;div id&#x3D;&quot;awesome&quot;&gt;&lt;&#x2F;div&gt;</code></pre>
+<p>nested 编译排版格式</p>
+<pre class="language-none"><code class="language-none">&#x2F;*命令行内容，即加上参数--style nested*&#x2F;
+sass style.scss:style.css --style nested
+
+&#x2F;*编译过后样式*&#x2F;
+.box &#123;
+  width: 300px;
+  height: 400px; &#125;
+  .box-title &#123;
+    height: 30px;
+    line-height: 30px; &#125;</code></pre>
+</li>
+<li><p><strong>展开输出方式 expanded</strong>  </p>
+<pre class="language-none"><code class="language-none">&#x2F;*命令行内容*&#x2F;
+sass style.scss:style.css --style expanded
+
+&#x2F;*编译过后样式*&#x2F;
+.box &#123;
+  width: 300px;
+  height: 400px;
+&#125;
+.box-title &#123;
+  height: 30px;
+  line-height: 30px;
+&#125;</code></pre>
+</li>
+<li><p><strong>紧凑输出方式 compact</strong> </p>
+<pre class="language-none"><code class="language-none">&#x2F;*命令行内容*&#x2F;
+sass style.scss:style.css --style compact
+
+&#x2F;*编译过后样式*&#x2F;
+.box &#123; width: 300px; height: 400px; &#125;
+.box-title &#123; height: 30px; line-height: 30px; &#125;</code></pre>
+</li>
+<li><p><strong>压缩输出方式 compressed</strong></p>
+<pre class="language-none"><code class="language-none">&#x2F;*命令行内容*&#x2F;
+sass style.scss:style.css --style compressed
+
+&#x2F;*编译过后样式*&#x2F;
+.box&#123;width:300px;height:400px&#125;.box-title&#123;height:30px;line-height:30px&#125;</code></pre></li>
+</ol>
+<p>调试：直接在浏览器里修改scss源码即可，现在已自动提供sourcemap</p>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><p>变量开头是$，普通变量、局部变量、全局变量</p>
+<p>默认变量在变量后加 !default，在结尾分号之前。其他变量要产生覆盖时需要写在默认变量之前</p>
+<pre class="language-none"><code class="language-none">$content:&quot;softwhy.com&quot;;
+$content: &quot;antzone&quot; !default;
+#main &#123;
+  content: $content;
+&#125;</code></pre>
+
+<p>　　编译成css代码如下:</p>
+<pre class="language-none"><code class="language-none">#main &#123;
+  content: &quot;softwhy.com&quot;; 
+&#125;</code></pre>
+
+<p>!default一个重要的作用就是，如果我们引入的他人scss文件中的变量有默认值的设置，那么我们就可以很灵活的来修改这些默认值，只要在这些导入文件之前引入就一个配置scss文件即可,而无需修改他人的scss文件，例如:</p>
+<pre class="language-none"><code class="language-none">@import &quot;config&quot;;
+@import &quot;variables&quot;;
+@import &quot;mixins&quot;;</code></pre>
+
+<p>　　只要将重新配置的变量值写入config.scss文件，即可实现修改variables.scss和mixins.scss中默认变量值。</p>
+<p>在选择器、函数、混合宏...的外面定义的变量为全局变量，作用域概念</p>
+<p>声明变量的准则：</p>
+<ol>
+<li>该值至少重复出现了两次；</li>
+<li>该值至少可能会被更新一次；</li>
+<li>该值所有的表现都与变量有关（非巧合）。</li>
+</ol>
+<h4 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h4><p>三种嵌套</p>
+<ul>
+<li><p>选择器嵌套</p>
+<p>&的用法：</p>
+<p>后面紧跟后缀字符时只能位于第一个字符，作为父选择器跟随后缀形成新的复合选择器</p>
+<pre class="language-scss" data-language="scss"><code class="language-scss"><span class="token selector">#main </span><span class="token punctuation">&#123;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> black<span class="token punctuation">;</span>
+  <span class="token selector"><span class="token parent important">&amp;</span>-sidebar </span><span class="token punctuation">&#123;</span> <span class="token property">border</span><span class="token punctuation">:</span> 1px solid<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>编译为</p>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token selector">#main</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> black<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+  <span class="token selector">#main-sidebar</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">border</span><span class="token punctuation">:</span> 1px solid<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span></code></pre>
+
+<p>放在选择器后（中间有空格），取父值（可多层累加）</p>
+<pre class="language-scss" data-language="scss"><code class="language-scss"><span class="token selector">nav </span><span class="token punctuation">&#123;</span>
+  <span class="token selector">a </span><span class="token punctuation">&#123;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+    <span class="token selector">header <span class="token parent important">&amp;</span> </span><span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span>green<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>编译为</p>
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token selector">nav a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">header nav a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+
+</li>
+<li><p>属性嵌套</p>
+<pre class="language-scss" data-language="scss"><code class="language-scss"><span class="token selector">.box </span><span class="token punctuation">&#123;</span>
+  <span class="token selector">font: </span><span class="token punctuation">&#123;</span>
+   <span class="token property">size</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>
+   <span class="token property">weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span></code></pre>
+
+<pre class="language-css" data-language="css"><code class="language-css"><span class="token selector">.box</span> <span class="token punctuation">&#123;</span>
+     <span class="token property">font-size</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>
+     <span class="token property">font-weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+</li>
+<li><p>伪类嵌套</p>
+<pre class="language-none"><code class="language-none">.box&#123;
+  &amp;:before &#123;
+    content:&quot;伪元素嵌套&quot;;
+  &#125;
+&#125;</code></pre>
+
+<p>编译为</p>
+<pre class="language-none"><code class="language-none">.box:before&#123;
+    content:&quot;伪元素嵌套&quot;;
+&#125;</code></pre></li>
+</ul>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><p>Sass 支持标准的 CSS 多行注释 <code>/* */</code>，以及单行注释 <code>//</code>，前者会 被完整输出到编译后的 CSS 文件中，而后者则不会</p>
+<h4 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h4><p>类似函数，变量参数以 $ 开头，定义用@mixin前缀，调用用@include 前缀</p>
+<pre class="language-scss" data-language="scss"><code class="language-scss">&lt;style type=<span class="token string">'text/scss'</span>>
+<span class="token keyword">@mixin</span> <span class="token function">border-radius</span><span class="token punctuation">(</span><span class="token variable">$radius</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token property">-webkit-border-radius</span><span class="token punctuation">:</span><span class="token variable">$radius</span><span class="token punctuation">;</span>
+  <span class="token property">-moz-border-radius</span><span class="token punctuation">:</span><span class="token variable">$radius</span><span class="token punctuation">;</span>
+  <span class="token property">-ms-border-radius</span><span class="token punctuation">:</span><span class="token variable">$radius</span><span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span><span class="token variable">$radius</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+
+  <span class="token selector">#awesome </span><span class="token punctuation">&#123;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 150px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> 150px<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+    <span class="token keyword">@include</span> <span class="token function">border-radius</span><span class="token punctuation">(</span>15px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+&lt;/style>
+
+&lt;div id=<span class="token string">"awesome"</span>>&lt;/div></code></pre>
+
+
 
 <h3 id="Less"><a href="#Less" class="headerlink" title="Less"></a>Less</h3><h4 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h4><p>变量，@开头，在最外层定义</p>
 <pre class="language-less" data-language="less"><code class="language-less"><span class="token variable">@width<span class="token punctuation">:</span></span> 10px<span class="token punctuation">;</span>
@@ -686,7 +1385,7 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 
 
 
-<h3 id="Stylus"><a href="#Stylus" class="headerlink" title="Stylus"></a><strong><code>Stylus</code></strong></h3><h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><p>document object model 文档对象模型，HTML的节点树</p>
+<h3 id="Stylus"><a href="#Stylus" class="headerlink" title="Stylus"></a>Stylus</h3><h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><p>document object model 文档对象模型，HTML的节点树</p>
 <p>接口：Document，Window，Element，</p>
 <p>基本操作分四类：增、删、查、改</p>
 <p>查的方法：获取DOM节点</p>
@@ -769,7 +1468,7 @@ Cookie: yummy_cookie&#x3D;choco; tasty_cookie&#x3D;strawberry</code></pre>
 <h3 id="DOM事件"><a href="#DOM事件" class="headerlink" title="DOM事件"></a>DOM事件</h3><p>0级(其实并不存在这个标准)，1级(映射文档结构，特定于HTML的对象和方法)，2级(增加模块以支持新的接口：追踪文档不同视图的接口、事件及事件处理接口、处理元素css样式的接口、遍历和操作DOM树的接口)，3级(增加了以统一的方式加载和保存文档的方法（包含在一个叫 DOM  Load and Save 的新模块中），还有验证文档的方法（DOM Validation）)，4级(替代 Mutation Events 的 Mutation Observers)</p>
 <ul>
 <li>事件发生，触发设定好的应对函数(事件监听函数)，是js和HTML的交互基础，常用的有鼠标事件、触摸事件、键盘事件、媒体事件、剪切板事件、资源事件等</li>
-<li>事件流，三个阶段：事件捕获Capture-&gt;目标事件Target-&gt;事件冒泡Bubbling      onclick和addEventListener的区别，前者不支持一个事件绑定多个事件处理函数，后者支持</li>
+<li>事件流，三个阶段：事件捕获Capture->目标事件Target->事件冒泡Bubbling      onclick和addEventListener的区别，前者不支持一个事件绑定多个事件处理函数，后者支持</li>
 </ul>
 <p>addEventListener的第三个参数为指定事件是否在捕获或冒泡阶段执行，<u>设置为true表示事件在捕获阶段执行，而设置为false表示事件在冒泡阶段执行。</u>默认值为true</p>
 <p>event属性</p>
@@ -792,7 +1491,9 @@ target.removeEventListener(type, listener[, useCapture]);
 <li><p>和stopPropagation相比，stopImmediatePropagation同样可以阻止事件的传播，不同点在于其还可以把这个元素绑定的同类型事件也阻止了。</p>
 </li>
 </ul>
-<h3 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h3><p>Virtual dom, 即虚拟DOM节点。它通过JS的Object对象模拟DOM中的节点，然后再通过特定的render方法将其渲染成真实的DOM节点。</p>
+<h4 id="键盘事件"><a href="#键盘事件" class="headerlink" title="键盘事件"></a>键盘事件</h4><p>发生在可以聚焦的元素上或者全局，查阅tabindex</p>
+<p>keypress（按下字符键时触发），keydown（按键时，可重复触发），keyup</p>
+<h4 id="鼠标事件"><a href="#鼠标事件" class="headerlink" title="鼠标事件"></a>鼠标事件</h4><h4 id="滑动事件"><a href="#滑动事件" class="headerlink" title="滑动事件"></a>滑动事件</h4><h3 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h3><p>Virtual dom, 即虚拟DOM节点。它通过JS的Object对象模拟DOM中的节点，然后再通过特定的render方法将其渲染成真实的DOM节点。</p>
 <p>包含了<code>tag</code>、<code>props</code>、<code>children</code>三个属性。分别代表当前元素的标签名称字符串，当前标签的属性对象，子元素对象数组，也就是说可以无限嵌套。</p>
 <pre class="language-javascript" data-language="javascript"><code class="language-javascript">render方法
 转换属性时要考虑多种情况。像value、style等属性需要做特殊处理
@@ -841,14 +1542,18 @@ target.removeEventListener(type, listener[, useCapture]);
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span>
 
-
 <span class="token comment">//renderDom接受 el 真实DOM和target 渲染目标两个参数，负责将真实DOM添加到浏览器上</span>
 <span class="token keyword">function</span> <span class="token function">renderDom</span><span class="token punctuation">(</span><span class="token parameter">el<span class="token punctuation">,</span> target</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     target<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span></code></pre>
 
-
-
+<h3 id="DOM方法"><a href="#DOM方法" class="headerlink" title="DOM方法"></a>DOM方法</h3><p>getElementsByxxx和querySelector的选择</p>
+<p>前者是动态选择，后者是静态选择</p>
+<ul>
+<li>得到的元素不是需要很麻烦的多次getElementBy..的话，尽量使用getElementBy..,因为他快些。</li>
+<li>得到的元素需要很麻烦的多次getElementBy..组合才能得到的话使用querySelector，方便。</li>
+<li>看实际情况，你决定方便优先还是性能优先，</li>
+</ul>
 <h3 id="DOM-Diff"><a href="#DOM-Diff" class="headerlink" title="DOM Diff"></a>DOM Diff</h3><p>通过<code>JS</code>层面的计算，返回一个patch对象，即补丁对象，再通过特定的操作解析<code>patch</code>对象，完成页面的重新渲染。</p>
 <p>1.用JS对象模拟DOM（虚拟DOM）<br>2.把此虚拟DOM转成真实DOM并插入页面中（render）<br>3.如果有事件发生修改了虚拟DOM，比较两棵虚拟DOM树的差异，得到差异对象（diff）<br>4.把差异对象应用到真正的DOM树上（patch）</p>
 <h2 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h2><p>Browser Object Model 浏览器对象模型，控制浏览器的行为的接口</p>
@@ -866,7 +1571,7 @@ window.history.length &#x2F;&#x2F; 1
 &#x2F;&#x2F; 通常是 undefined，即未设置
 window.history.state &#x2F;&#x2F; undefined</code></pre>
 
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>History.back()、History.forward()、History.go()</p>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><p>History.back()、History.forward()、History.go()</p>
 <h3 id="window-location"><a href="#window-location" class="headerlink" title="window.location"></a>window.location</h3><p>window.location 对象所包含的属性</p>
 <table>
 <thead>
@@ -908,6 +1613,8 @@ window.history.state &#x2F;&#x2F; undefined</code></pre>
 <td align="left">从问号 (?) 开始的 URL（查询部分）</td>
 </tr>
 </tbody></table>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Location/origin"><code>Location.origin</code> (en-US)</a> 只读</p>
+<p>包含页面来源的域名的标准形式<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String"><code>DOMString</code></a>。</p>
 <h4 id="hash属性"><a href="#hash属性" class="headerlink" title="hash属性"></a>hash属性</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Location"><code>Location</code></a> 接口的 <strong><code>hash</code></strong> 属性返回一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String"><code>USVString</code></a>，其中会包含 URL 标识中的 <code>&#39;#&#39;</code> 和 后面 URL 片段标识符。这里 fragment 不会经过<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding">百分比编码</a>（URL 编码）。如果 URL 中没有 fragment，该属性会包含一个空字符串，<code>&quot;&quot;</code></p>
 <p>通过监听 window 对象的 hashChange 事件实现简单的路由</p>
 <pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function-variable function">onhashchange</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
@@ -932,25 +1639,23 @@ window.history.state &#x2F;&#x2F; undefined</code></pre>
 <p><strong>window.onload()</strong> 通常用于 元素，在页面完全载入后(包括图片、css文件等等)执行window.onload()里面的函数。</p>
 <ol>
 <li><p>只有一个要执行的函数：</p>
-<pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span>onload <span class="token operator">=</span> funcRef<span class="token punctuation">;</span></code></pre>
-
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span>onload <span class="token operator">=</span> funcRef<span class="token punctuation">;</span></code></pre></li>
+</ol>
 <ul>
 <li>funcRef：函数类型的对象引用或者匿名函数</li>
 </ul>
 <p>在页面加载完成后，调用funcRef方法</p>
-</li>
+<ol start="2">
 <li><p>有多个要执行的函数：</p>
 <pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token function">Func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">Func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">Func3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token operator">...</span><span class="token operator">...</span>
-<span class="token punctuation">&#125;</span></code></pre>
-
-<p>在页面加载完成后依次执行 Func1、Func2、Func3</p>
-</li>
+<span class="token punctuation">&#125;</span></code></pre></li>
 </ol>
-<h4 id="使用window-onload-的好处"><a href="#使用window-onload-的好处" class="headerlink" title="使用window.onload()的好处"></a>使用window.onload()的好处</h4><p>JavaScript 中的函数方法需要在 HTML 文档渲染完成后才可以使用，如果没有渲染完成，此时的 DOM 树是不完整的，这样在调用一些 JavaScript 代码时就可能报出”undefined”错误。</p>
+<p>在页面加载完成后依次执行 Func1、Func2、Func3</p>
+<h4 id="使用window-onload-的好处"><a href="#使用window-onload-的好处" class="headerlink" title="使用window.onload()的好处"></a>使用window.onload()的好处</h4><p>JavaScript 中的函数方法需要在 HTML 文档渲染完成后才可以使用，如果没有渲染完成，此时的 DOM 树是不完整的，这样在调用一些 JavaScript 代码时就可能报出"undefined"错误。</p>
 <h3 id="window-onscroll"><a href="#window-onscroll" class="headerlink" title="window.onscroll"></a>window.onscroll</h3><p>滚动当前页面的时候，添加事件处理函数。</p>
 <p>语法：</p>
 <pre class="language-javascript" data-language="javascript"><code class="language-javascript">window<span class="token punctuation">.</span>onscroll <span class="token operator">=</span> funcRef<span class="token punctuation">;</span></code></pre>
@@ -958,4 +1663,15 @@ window.history.state &#x2F;&#x2F; undefined</code></pre>
 <ul>
 <li>funcRef是个函数类型的对象引用或者匿名函数.</li>
 </ul>
+<h3 id="resize事件"><a href="#resize事件" class="headerlink" title="resize事件"></a>resize事件</h3><p>当窗口（浏览器）的尺寸大小发生改变时。当用户改变浏览器的大小，或者在不同的屏幕尺寸上加载页面时，resize事件将被触发。在JavaScript中，我们可以使用window.addEventListener('resize', function)来监听resize事件，并执行我们定义的回调函数。</p>
+<p>echarts需要resize</p>
+<h3 id="chrome"><a href="#chrome" class="headerlink" title="chrome"></a>chrome</h3><p>开发者工具下右键刷新有三种刷新模式：</p>
+<ul>
+<li><strong>Normal Reload</strong> (Ctrl + R)： 正常刷新，使用缓存数据。等效于 f5</li>
+<li><strong>Hard Reload</strong> (Ctrl + Shift + R)：强制浏览器重新下载并加载内容。资源有可能来自于缓存的版本。等效于 ctrl + f5</li>
+<li><strong>Empty Cache and Hard Reload</strong>：完全清除页面的缓存并重新下载所有内容。</li>
+</ul>
+<p><strong>Normal Reload</strong>时浏览器会避免重新下载已缓存的资源，例如JavaScript文件。</p>
+<p><strong>Hard Reload</strong>情况下，浏览器不会使用缓存中的任何内容，所有的内容会被重新下载。这和按Ctrl + F5的效果是一样的。但是如果页面通过重定向加载额外的资源，则有可能会从缓存加载数据。</p>
+<p>选择<strong>Empty Cache and Hard Reload</strong>时，浏览器将首先清空缓存，然后重新下载所有资源。如果网页是通过JavaScript代码动态加载的，使用这种方式将非常有效。</p>
 <div class="post-tags"><a class="post-tag-link" href="/tags/Web/" rel="tag">#Web</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2023@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a target="_blank" rel="noopener" href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
